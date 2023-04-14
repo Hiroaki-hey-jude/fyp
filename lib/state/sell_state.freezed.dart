@@ -16,7 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SellState {
-  String get isSelectedCategory => throw _privateConstructorUsedError;
+  String get selectedCategory => throw _privateConstructorUsedError;
+  String get selectedCity => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -29,7 +30,7 @@ abstract class $SellStateCopyWith<$Res> {
   factory $SellStateCopyWith(SellState value, $Res Function(SellState) then) =
       _$SellStateCopyWithImpl<$Res, SellState>;
   @useResult
-  $Res call({String isSelectedCategory, bool isLoading});
+  $Res call({String selectedCategory, String selectedCity, bool isLoading});
 }
 
 /// @nodoc
@@ -45,13 +46,18 @@ class _$SellStateCopyWithImpl<$Res, $Val extends SellState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isSelectedCategory = null,
+    Object? selectedCategory = null,
+    Object? selectedCity = null,
     Object? isLoading = null,
   }) {
     return _then(_value.copyWith(
-      isSelectedCategory: null == isSelectedCategory
-          ? _value.isSelectedCategory
-          : isSelectedCategory // ignore: cast_nullable_to_non_nullable
+      selectedCategory: null == selectedCategory
+          ? _value.selectedCategory
+          : selectedCategory // ignore: cast_nullable_to_non_nullable
+              as String,
+      selectedCity: null == selectedCity
+          ? _value.selectedCity
+          : selectedCity // ignore: cast_nullable_to_non_nullable
               as String,
       isLoading: null == isLoading
           ? _value.isLoading
@@ -68,7 +74,7 @@ abstract class _$$_SellStateCopyWith<$Res> implements $SellStateCopyWith<$Res> {
       __$$_SellStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String isSelectedCategory, bool isLoading});
+  $Res call({String selectedCategory, String selectedCity, bool isLoading});
 }
 
 /// @nodoc
@@ -82,13 +88,18 @@ class __$$_SellStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isSelectedCategory = null,
+    Object? selectedCategory = null,
+    Object? selectedCity = null,
     Object? isLoading = null,
   }) {
     return _then(_$_SellState(
-      isSelectedCategory: null == isSelectedCategory
-          ? _value.isSelectedCategory
-          : isSelectedCategory // ignore: cast_nullable_to_non_nullable
+      selectedCategory: null == selectedCategory
+          ? _value.selectedCategory
+          : selectedCategory // ignore: cast_nullable_to_non_nullable
+              as String,
+      selectedCity: null == selectedCity
+          ? _value.selectedCity
+          : selectedCity // ignore: cast_nullable_to_non_nullable
               as String,
       isLoading: null == isLoading
           ? _value.isLoading
@@ -101,18 +112,24 @@ class __$$_SellStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_SellState implements _SellState {
-  const _$_SellState({this.isSelectedCategory = '', this.isLoading = false});
+  const _$_SellState(
+      {this.selectedCategory = 'potato',
+      this.selectedCity = '北海道',
+      this.isLoading = false});
 
   @override
   @JsonKey()
-  final String isSelectedCategory;
+  final String selectedCategory;
+  @override
+  @JsonKey()
+  final String selectedCity;
   @override
   @JsonKey()
   final bool isLoading;
 
   @override
   String toString() {
-    return 'SellState(isSelectedCategory: $isSelectedCategory, isLoading: $isLoading)';
+    return 'SellState(selectedCategory: $selectedCategory, selectedCity: $selectedCity, isLoading: $isLoading)';
   }
 
   @override
@@ -120,14 +137,17 @@ class _$_SellState implements _SellState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SellState &&
-            (identical(other.isSelectedCategory, isSelectedCategory) ||
-                other.isSelectedCategory == isSelectedCategory) &&
+            (identical(other.selectedCategory, selectedCategory) ||
+                other.selectedCategory == selectedCategory) &&
+            (identical(other.selectedCity, selectedCity) ||
+                other.selectedCity == selectedCity) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isSelectedCategory, isLoading);
+  int get hashCode =>
+      Object.hash(runtimeType, selectedCategory, selectedCity, isLoading);
 
   @JsonKey(ignore: true)
   @override
@@ -138,10 +158,14 @@ class _$_SellState implements _SellState {
 
 abstract class _SellState implements SellState {
   const factory _SellState(
-      {final String isSelectedCategory, final bool isLoading}) = _$_SellState;
+      {final String selectedCategory,
+      final String selectedCity,
+      final bool isLoading}) = _$_SellState;
 
   @override
-  String get isSelectedCategory;
+  String get selectedCategory;
+  @override
+  String get selectedCity;
   @override
   bool get isLoading;
   @override

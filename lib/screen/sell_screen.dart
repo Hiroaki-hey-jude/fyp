@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fyp/model/category_model/category_model.dart';
 import 'package:fyp/screen/widgets/widget.dart';
@@ -84,7 +85,7 @@ class SellScreen extends ConsumerWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 15),
               Row(
                 children: [
                   Container(
@@ -136,7 +137,7 @@ class SellScreen extends ConsumerWidget {
                     const Text('カテゴリーを選んでください:'),
                     const SizedBox(width: 30),
                     DropdownButton(
-                      value: 'potato',
+                      value: state.selectedCategory,
                       // icon: const Icon(Icons.arrow_downward),
                       style: const TextStyle(color: Colors.black),
                       underline: Container(
@@ -149,7 +150,9 @@ class SellScreen extends ConsumerWidget {
                           child: Text(category.title),
                         );
                       }).toList(),
-                      onChanged: (String? value) {},
+                      onChanged: (String? value) {
+                        notifier.changeCategory(value!);
+                      },
                     ),
                   ],
                 ),
@@ -158,7 +161,7 @@ class SellScreen extends ConsumerWidget {
               const GreyDescription(title: '商品名と説明'),
               const SizedBox(height: 10),
               Padding(
-                padding: const EdgeInsets.all(3.0),
+                padding: const EdgeInsets.only(left: 3, right: 3),
                 child: Column(
                   children: [
                     Container(
@@ -168,6 +171,13 @@ class SellScreen extends ConsumerWidget {
                         decoration: sellTextInputDecoration.copyWith(
                           hintText: '商品名',
                         ),
+                        validator: (val) {
+                          if (val!.isNotEmpty) {
+                            return null;
+                          } else {
+                            return '商品名を入力してください';
+                          }
+                        },
                       ),
                     ),
                     Container(
@@ -178,6 +188,13 @@ class SellScreen extends ConsumerWidget {
                         decoration: sellTextInputDecoration.copyWith(
                           hintText: '商品の説明',
                         ),
+                        validator: (val) {
+                          if (val!.isNotEmpty) {
+                            return null;
+                          } else {
+                            return '商品の説明を入力してください';
+                          }
+                        },
                       ),
                     ),
                   ],
@@ -193,7 +210,7 @@ class SellScreen extends ConsumerWidget {
                     const Text('発送元の地域:'),
                     const SizedBox(width: 30),
                     DropdownButton(
-                      value: '北海道',
+                      value: state.selectedCity,
                       // icon: const Icon(Icons.arrow_downward),
                       style: const TextStyle(color: Colors.black),
                       underline: Container(
@@ -206,40 +223,88 @@ class SellScreen extends ConsumerWidget {
                           child: Text(category),
                         );
                       }).toList(),
-                      onChanged: (String? value) {},
+                      onChanged: (String? value) {
+                        notifier.changeCity(value!);
+                      },
                     ),
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 40),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('発送までの日数:'),
-                    const SizedBox(width: 30),
-                    DropdownButton(
-                      value: '2~3日で発送',
-                      // icon: const Icon(Icons.arrow_downward),
-                      style: const TextStyle(color: Colors.black),
-                      underline: Container(
-                        height: 3,
-                        color: Colors.green,
-                      ),
-                      items: daysForDelivery.map((category) {
-                        return DropdownMenuItem<String>(
-                          value: category,
-                          child: Text(category),
-                        );
-                      }).toList(),
-                      onChanged: (String? value) {},
-                    ),
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 20, right: 40),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       const Text('発送までの日数:'),
+              //       const SizedBox(width: 30),
+              //       DropdownButton(
+              //         value: '2~3日で発送',
+              //         style: const TextStyle(color: Colors.black),
+              //         underline: Container(
+              //           height: 3,
+              //           color: Colors.green,
+              //         ),
+              //         items: daysForDelivery.map((category) {
+              //           return DropdownMenuItem<String>(
+              //             value: category,
+              //             child: Text(category),
+              //           );
+              //         }).toList(),
+              //         onChanged: (String? value) {},
+              //       ),
+              //     ],
+              //   ),
+              // ),
               const SizedBox(height: 20),
               const GreyDescription(title: '販売価格'),
               const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.only(left: 3, right: 3),
+                child: Container(
+                  color: Colors.grey[300],
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    cursorColor: Colors.black,
+                    decoration: sellTextInputDecoration.copyWith(
+                      hintText: '￥３００',
+                    ),
+                    validator: (val) {
+                      if (val!.isNotEmpty) {
+                        return null;
+                      } else {
+                        return '販売価格を入力してください';
+                      }
+                    },
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 30,
+                  left: 3,
+                  right: 3,
+                  top: 10,
+                ),
+                child: Container(
+                  color: Colors.red,
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () {},
+                    child: const Text(
+                      '出品',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         ),

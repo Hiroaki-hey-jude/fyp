@@ -10,7 +10,8 @@ final sellStateProvider = StateNotifierProvider<SellStateNotifier, SellState>(
 @freezed
 class SellState with _$SellState {
   const factory SellState({
-    @Default('potato') String isSelectedCategory,
+    @Default('potato') String selectedCategory,
+    @Default('北海道') String selectedCity,
     @Default(false) bool isLoading,
   }) = _SellState;
 }
@@ -21,5 +22,13 @@ class SellStateNotifier extends StateNotifier<SellState> {
     state = state.copyWith(isLoading: true);
     // なんかの処理する
     state = state.copyWith(isLoading: false);
+  }
+
+  void changeCategory(String selectedCategory) {
+    state = state.copyWith(selectedCategory: selectedCategory);
+  }
+
+  void changeCity(String selectedCity) {
+    state = state.copyWith(selectedCity: selectedCity);
   }
 }
