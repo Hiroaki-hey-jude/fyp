@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fyp/model/crop_model.dart/crop_model.dart';
 
 import '../model/user_model/user_model.dart';
 
@@ -9,6 +10,8 @@ class FireStore {
 
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
+  final CollectionReference cropCollection =
+      FirebaseFirestore.instance.collection('crops');
 
   Future savingUserData(String name, String email) async {
     var user = UserModel(
@@ -25,6 +28,33 @@ class FireStore {
       'email': user.email,
       'profilePic': user.profilePic,
       'address': user.address,
+    });
+  }
+
+  Future savingCropData(
+    List<String> picsOfCrops,
+    String category,
+    String title,
+    String desciption,
+    String senderAddress,
+    String price,
+  ) async {
+    var crop = CropModel(
+      picsOfCrops: picsOfCrops,
+      category: category,
+      name: title,
+      description: desciption,
+      address: senderAddress,
+      price: price,
+    );
+    print('終りました');
+    return await cropCollection.doc().set({
+      'picsOfCrops': crop.picsOfCrops,
+      'category': crop.category,
+      'name': crop.name,
+      'description': crop.description,
+      'address': crop.address,
+      'price': crop.price,
     });
   }
 

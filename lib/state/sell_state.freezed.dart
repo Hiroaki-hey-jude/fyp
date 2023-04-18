@@ -18,7 +18,10 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$SellState {
   String get selectedCategory => throw _privateConstructorUsedError;
   String get selectedCity => throw _privateConstructorUsedError;
-  bool get isLoading => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError; // File? imageFile,
+  CropModel? get cropModel => throw _privateConstructorUsedError;
+  int get numberOfPictures => throw _privateConstructorUsedError;
+  List<File>? get imagefiles => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SellStateCopyWith<SellState> get copyWith =>
@@ -30,7 +33,15 @@ abstract class $SellStateCopyWith<$Res> {
   factory $SellStateCopyWith(SellState value, $Res Function(SellState) then) =
       _$SellStateCopyWithImpl<$Res, SellState>;
   @useResult
-  $Res call({String selectedCategory, String selectedCity, bool isLoading});
+  $Res call(
+      {String selectedCategory,
+      String selectedCity,
+      bool isLoading,
+      CropModel? cropModel,
+      int numberOfPictures,
+      List<File>? imagefiles});
+
+  $CropModelCopyWith<$Res>? get cropModel;
 }
 
 /// @nodoc
@@ -49,6 +60,9 @@ class _$SellStateCopyWithImpl<$Res, $Val extends SellState>
     Object? selectedCategory = null,
     Object? selectedCity = null,
     Object? isLoading = null,
+    Object? cropModel = freezed,
+    Object? numberOfPictures = null,
+    Object? imagefiles = freezed,
   }) {
     return _then(_value.copyWith(
       selectedCategory: null == selectedCategory
@@ -63,7 +77,31 @@ class _$SellStateCopyWithImpl<$Res, $Val extends SellState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      cropModel: freezed == cropModel
+          ? _value.cropModel
+          : cropModel // ignore: cast_nullable_to_non_nullable
+              as CropModel?,
+      numberOfPictures: null == numberOfPictures
+          ? _value.numberOfPictures
+          : numberOfPictures // ignore: cast_nullable_to_non_nullable
+              as int,
+      imagefiles: freezed == imagefiles
+          ? _value.imagefiles
+          : imagefiles // ignore: cast_nullable_to_non_nullable
+              as List<File>?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CropModelCopyWith<$Res>? get cropModel {
+    if (_value.cropModel == null) {
+      return null;
+    }
+
+    return $CropModelCopyWith<$Res>(_value.cropModel!, (value) {
+      return _then(_value.copyWith(cropModel: value) as $Val);
+    });
   }
 }
 
@@ -74,7 +112,16 @@ abstract class _$$_SellStateCopyWith<$Res> implements $SellStateCopyWith<$Res> {
       __$$_SellStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String selectedCategory, String selectedCity, bool isLoading});
+  $Res call(
+      {String selectedCategory,
+      String selectedCity,
+      bool isLoading,
+      CropModel? cropModel,
+      int numberOfPictures,
+      List<File>? imagefiles});
+
+  @override
+  $CropModelCopyWith<$Res>? get cropModel;
 }
 
 /// @nodoc
@@ -91,6 +138,9 @@ class __$$_SellStateCopyWithImpl<$Res>
     Object? selectedCategory = null,
     Object? selectedCity = null,
     Object? isLoading = null,
+    Object? cropModel = freezed,
+    Object? numberOfPictures = null,
+    Object? imagefiles = freezed,
   }) {
     return _then(_$_SellState(
       selectedCategory: null == selectedCategory
@@ -105,6 +155,18 @@ class __$$_SellStateCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      cropModel: freezed == cropModel
+          ? _value.cropModel
+          : cropModel // ignore: cast_nullable_to_non_nullable
+              as CropModel?,
+      numberOfPictures: null == numberOfPictures
+          ? _value.numberOfPictures
+          : numberOfPictures // ignore: cast_nullable_to_non_nullable
+              as int,
+      imagefiles: freezed == imagefiles
+          ? _value._imagefiles
+          : imagefiles // ignore: cast_nullable_to_non_nullable
+              as List<File>?,
     ));
   }
 }
@@ -115,7 +177,11 @@ class _$_SellState implements _SellState {
   const _$_SellState(
       {this.selectedCategory = 'potato',
       this.selectedCity = '北海道',
-      this.isLoading = false});
+      this.isLoading = false,
+      this.cropModel = null,
+      this.numberOfPictures = 1,
+      final List<File>? imagefiles})
+      : _imagefiles = imagefiles;
 
   @override
   @JsonKey()
@@ -126,10 +192,26 @@ class _$_SellState implements _SellState {
   @override
   @JsonKey()
   final bool isLoading;
+// File? imageFile,
+  @override
+  @JsonKey()
+  final CropModel? cropModel;
+  @override
+  @JsonKey()
+  final int numberOfPictures;
+  final List<File>? _imagefiles;
+  @override
+  List<File>? get imagefiles {
+    final value = _imagefiles;
+    if (value == null) return null;
+    if (_imagefiles is EqualUnmodifiableListView) return _imagefiles;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'SellState(selectedCategory: $selectedCategory, selectedCity: $selectedCity, isLoading: $isLoading)';
+    return 'SellState(selectedCategory: $selectedCategory, selectedCity: $selectedCity, isLoading: $isLoading, cropModel: $cropModel, numberOfPictures: $numberOfPictures, imagefiles: $imagefiles)';
   }
 
   @override
@@ -142,12 +224,24 @@ class _$_SellState implements _SellState {
             (identical(other.selectedCity, selectedCity) ||
                 other.selectedCity == selectedCity) &&
             (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading));
+                other.isLoading == isLoading) &&
+            (identical(other.cropModel, cropModel) ||
+                other.cropModel == cropModel) &&
+            (identical(other.numberOfPictures, numberOfPictures) ||
+                other.numberOfPictures == numberOfPictures) &&
+            const DeepCollectionEquality()
+                .equals(other._imagefiles, _imagefiles));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, selectedCategory, selectedCity, isLoading);
+  int get hashCode => Object.hash(
+      runtimeType,
+      selectedCategory,
+      selectedCity,
+      isLoading,
+      cropModel,
+      numberOfPictures,
+      const DeepCollectionEquality().hash(_imagefiles));
 
   @JsonKey(ignore: true)
   @override
@@ -160,7 +254,10 @@ abstract class _SellState implements SellState {
   const factory _SellState(
       {final String selectedCategory,
       final String selectedCity,
-      final bool isLoading}) = _$_SellState;
+      final bool isLoading,
+      final CropModel? cropModel,
+      final int numberOfPictures,
+      final List<File>? imagefiles}) = _$_SellState;
 
   @override
   String get selectedCategory;
@@ -168,6 +265,12 @@ abstract class _SellState implements SellState {
   String get selectedCity;
   @override
   bool get isLoading;
+  @override // File? imageFile,
+  CropModel? get cropModel;
+  @override
+  int get numberOfPictures;
+  @override
+  List<File>? get imagefiles;
   @override
   @JsonKey(ignore: true)
   _$$_SellStateCopyWith<_$_SellState> get copyWith =>

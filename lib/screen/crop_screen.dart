@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fyp/firebase/auth.dart';
+import 'package:fyp/screen/login_screen.dart';
 import 'package:fyp/screen/widgets/categories.dart';
 import 'package:fyp/screen/widgets/crop_cart.dart';
 
@@ -70,7 +72,9 @@ class CropScreen extends ConsumerWidget {
                       child: CategoryCard(
                         icon: category_list[index].icon,
                         title: category_list[index].title,
-                        press: () {},
+                        press: () async {
+                          print('hihi');
+                        },
                         categoryNumber: category_list[index].categoryNumber,
                       ),
                     ),
@@ -118,8 +122,13 @@ class CategoryCard extends ConsumerWidget {
             ),
           ),
         ),
-        onPressed: () {
+        onPressed: () async {
+          print('hhihi');
           notifier.onCategoryButtonTap(title);
+          await Auth().signOut();
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => LoginScreen()),
+              (route) => false);
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),

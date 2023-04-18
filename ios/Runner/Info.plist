@@ -4,6 +4,10 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSCameraUsageDescription</key>
+	<string>カメラのアクセス許可</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>プロフィール写真に使用される写真をライブラリから選ぶことを許可しますか？</string>
 	<key>CFBundleDisplayName</key>
 	<string>Fyp</string>
 	<key>CFBundleExecutable</key>
