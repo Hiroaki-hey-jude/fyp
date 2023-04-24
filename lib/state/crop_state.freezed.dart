@@ -19,6 +19,9 @@ mixin _$CropState {
   bool get isLoading => throw _privateConstructorUsedError;
   int get selectedIndex => throw _privateConstructorUsedError;
   int get selectedIndexForOutlineButton => throw _privateConstructorUsedError;
+  String get selectedCategory => throw _privateConstructorUsedError;
+  List<CropModel> get selectedCategoryCrops =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CropStateCopyWith<CropState> get copyWith =>
@@ -31,7 +34,11 @@ abstract class $CropStateCopyWith<$Res> {
       _$CropStateCopyWithImpl<$Res, CropState>;
   @useResult
   $Res call(
-      {bool isLoading, int selectedIndex, int selectedIndexForOutlineButton});
+      {bool isLoading,
+      int selectedIndex,
+      int selectedIndexForOutlineButton,
+      String selectedCategory,
+      List<CropModel> selectedCategoryCrops});
 }
 
 /// @nodoc
@@ -50,6 +57,8 @@ class _$CropStateCopyWithImpl<$Res, $Val extends CropState>
     Object? isLoading = null,
     Object? selectedIndex = null,
     Object? selectedIndexForOutlineButton = null,
+    Object? selectedCategory = null,
+    Object? selectedCategoryCrops = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -64,6 +73,14 @@ class _$CropStateCopyWithImpl<$Res, $Val extends CropState>
           ? _value.selectedIndexForOutlineButton
           : selectedIndexForOutlineButton // ignore: cast_nullable_to_non_nullable
               as int,
+      selectedCategory: null == selectedCategory
+          ? _value.selectedCategory
+          : selectedCategory // ignore: cast_nullable_to_non_nullable
+              as String,
+      selectedCategoryCrops: null == selectedCategoryCrops
+          ? _value.selectedCategoryCrops
+          : selectedCategoryCrops // ignore: cast_nullable_to_non_nullable
+              as List<CropModel>,
     ) as $Val);
   }
 }
@@ -76,7 +93,11 @@ abstract class _$$_CropStateCopyWith<$Res> implements $CropStateCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {bool isLoading, int selectedIndex, int selectedIndexForOutlineButton});
+      {bool isLoading,
+      int selectedIndex,
+      int selectedIndexForOutlineButton,
+      String selectedCategory,
+      List<CropModel> selectedCategoryCrops});
 }
 
 /// @nodoc
@@ -93,6 +114,8 @@ class __$$_CropStateCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? selectedIndex = null,
     Object? selectedIndexForOutlineButton = null,
+    Object? selectedCategory = null,
+    Object? selectedCategoryCrops = null,
   }) {
     return _then(_$_CropState(
       isLoading: null == isLoading
@@ -107,6 +130,14 @@ class __$$_CropStateCopyWithImpl<$Res>
           ? _value.selectedIndexForOutlineButton
           : selectedIndexForOutlineButton // ignore: cast_nullable_to_non_nullable
               as int,
+      selectedCategory: null == selectedCategory
+          ? _value.selectedCategory
+          : selectedCategory // ignore: cast_nullable_to_non_nullable
+              as String,
+      selectedCategoryCrops: null == selectedCategoryCrops
+          ? _value._selectedCategoryCrops
+          : selectedCategoryCrops // ignore: cast_nullable_to_non_nullable
+              as List<CropModel>,
     ));
   }
 }
@@ -117,7 +148,10 @@ class _$_CropState implements _CropState {
   const _$_CropState(
       {this.isLoading = false,
       this.selectedIndex = 0,
-      this.selectedIndexForOutlineButton = 0});
+      this.selectedIndexForOutlineButton = 0,
+      this.selectedCategory = 'potato',
+      final List<CropModel> selectedCategoryCrops = const []})
+      : _selectedCategoryCrops = selectedCategoryCrops;
 
   @override
   @JsonKey()
@@ -128,10 +162,22 @@ class _$_CropState implements _CropState {
   @override
   @JsonKey()
   final int selectedIndexForOutlineButton;
+  @override
+  @JsonKey()
+  final String selectedCategory;
+  final List<CropModel> _selectedCategoryCrops;
+  @override
+  @JsonKey()
+  List<CropModel> get selectedCategoryCrops {
+    if (_selectedCategoryCrops is EqualUnmodifiableListView)
+      return _selectedCategoryCrops;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_selectedCategoryCrops);
+  }
 
   @override
   String toString() {
-    return 'CropState(isLoading: $isLoading, selectedIndex: $selectedIndex, selectedIndexForOutlineButton: $selectedIndexForOutlineButton)';
+    return 'CropState(isLoading: $isLoading, selectedIndex: $selectedIndex, selectedIndexForOutlineButton: $selectedIndexForOutlineButton, selectedCategory: $selectedCategory, selectedCategoryCrops: $selectedCategoryCrops)';
   }
 
   @override
@@ -146,12 +192,21 @@ class _$_CropState implements _CropState {
             (identical(other.selectedIndexForOutlineButton,
                     selectedIndexForOutlineButton) ||
                 other.selectedIndexForOutlineButton ==
-                    selectedIndexForOutlineButton));
+                    selectedIndexForOutlineButton) &&
+            (identical(other.selectedCategory, selectedCategory) ||
+                other.selectedCategory == selectedCategory) &&
+            const DeepCollectionEquality()
+                .equals(other._selectedCategoryCrops, _selectedCategoryCrops));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, isLoading, selectedIndex, selectedIndexForOutlineButton);
+      runtimeType,
+      isLoading,
+      selectedIndex,
+      selectedIndexForOutlineButton,
+      selectedCategory,
+      const DeepCollectionEquality().hash(_selectedCategoryCrops));
 
   @JsonKey(ignore: true)
   @override
@@ -164,7 +219,9 @@ abstract class _CropState implements CropState {
   const factory _CropState(
       {final bool isLoading,
       final int selectedIndex,
-      final int selectedIndexForOutlineButton}) = _$_CropState;
+      final int selectedIndexForOutlineButton,
+      final String selectedCategory,
+      final List<CropModel> selectedCategoryCrops}) = _$_CropState;
 
   @override
   bool get isLoading;
@@ -172,6 +229,10 @@ abstract class _CropState implements CropState {
   int get selectedIndex;
   @override
   int get selectedIndexForOutlineButton;
+  @override
+  String get selectedCategory;
+  @override
+  List<CropModel> get selectedCategoryCrops;
   @override
   @JsonKey(ignore: true)
   _$$_CropStateCopyWith<_$_CropState> get copyWith =>

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -15,8 +16,12 @@ class CropScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(cropStateProvider);
+    final notifier = ref.watch(cropStateProvider.notifier);
     final TextEditingController searchEditingController =
         TextEditingController();
+    AsyncValue<QuerySnapshot<Map<String, dynamic>>> categoryData =
+        ref.watch(potatoCropsStreamProvider);
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -72,16 +77,36 @@ class CropScreen extends ConsumerWidget {
                       child: CategoryCard(
                         icon: category_list[index].icon,
                         title: category_list[index].title,
-                        press: () async {
-                          print('hihi');
-                        },
+                        press: () async {},
                         categoryNumber: category_list[index].categoryNumber,
                       ),
                     ),
                   ),
                 ),
               ),
-              CropCard(),
+              GridView.builder(
+                shrinkWrap: true,
+                itemCount: state.selectedCategoryCrops.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  // crossAxisSpacing: 5, //ボックス左右間のスペース
+                  // mainAxisSpacing: 10, //ボックス上下間のスペース
+                  crossAxisCount: 2, //ボックスを横に並べる数
+                  childAspectRatio: 0.80,
+                ),
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      print(state.selectedCategoryCrops[index].name);
+                    },
+                    child: CropCard(
+                      profilePic:
+                          state.selectedCategoryCrops[index].picsOfCrops![0],
+                      nameOfCrop: state.selectedCategoryCrops[index].name,
+                      price: state.selectedCategoryCrops[index].price,
+                    ),
+                  );
+                },
+              )
             ],
           ),
         ),
@@ -104,6 +129,7 @@ class CategoryCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    AsyncValue<QuerySnapshot<Map<String, dynamic>>> categoryData;
     final state = ref.watch(cropStateProvider);
     final notifier = ref.watch(cropStateProvider.notifier);
     return Container(
@@ -124,11 +150,27 @@ class CategoryCard extends ConsumerWidget {
         ),
         onPressed: () async {
           print('hhihi');
+          print(title);
           notifier.onCategoryButtonTap(title);
-          await Auth().signOut();
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => LoginScreen()),
-              (route) => false);
+          // if (title == 'potato') {
+          //   print('potato if no naka');
+          //   categoryData = ref.watch(potatoCropsStreamProvider);
+          // } else if (title == 'rice') {
+          //   print('rice if no naka');
+          //   categoryData = ref.watch(riceCropsStreamProvider);
+          // } else if (title == 'tomato') {
+          //   print('tomato if no naka');
+          //   categoryData = ref.watch(tomatoCropsStreamProvider);
+          // } else if (title == "imperfect") {
+          //   print('imperfect if no naka');
+          //   categoryData = ref.watch(imperfectCropsStreamProvider);
+          // } else {
+          //   print('something is wrong here');
+          // }
+          // await Auth().signOut();
+          // Navigator.of(context).pushAndRemoveUntil(
+          //     MaterialPageRoute(builder: (context) => LoginScreen()),
+          //     (route) => false);
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),

@@ -119,4 +119,31 @@ class FireStore {
       'blocks': FieldValue.arrayRemove([uid]),
     });
   }
+
+  Future<List<CropModel>> getCropDocument(String category) async {
+    final firestore = FirebaseFirestore.instance;
+
+    // cropsコレクションの中で、categoryが'potato'であるドキュメントのみを取得する
+    final cropsCollection = firestore.collection('crops');
+    final categoryDocument =
+        await cropsCollection.where('category', isEqualTo: category).get();
+    List<CropModel> selectedCategoryCropData = [];
+    categoryDocument.docs.forEach((element) {
+      selectedCategoryCropData.add(CropModel.fromSnapshot(element));
+    });
+    return selectedCategoryCropData;
+  }
+
+  Future<List<CropModel>> getInitCropDocument() async {
+    final firestore = FirebaseFirestore.instance;
+
+    final cropsCollection = firestore.collection('crops');
+    final categoryDocument =
+        await cropsCollection.where('category', isEqualTo: 'potato').get();
+    List<CropModel> potatoCropData = [];
+    categoryDocument.docs.forEach((element) {
+      potatoCropData.add(CropModel.fromSnapshot(element));
+    });
+    return potatoCropData;
+  }
 }

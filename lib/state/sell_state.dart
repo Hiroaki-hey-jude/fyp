@@ -63,7 +63,7 @@ class SellStateNotifier extends StateNotifier<SellState> {
 
     //選択した画像ファイルを代入
     filePaths = imagefiles.map((file) => file.path).toList();
-    urls = filePaths.map((filePath) => Uri.file(filePath).toString()).toList();
+    // urls = filePaths.map((filePath) => Uri.file(filePath).toString()).toList();
     state = state.copyWith(imagefiles: imagefiles);
   }
 
@@ -75,6 +75,15 @@ class SellStateNotifier extends StateNotifier<SellState> {
   ) async {
     state = state.copyWith(isLoading: true);
     try {
+      for (int i = 0; i < state.imagefiles!.length; i++) {
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child('crops')
+            .child('$nameOfCrop$i.jpg');
+        await ref.putFile(state.imagefiles![i]);
+        String downloadUrl = await ref.getDownloadURL();
+        urls.add(downloadUrl);
+      }
       await FireStore().savingCropData(
         urls,
         state.selectedCategory,
@@ -83,18 +92,9 @@ class SellStateNotifier extends StateNotifier<SellState> {
         state.selectedCity,
         price,
       );
-      for (int i = 0; i < state.imagefiles!.length; i++) {
-        final ref = FirebaseStorage.instance
-            .ref()
-            .child('crops')
-            .child('$nameOfCrop$i.jpg');
-        await ref.putFile(state.imagefiles![i]);
-      }
-      print('1');
     } on Exception catch (e) {
       print(e.toString());
     } finally {
-      print('2');
       state = state.copyWith(isLoading: false);
       nextScreenReplacement(context, HomeScreen());
       ScaffoldMessenger.of(context)
