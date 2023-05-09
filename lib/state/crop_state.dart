@@ -15,61 +15,6 @@ final cropStateProvider = StateNotifierProvider<CropStateNotifier, CropState>(
   (ref) => CropStateNotifier(),
 );
 
-final selectedCategoryProvider = StateProvider((ref) => 'potato');
-
-final cropStreamProvider =
-    StreamProvider.autoDispose<QuerySnapshot<Map<String, dynamic>>>((ref) {
-  final firestore = FirebaseFirestore.instance;
-
-  // cropsコレクションの中で、categoryが'potato'であるドキュメントのみを取得する
-  final cropsCollection = firestore.collection('crops');
-  return cropsCollection.snapshots();
-});
-
-final potatoCropsStreamProvider =
-    StreamProvider.autoDispose<QuerySnapshot<Map<String, dynamic>>>((ref) {
-  final firestore = FirebaseFirestore.instance;
-
-  // cropsコレクションの中で、categoryが'potato'であるドキュメントのみを取得する
-  final cropsCollection = firestore.collection('crops');
-  final potatoCrops = cropsCollection.where('category', isEqualTo: 'potato');
-  return potatoCrops.snapshots();
-});
-
-final riceCropsStreamProvider =
-    StreamProvider.autoDispose<QuerySnapshot<Map<String, dynamic>>>((ref) {
-  // Firestoreのインスタンスを取得する
-  final firestore = FirebaseFirestore.instance;
-
-  // cropsコレクションの中で、categoryが'rice'であるドキュメントのみを取得する
-  final cropsCollection = firestore.collection('crops');
-  final riceCrops = cropsCollection.where('category', isEqualTo: 'rice');
-  return riceCrops.snapshots();
-});
-
-final tomatoCropsStreamProvider =
-    StreamProvider.autoDispose<QuerySnapshot<Map<String, dynamic>>>((ref) {
-  // Firestoreのインスタンスを取得する
-  final firestore = FirebaseFirestore.instance;
-
-  // cropsコレクションの中で、categoryが'tomato'であるドキュメントのみを取得する
-  final cropsCollection = firestore.collection('crops');
-  final tomatoCrops = cropsCollection.where('category', isEqualTo: 'tomato');
-  return tomatoCrops.snapshots();
-});
-
-final imperfectCropsStreamProvider =
-    StreamProvider.autoDispose<QuerySnapshot<Map<String, dynamic>>>((ref) {
-  // Firestoreのインスタンスを取得する
-  final firestore = FirebaseFirestore.instance;
-
-  // cropsコレクションの中で、categoryが'rice'であるドキュメントのみを取得する
-  final cropsCollection = firestore.collection('crops');
-  final imperfectCrops =
-      cropsCollection.where('category', isEqualTo: 'imperfect');
-  return imperfectCrops.snapshots();
-});
-
 @freezed
 class CropState with _$CropState {
   const factory CropState({

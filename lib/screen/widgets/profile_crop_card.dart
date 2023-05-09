@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-class CropCard extends StatelessWidget {
-  const CropCard({
+class ProfileCropCard extends StatelessWidget {
+  const ProfileCropCard({
     super.key,
     required this.profilePic,
     required this.nameOfCrop,
@@ -31,14 +31,6 @@ class CropCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.green,
                   borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Text(
-                  '-50%',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
                 ),
               ),
             ],

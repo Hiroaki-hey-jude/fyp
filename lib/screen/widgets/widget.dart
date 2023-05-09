@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../shared/constant.dart';
@@ -41,4 +42,27 @@ class GreyDescription extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget profilePicturesWidget(String id) {
+  return SizedBox(
+    height: 50,
+    width: 50,
+    child: StreamBuilder(
+        stream:
+            FirebaseFirestore.instance.collection('users').doc(id).snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          String originalImgURL =
+              snapshot.data!.get('profilePic') as String != ''
+                  ? snapshot.data!.get('profilePic') as String
+                  : Constant.anonymousProfilePic;
+          return CircleAvatar(
+            radius: 30,
+            backgroundImage: NetworkImage(originalImgURL),
+          );
+        }),
+  );
 }

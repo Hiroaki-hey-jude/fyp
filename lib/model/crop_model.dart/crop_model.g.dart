@@ -17,6 +17,7 @@ _$_CropModel _$$_CropModelFromJson(Map<String, dynamic> json) => _$_CropModel(
       description: json['description'] as String? ?? '',
       address: json['address'] as String? ?? '',
       price: json['price'] as String? ?? '',
+      sellerId: json['sellerId'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$_CropModelToJson(_$_CropModel instance) =>
@@ -28,4 +29,5 @@ Map<String, dynamic> _$$_CropModelToJson(_$_CropModel instance) =>
       'description': instance.description,
       'address': instance.address,
       'price': instance.price,
+      'sellerId': instance.sellerId,
     };

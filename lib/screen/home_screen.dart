@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fyp/model/category_model/category_model.dart';
 import 'package:fyp/screen/crop_screen.dart';
+import 'package:fyp/screen/feed_screen.dart';
+import 'package:fyp/screen/profile_screen.dart';
 import 'package:fyp/screen/sell_screen.dart';
 import 'package:fyp/screen/widgets/categories.dart';
 import 'package:fyp/state/home_state.dart';
@@ -14,6 +16,8 @@ class HomeScreen extends ConsumerWidget {
   static final List<Widget> _widgetOptions = <Widget>[
     const CropScreen(),
     const SellScreen(),
+    const FeedScreen(),
+    const ProfileScreen(),
   ];
   @override
   Widget build(BuildContext context, WidgetRef ref) {

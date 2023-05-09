@@ -14,6 +14,7 @@ class CropModel with _$CropModel {
     @Default('') String description,
     @Default('') String address,
     @Default('') String price,
+    @Default('') String sellerId,
   }) = _CropModel;
 
   factory CropModel.fromJson(Map<String, dynamic> json) =>

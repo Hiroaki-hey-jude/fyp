@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -58,7 +59,7 @@ class SellStateNotifier extends StateNotifier<SellState> {
         imagefiles.add(File(xfilePick[i].path));
       }
     } else {
-      print('Nothing is selected');
+      return;
     }
 
     //選択した画像ファイルを代入
@@ -91,6 +92,7 @@ class SellStateNotifier extends StateNotifier<SellState> {
         description,
         state.selectedCity,
         price,
+        FirebaseAuth.instance.currentUser!.uid,
       );
     } on Exception catch (e) {
       print(e.toString());

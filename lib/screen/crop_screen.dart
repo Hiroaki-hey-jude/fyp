@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fyp/firebase/auth.dart';
-import 'package:fyp/screen/login_screen.dart';
-import 'package:fyp/screen/widgets/categories.dart';
+import 'package:fyp/screen/buy_screen.dart';
 import 'package:fyp/screen/widgets/crop_cart.dart';
+import 'package:fyp/screen/widgets/widget.dart';
 
 import '../model/category_model/category_model.dart';
 import '../state/crop_state.dart';
@@ -20,12 +17,9 @@ class CropScreen extends ConsumerWidget {
     final notifier = ref.watch(cropStateProvider.notifier);
     final TextEditingController searchEditingController =
         TextEditingController();
-    AsyncValue<QuerySnapshot<Map<String, dynamic>>> categoryData =
-        ref.watch(potatoCropsStreamProvider);
     return Scaffold(
       body: GestureDetector(
         onTap: () {
-          print('kkkk');
           primaryFocus?.unfocus();
         },
         child: SingleChildScrollView(
@@ -85,18 +79,23 @@ class CropScreen extends ConsumerWidget {
                 ),
               ),
               GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: state.selectedCategoryCrops.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  // crossAxisSpacing: 5, //ボックス左右間のスペース
-                  // mainAxisSpacing: 10, //ボックス上下間のスペース
                   crossAxisCount: 2, //ボックスを横に並べる数
                   childAspectRatio: 0.80,
                 ),
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
-                      print(state.selectedCategoryCrops[index].name);
+                      nextScreen(
+                        context,
+                        BuyScreen(
+                            cropId: state.selectedCategoryCrops[index].cropId),
+                      );
+                      print(state.selectedCategoryCrops[index].cropId);
                     },
                     child: CropCard(
                       profilePic:
@@ -149,28 +148,7 @@ class CategoryCard extends ConsumerWidget {
           ),
         ),
         onPressed: () async {
-          print('hhihi');
-          print(title);
           notifier.onCategoryButtonTap(title);
-          // if (title == 'potato') {
-          //   print('potato if no naka');
-          //   categoryData = ref.watch(potatoCropsStreamProvider);
-          // } else if (title == 'rice') {
-          //   print('rice if no naka');
-          //   categoryData = ref.watch(riceCropsStreamProvider);
-          // } else if (title == 'tomato') {
-          //   print('tomato if no naka');
-          //   categoryData = ref.watch(tomatoCropsStreamProvider);
-          // } else if (title == "imperfect") {
-          //   print('imperfect if no naka');
-          //   categoryData = ref.watch(imperfectCropsStreamProvider);
-          // } else {
-          //   print('something is wrong here');
-          // }
-          // await Auth().signOut();
-          // Navigator.of(context).pushAndRemoveUntil(
-          //     MaterialPageRoute(builder: (context) => LoginScreen()),
-          //     (route) => false);
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),

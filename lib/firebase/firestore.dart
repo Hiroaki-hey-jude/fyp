@@ -32,13 +32,13 @@ class FireStore {
   }
 
   Future savingCropData(
-    List<String> picsOfCrops,
-    String category,
-    String title,
-    String desciption,
-    String senderAddress,
-    String price,
-  ) async {
+      List<String> picsOfCrops,
+      String category,
+      String title,
+      String desciption,
+      String senderAddress,
+      String price,
+      String sellerId) async {
     var crop = CropModel(
       picsOfCrops: picsOfCrops,
       category: category,
@@ -46,78 +46,69 @@ class FireStore {
       description: desciption,
       address: senderAddress,
       price: price,
+      sellerId: sellerId,
     );
     print('終りました');
-    return await cropCollection.doc().set({
+    DocumentReference roomDocumentReference = await cropCollection.add({
       'picsOfCrops': crop.picsOfCrops,
       'category': crop.category,
       'name': crop.name,
       'description': crop.description,
       'address': crop.address,
       'price': crop.price,
+      'cropId': '',
+      'sellerId': crop.sellerId,
     });
+
+    return roomDocumentReference.update({
+      'cropId': roomDocumentReference.id,
+    });
+  }
+
+  Future editCropData(
+    List<String> picsOfCrops,
+    String category,
+    String title,
+    String desciption,
+    String senderAddress,
+    String price,
+    String cropId,
+  ) async {
+    cropCollection.doc(cropId).update({
+      'picsOfCrops': picsOfCrops,
+      'price': price,
+      'name': title,
+      'category': category,
+      'description': desciption,
+      'address': senderAddress,
+    });
+  }
+
+  Future editCropDataWithoutPics(
+    String category,
+    String title,
+    String desciption,
+    String senderAddress,
+    String price,
+    String cropId,
+  ) async {
+    cropCollection.doc(cropId).update({
+      'price': price,
+      'name': title,
+      'category': category,
+      'description': desciption,
+      'address': senderAddress,
+    });
+  }
+
+  void deleteCropPost(String cropId) {
+    cropCollection.doc(cropId).delete();
   }
 
   Future gettingUserData(String email) async {
     QuerySnapshot querySnapshot =
         await userCollection.where('email', isEqualTo: email).get();
     return querySnapshot;
-  }
-
-  // 現在ログインしているユーザのFirestore情報取得
-  Future<UserModel> getCurrentUserModel() async {
-    print('kokokitemasuka');
-    final model =
-        await FirebaseFirestore.instance.collection('users').doc(uid).get();
-    final userModel = UserModel.fromSnapshot(model);
-    return userModel;
-  }
-
-  getCurrentPomo(String uid) async {
-    final currentPomo = await userCollection.doc(uid).get();
-    return currentPomo;
-  }
-
-  Future<void> startTimer(int goalPomo, String objectve, String uid) async {
-    await userCollection.doc(uid).update({
-      'goalPomo': goalPomo,
-      'isOnline': true,
-      'objective': objectve,
-      'currentNumOfPomo': 0,
-    });
-  }
-
-  toggleOnline(bool present) {
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .update({
-      'isOnline': present,
-    });
-  }
-
-  report(String uid) async {
-    await FirebaseFirestore.instance.collection('report').doc(uid).set({
-      'uid': uid,
-    });
-  }
-
-  block(String uid) async {
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .update({
-      'blocks': FieldValue.arrayUnion([uid]),
-    });
-  }
-
-  unBlock(String uid) async {
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .update({
-      'blocks': FieldValue.arrayRemove([uid]),
-    });
   }
 
   Future<List<CropModel>> getCropDocument(String category) async {
@@ -146,4 +137,44 @@ class FireStore {
     });
     return potatoCropData;
   }
+
+  Future<CropModel> getPotentialCropData(String cropId) async {
+    final model =
+        await FirebaseFirestore.instance.collection('crops').doc(cropId).get();
+    final cropModel = CropModel.fromSnapshot(model);
+    return cropModel;
+  }
+
+  // 現在ログインしているユーザのFirestore情報取得
+  Future<UserModel> getCurrentUserModel(String uid) async {
+    final model =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    final userModel = UserModel.fromSnapshot(model);
+    return userModel;
+  }
+
+  Future<List<CropModel>> getPostedCropList(String sellerId) async {
+    final firestore = FirebaseFirestore.instance;
+
+    final cropsCollection = firestore.collection('crops');
+    final categoryDocument =
+        await cropsCollection.where('sellerId', isEqualTo: sellerId).get();
+    List<CropModel> postedCropData = [];
+    categoryDocument.docs.forEach((element) {
+      postedCropData.add(CropModel.fromSnapshot(element));
+    });
+    return postedCropData;
+  }
+
+  Future<UserModel> getUserModelForBuy(String sellerid) async {
+    // final querySnapshot =
+    //     await FirebaseFirestore.instance.collection('users').get();
+    final model = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(sellerid)
+        .get();
+    final userModel = UserModel.fromSnapshot(model);
+    return userModel;
+  }
+
 }

@@ -8,7 +8,7 @@ class Constant {
 
   // デフォルトユーザ設定
   static const anonymousProfilePic =
-      'https://firebasestorage.googleapis.com/v0/b/pomo-58355.appspot.com/o/profileimages%2F22352899.png?alt=media&token=4ed39c47-1176-47ba-b9d3-479766d7db6b';
+      'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif';
   static const blockedUserName = 'ブロックしたユーザ';
 
   final url = Uri.parse(
