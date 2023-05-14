@@ -11,13 +11,14 @@ import 'package:intl/intl.dart';
 import '../shared/constant.dart';
 
 class CommentScreen extends ConsumerWidget {
-  const CommentScreen({required this.cropId, super.key});
+  const CommentScreen({required this.cropId, required this.sellerName, super.key});
   final String cropId;
+  final String sellerName;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(commentStateProvider);
-    final notifier = ref.watch(commentStateProvider.notifier);
+    final state = ref.watch(commentStateProvider(sellerName));
+    final notifier = ref.watch(commentStateProvider(sellerName).notifier);
     // final loungeState = ref.watch(loungeStateProvider);
 
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
@@ -52,7 +53,7 @@ class CommentScreen extends ConsumerWidget {
             types.User typeUser;
 
             final userList = ref
-                .watch(commentStateProvider.select((state) => state.userList));
+                .watch(commentStateProvider(sellerName).select((state) => state.userList));
             // print(state.currentUser!.blocks.toString());
 
             for (final snapShot in list) {
@@ -88,7 +89,6 @@ class CommentScreen extends ConsumerWidget {
                     );
                     // messageをtypes.Message型の配列に代入
                     messages.add(message);
-                    print(messages);
                   }
                 }
               }

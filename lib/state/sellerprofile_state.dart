@@ -1,42 +1,34 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:fyp/firebase/firestore.dart';
-import 'package:image_picker/image_picker.dart';
 
-import '../firebase/auth.dart';
+import '../firebase/firestore.dart';
 import '../model/crop_model.dart/crop_model.dart';
 import '../model/user_model/user_model.dart';
 import '../shared/constant.dart';
-import '../sharedpreference/sharedpreference.dart';
 
-part 'profile_state.freezed.dart';
+part 'sellerprofile_state.freezed.dart';
 
-final profileStateProvider =
-    StateNotifierProvider.autoDispose<ProfileStateNotifier, ProfileState>(
-  (ref) => ProfileStateNotifier(),
+final sellerprofileStateProvider =
+    StateNotifierProvider<SellerprofileStateNotifier, SellerprofileState>(
+  (ref) => SellerprofileStateNotifier(),
 );
 
 @freezed
-class ProfileState with _$ProfileState {
-  const factory ProfileState({
+class SellerprofileState with _$SellerprofileState {
+  const factory SellerprofileState({
     @Default(false) bool isLoading,
-    @Default(null) File? imageFile,
-    @Default('') String userName,
     @Default(null) UserModel? userModel,
     @Default('') String originalImgURL,
+    @Default('') String userName,
     @Default([]) List<CropModel> sellingCrops,
-  }) = _ProfileState;
+  }) = _SellerprofileState;
 }
 
-class ProfileStateNotifier extends StateNotifier<ProfileState> {
-  ProfileStateNotifier() : super(const ProfileState()) {
+class SellerprofileStateNotifier extends StateNotifier<SellerprofileState> {
+  SellerprofileStateNotifier() : super(const SellerprofileState()) {
     getUser();
-    getPostedCropList(FirebaseAuth.instance.currentUser!.uid);
   }
-
   Future<void> getUser() async {
     state = state.copyWith(isLoading: true);
     final user = await FireStore()
@@ -46,6 +38,7 @@ class ProfileStateNotifier extends StateNotifier<ProfileState> {
       userModel: user,
     );
     getOriginalProfileUrl();
+    getPostedCropList(state.userModel!.uid);
   }
 
   getOriginalProfileUrl() {
@@ -53,25 +46,7 @@ class ProfileStateNotifier extends StateNotifier<ProfileState> {
         ? state.userModel!.profilePic as String
         : Constant.anonymousProfilePic;
     state = state.copyWith(originalImgURL: originalImgURL, isLoading: false);
-  }
-
-  /// 端末の画像を選択する
-  Future<void> openImagePicker() async {
-    final picker = ImagePicker();
-    //ライブラリを開いて選択
-    final pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
-      maxHeight: 600,
-      maxWidth: 600,
-    );
-
-    // 画像が選択されなかった場合はスキップ
-    if (pickedFile == null) {
-      return;
-    }
-
-    // 選択した画像ファイルを代入
-    state = state.copyWith(imageFile: File(pickedFile.path));
+    print(state.originalImgURL + 'original image url');
   }
 
   Future<void> getPostedCropList(String sellerID) async {

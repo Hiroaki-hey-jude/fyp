@@ -24,41 +24,37 @@ class CropScreen extends ConsumerWidget {
         },
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(5),
-                          bottomLeft: Radius.circular(5),
-                        ),
-                        color: Colors.grey.shade200),
-                    child: Consumer(builder: (context, ref, child) {
-                      // final notifier = ref.watch(searchStateProvider.notifier);
-                      return TextField(
-                        onSubmitted: (value) {
-                          // 検索
-                          // notifier.getSearchUser(searchEditingController.text);
-                        },
-                        controller: searchEditingController,
-                        decoration: const InputDecoration(
-                          hintText: '検索',
-                          hintStyle: TextStyle(color: Colors.grey, height: 1.7),
-                          border: InputBorder.none,
-                          isDense: true,
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color: Colors.black,
-                          ),
-                        ),
-                      );
-                    }),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(5),
+                    bottomLeft: Radius.circular(5),
                   ),
-                ],
+                  color: Colors.grey.shade200,
+                ),
+                child: Consumer(builder: (context, ref, child) {
+                  // final notifier = ref.watch(searchStateProvider.notifier);
+                  return TextField(
+                    onSubmitted: (value) {
+                      // 検索
+                      // notifier.getSearchUser(searchEditingController.text);
+                    },
+                    controller: searchEditingController,
+                    decoration: const InputDecoration(
+                      hintText: '検索',
+                      hintStyle: TextStyle(color: Colors.grey, height: 1.7),
+                      border: InputBorder.none,
+                      isDense: true,
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Colors.black,
+                      ),
+                    ),
+                  );
+                }),
               ),
               // const Categories(),
               SingleChildScrollView(

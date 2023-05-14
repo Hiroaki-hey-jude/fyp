@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fyp/screen/comment_screen.dart';
+import 'package:fyp/screen/seller_profile_screen.dart';
 import 'package:fyp/screen/widgets/custome_button.dart';
 import 'package:fyp/screen/widgets/widget.dart';
 import 'package:fyp/state/buy_state.dart';
@@ -126,7 +127,10 @@ class BuyScreen extends ConsumerWidget {
                               return SizedBox(
                                 // 90%の高さで表示させる
                                 height: blockSizeVertical * 95,
-                                child: CommentScreen(cropId: state.cropModel!.cropId,),
+                                child: CommentScreen(
+                                  cropId: state.cropModel!.cropId,
+                                  sellerName: state.cropModel!.sellerId,
+                                ),
                               );
                             },
                           );
@@ -261,19 +265,24 @@ class BuyScreen extends ConsumerWidget {
                     Padding(
                       padding:
                           const EdgeInsets.only(left: 15, top: 5, right: 50),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          profilePicturesWidget(state.userModel!.uid),
-                          Text(
-                            state.userModel!.name,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
+                      child: InkWell(
+                        onTap: () {
+                          nextScreen(context, SellerProfileScreen());
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            profilePicturesWidget(state.userModel!.uid),
+                            Text(
+                              state.userModel!.name,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                              ),
                             ),
-                          ),
-                          const Icon(Icons.arrow_forward_ios)
-                        ],
+                            const Icon(Icons.arrow_forward_ios)
+                          ],
+                        ),
                       ),
                     ),
                     Container(

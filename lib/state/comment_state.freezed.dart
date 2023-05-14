@@ -20,6 +20,7 @@ mixin _$CommentState {
   UserModel? get currentUser => throw _privateConstructorUsedError;
   List<UserModel> get userList => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
+  String? get sellerId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CommentStateCopyWith<CommentState> get copyWith =>
@@ -36,7 +37,8 @@ abstract class $CommentStateCopyWith<$Res> {
       {bool isLoading,
       UserModel? currentUser,
       List<UserModel> userList,
-      String? errorMessage});
+      String? errorMessage,
+      String? sellerId});
 
   $UserModelCopyWith<$Res>? get currentUser;
 }
@@ -58,6 +60,7 @@ class _$CommentStateCopyWithImpl<$Res, $Val extends CommentState>
     Object? currentUser = freezed,
     Object? userList = null,
     Object? errorMessage = freezed,
+    Object? sellerId = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -75,6 +78,10 @@ class _$CommentStateCopyWithImpl<$Res, $Val extends CommentState>
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      sellerId: freezed == sellerId
+          ? _value.sellerId
+          : sellerId // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -104,7 +111,8 @@ abstract class _$$_CommentStateCopyWith<$Res>
       {bool isLoading,
       UserModel? currentUser,
       List<UserModel> userList,
-      String? errorMessage});
+      String? errorMessage,
+      String? sellerId});
 
   @override
   $UserModelCopyWith<$Res>? get currentUser;
@@ -125,6 +133,7 @@ class __$$_CommentStateCopyWithImpl<$Res>
     Object? currentUser = freezed,
     Object? userList = null,
     Object? errorMessage = freezed,
+    Object? sellerId = freezed,
   }) {
     return _then(_$_CommentState(
       isLoading: null == isLoading
@@ -143,6 +152,10 @@ class __$$_CommentStateCopyWithImpl<$Res>
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String?,
+      sellerId: freezed == sellerId
+          ? _value.sellerId
+          : sellerId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -154,7 +167,8 @@ class _$_CommentState implements _CommentState {
       {this.isLoading = false,
       this.currentUser = null,
       final List<UserModel> userList = const <UserModel>[],
-      this.errorMessage = null})
+      this.errorMessage = null,
+      this.sellerId = null})
       : _userList = userList;
 
   @override
@@ -175,10 +189,13 @@ class _$_CommentState implements _CommentState {
   @override
   @JsonKey()
   final String? errorMessage;
+  @override
+  @JsonKey()
+  final String? sellerId;
 
   @override
   String toString() {
-    return 'CommentState(isLoading: $isLoading, currentUser: $currentUser, userList: $userList, errorMessage: $errorMessage)';
+    return 'CommentState(isLoading: $isLoading, currentUser: $currentUser, userList: $userList, errorMessage: $errorMessage, sellerId: $sellerId)';
   }
 
   @override
@@ -192,12 +209,14 @@ class _$_CommentState implements _CommentState {
                 other.currentUser == currentUser) &&
             const DeepCollectionEquality().equals(other._userList, _userList) &&
             (identical(other.errorMessage, errorMessage) ||
-                other.errorMessage == errorMessage));
+                other.errorMessage == errorMessage) &&
+            (identical(other.sellerId, sellerId) ||
+                other.sellerId == sellerId));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, isLoading, currentUser,
-      const DeepCollectionEquality().hash(_userList), errorMessage);
+      const DeepCollectionEquality().hash(_userList), errorMessage, sellerId);
 
   @JsonKey(ignore: true)
   @override
@@ -211,7 +230,8 @@ abstract class _CommentState implements CommentState {
       {final bool isLoading,
       final UserModel? currentUser,
       final List<UserModel> userList,
-      final String? errorMessage}) = _$_CommentState;
+      final String? errorMessage,
+      final String? sellerId}) = _$_CommentState;
 
   @override
   bool get isLoading;
@@ -221,6 +241,8 @@ abstract class _CommentState implements CommentState {
   List<UserModel> get userList;
   @override
   String? get errorMessage;
+  @override
+  String? get sellerId;
   @override
   @JsonKey(ignore: true)
   _$$_CommentStateCopyWith<_$_CommentState> get copyWith =>

@@ -5,16 +5,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fyp/firebase/firestore.dart';
 import 'package:fyp/model/cropcomment_model/cropcomment_model.dart';
 import 'package:uuid/uuid.dart';
-
-import '../firebase/auth.dart';
 import '../model/user_model/user_model.dart';
-import '../sharedpreference/sharedpreference.dart';
 
 part 'comment_state.freezed.dart';
 
 final commentStateProvider =
-    StateNotifierProvider<CommentStateNotifier, CommentState>(
-  (ref) => CommentStateNotifier(),
+    StateNotifierProvider.family<CommentStateNotifier, CommentState, String>(
+  (ref, sellerId) => CommentStateNotifier(sellerId),
 );
 
 @freezed
@@ -24,16 +21,17 @@ class CommentState with _$CommentState {
     @Default(null) UserModel? currentUser,
     @Default(<UserModel>[]) List<UserModel> userList,
     @Default(null) String? errorMessage,
+    @Default(null) String? sellerId,
   }) = _CommentState;
 }
 
 class CommentStateNotifier extends StateNotifier<CommentState> {
-  CommentStateNotifier() : super(const CommentState()) {
-    init();
-    // print(state.currentUser!.name);
+  CommentStateNotifier(sellerId) : super(const CommentState()) {
+    init(sellerId);
+    // hi(sellerName);
   }
 
-  Future<void> init() async {
+  Future<void> init(String uid) async {
     try {
       state = state.copyWith(isLoading: true);
       await fetchCurrentUserInfo();
@@ -44,7 +42,15 @@ class CommentStateNotifier extends StateNotifier<CommentState> {
       }
     } finally {
       if (mounted) {
-        state = state.copyWith(isLoading: false);
+        if (state.currentUser!.uid == uid) {
+          print(state.currentUser!.uid);
+          print('同じ');
+        } else {
+          print(state.currentUser!.uid);
+          print(uid);
+          print('同じじゃないよん');
+        }
+        state = state.copyWith(isLoading: false, sellerId: uid);
       }
     }
   }
@@ -57,7 +63,14 @@ class CommentStateNotifier extends StateNotifier<CommentState> {
       return;
     }
     state = state.copyWith(currentUser: userModel);
-    print(userModel.name + 'dddd');
+  }
+
+  void hi(String sellerId) {
+    if (state.currentUser!.uid == sellerId) {
+      print('同じ');
+    } else {
+      print('同じじゃないよん');
+    }
   }
 
   // チャットで使用する全てのユーザー情報取得
@@ -73,6 +86,8 @@ class CommentStateNotifier extends StateNotifier<CommentState> {
   // チャット一覧をストリームで取得
   Stream<QuerySnapshot<Map<String, dynamic>>> fetchChatMessages(
       String cropId) async* {
+    // print(state.currentUser);
+    // print(state.currentUser!.name);
     yield* FirebaseFirestore.instance
         .collection('crops')
         .doc(cropId)
@@ -101,13 +116,27 @@ class CommentStateNotifier extends StateNotifier<CommentState> {
         createdAt: DateTime.now(),
         // deviceTokens: deviceTokens,
       );
-
-      await FirebaseFirestore.instance
-          .collection('crops')
-          .doc(cropId)
-          .collection('comment')
-          .doc()
-          .set(chatMessage.toJson());
+      if (state.currentUser!.uid == state.sellerId) {
+        print('同じ');
+        await FirebaseFirestore.instance
+            .collection('crops')
+            .doc(cropId)
+            .collection('comment')
+            .doc()
+            .set(chatMessage.toJson());
+      } else {
+        print('同じじゃないよん');
+        await FirebaseFirestore.instance
+            .collection('crops')
+            .doc(cropId)
+            .update({'isNotRead': true});
+        await FirebaseFirestore.instance
+            .collection('crops')
+            .doc(cropId)
+            .collection('comment')
+            .doc()
+            .set(chatMessage.toJson());
+      }
     } on Exception catch (e) {
       print(e.toString());
       state = state.copyWith(errorMessage: e.toString());
