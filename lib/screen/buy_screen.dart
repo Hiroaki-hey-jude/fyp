@@ -5,6 +5,7 @@ import 'package:fyp/screen/seller_profile_screen.dart';
 import 'package:fyp/screen/widgets/custome_button.dart';
 import 'package:fyp/screen/widgets/widget.dart';
 import 'package:fyp/state/buy_state.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 class BuyScreen extends ConsumerWidget {
   const BuyScreen({
@@ -295,7 +296,9 @@ class BuyScreen extends ConsumerWidget {
               ),
       ),
       bottomNavigationBar: CustomButton(
-        onPressed: () {},
+        onPressed: () async {
+          await Purchases.purchaseProduct('id_coins');
+        },
         label: 'Buy Now',
       ),
     );

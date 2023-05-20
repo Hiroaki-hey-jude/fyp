@@ -177,4 +177,11 @@ class FireStore {
     return userModel;
   }
 
+  Future<void> setFalseForReadMessage(String cropId) async {
+    await FirebaseFirestore.instance
+        .collection('crops')
+        .doc(cropId)
+        .update({'hasUnread': false});
+  }
+
 }

@@ -129,7 +129,7 @@ class CommentStateNotifier extends StateNotifier<CommentState> {
         await FirebaseFirestore.instance
             .collection('crops')
             .doc(cropId)
-            .update({'isNotRead': true});
+            .update({'hasUnread': true});
         await FirebaseFirestore.instance
             .collection('crops')
             .doc(cropId)
@@ -143,5 +143,10 @@ class CommentStateNotifier extends StateNotifier<CommentState> {
     } finally {
       state = state.copyWith(isLoading: false);
     }
+  }
+
+  // 開いたら既読つける
+  Future<void> setReadUser(String cropId) async {
+    await FireStore().setFalseForReadMessage(cropId);
   }
 }

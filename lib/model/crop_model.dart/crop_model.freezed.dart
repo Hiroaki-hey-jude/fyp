@@ -28,6 +28,7 @@ mixin _$CropModel {
   String get address => throw _privateConstructorUsedError;
   String get price => throw _privateConstructorUsedError;
   String get sellerId => throw _privateConstructorUsedError;
+  bool get hasUnread => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,7 +49,8 @@ abstract class $CropModelCopyWith<$Res> {
       String description,
       String address,
       String price,
-      String sellerId});
+      String sellerId,
+      bool hasUnread});
 }
 
 /// @nodoc
@@ -72,6 +74,7 @@ class _$CropModelCopyWithImpl<$Res, $Val extends CropModel>
     Object? address = null,
     Object? price = null,
     Object? sellerId = null,
+    Object? hasUnread = null,
   }) {
     return _then(_value.copyWith(
       cropId: null == cropId
@@ -106,6 +109,10 @@ class _$CropModelCopyWithImpl<$Res, $Val extends CropModel>
           ? _value.sellerId
           : sellerId // ignore: cast_nullable_to_non_nullable
               as String,
+      hasUnread: null == hasUnread
+          ? _value.hasUnread
+          : hasUnread // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -125,7 +132,8 @@ abstract class _$$_CropModelCopyWith<$Res> implements $CropModelCopyWith<$Res> {
       String description,
       String address,
       String price,
-      String sellerId});
+      String sellerId,
+      bool hasUnread});
 }
 
 /// @nodoc
@@ -147,6 +155,7 @@ class __$$_CropModelCopyWithImpl<$Res>
     Object? address = null,
     Object? price = null,
     Object? sellerId = null,
+    Object? hasUnread = null,
   }) {
     return _then(_$_CropModel(
       cropId: null == cropId
@@ -181,6 +190,10 @@ class __$$_CropModelCopyWithImpl<$Res>
           ? _value.sellerId
           : sellerId // ignore: cast_nullable_to_non_nullable
               as String,
+      hasUnread: null == hasUnread
+          ? _value.hasUnread
+          : hasUnread // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -196,7 +209,8 @@ class _$_CropModel implements _CropModel {
       this.description = '',
       this.address = '',
       this.price = '',
-      this.sellerId = ''})
+      this.sellerId = '',
+      this.hasUnread = false})
       : _picsOfCrops = picsOfCrops;
 
   factory _$_CropModel.fromJson(Map<String, dynamic> json) =>
@@ -234,10 +248,13 @@ class _$_CropModel implements _CropModel {
   @override
   @JsonKey()
   final String sellerId;
+  @override
+  @JsonKey()
+  final bool hasUnread;
 
   @override
   String toString() {
-    return 'CropModel(cropId: $cropId, picsOfCrops: $picsOfCrops, name: $name, category: $category, description: $description, address: $address, price: $price, sellerId: $sellerId)';
+    return 'CropModel(cropId: $cropId, picsOfCrops: $picsOfCrops, name: $name, category: $category, description: $description, address: $address, price: $price, sellerId: $sellerId, hasUnread: $hasUnread)';
   }
 
   @override
@@ -256,7 +273,9 @@ class _$_CropModel implements _CropModel {
             (identical(other.address, address) || other.address == address) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.sellerId, sellerId) ||
-                other.sellerId == sellerId));
+                other.sellerId == sellerId) &&
+            (identical(other.hasUnread, hasUnread) ||
+                other.hasUnread == hasUnread));
   }
 
   @JsonKey(ignore: true)
@@ -270,7 +289,8 @@ class _$_CropModel implements _CropModel {
       description,
       address,
       price,
-      sellerId);
+      sellerId,
+      hasUnread);
 
   @JsonKey(ignore: true)
   @override
@@ -295,7 +315,8 @@ abstract class _CropModel implements CropModel {
       final String description,
       final String address,
       final String price,
-      final String sellerId}) = _$_CropModel;
+      final String sellerId,
+      final bool hasUnread}) = _$_CropModel;
 
   factory _CropModel.fromJson(Map<String, dynamic> json) =
       _$_CropModel.fromJson;
@@ -316,6 +337,8 @@ abstract class _CropModel implements CropModel {
   String get price;
   @override
   String get sellerId;
+  @override
+  bool get hasUnread;
   @override
   @JsonKey(ignore: true)
   _$$_CropModelCopyWith<_$_CropModel> get copyWith =>

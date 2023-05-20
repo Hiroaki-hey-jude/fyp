@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fyp/screen/buy_screen.dart';
 import 'package:fyp/screen/edit_crop_screen.dart';
 import 'package:fyp/screen/setting_screen.dart';
+import 'package:fyp/screen/wallet_screen.dart';
 import 'package:fyp/screen/widgets/crop_cart.dart';
 import 'package:fyp/screen/widgets/profile_crop_card.dart';
 import 'package:fyp/screen/widgets/widget.dart';
@@ -80,6 +81,27 @@ class ProfileScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 1.5,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      nextScreen(context, WalletScreen());
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(Icons.wallet),
+                        SizedBox(width: 5),
+                        Text(
+                          'Wallet',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 DropdownButton(
                   value: '販売',
                   items: const [
@@ -108,7 +130,8 @@ class ProfileScreen extends ConsumerWidget {
                       onTap: () {
                         nextScreen(
                           context,
-                          EditCropScreen(cropId: state.sellingCrops[index].cropId),
+                          EditCropScreen(
+                              cropId: state.sellingCrops[index].cropId),
                         );
                         print(state.sellingCrops[index].cropId);
                       },

@@ -11,7 +11,8 @@ import 'package:intl/intl.dart';
 import '../shared/constant.dart';
 
 class CommentScreen extends ConsumerWidget {
-  const CommentScreen({required this.cropId, required this.sellerName, super.key});
+  const CommentScreen(
+      {required this.cropId, required this.sellerName, super.key});
   final String cropId;
   final String sellerName;
 
@@ -19,7 +20,6 @@ class CommentScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(commentStateProvider(sellerName));
     final notifier = ref.watch(commentStateProvider(sellerName).notifier);
-    // final loungeState = ref.watch(loungeStateProvider);
 
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: notifier.fetchChatMessages(cropId),
@@ -45,6 +45,8 @@ class CommentScreen extends ConsumerWidget {
 
           // 画面に表示するための空配列を作成
           final messages = <types.Message>[];
+          
+          notifier.setReadUser(cropId);
 
           if (snapshot.hasData) {
             // firestoreからチャッメッセージリスト型で取得
@@ -52,8 +54,8 @@ class CommentScreen extends ConsumerWidget {
             // flutter_chat_uiで使用するtypes.Userを定義
             types.User typeUser;
 
-            final userList = ref
-                .watch(commentStateProvider(sellerName).select((state) => state.userList));
+            final userList = ref.watch(commentStateProvider(sellerName)
+                .select((state) => state.userList));
             // print(state.currentUser!.blocks.toString());
 
             for (final snapShot in list) {
@@ -129,7 +131,6 @@ class CommentScreen extends ConsumerWidget {
                         notifier.handleSendPressed(message.text, cropId);
                       },
                       onMessageLongPress: (context, message) {},
-                      // 削除処理ぽいのほしい
                       showUserAvatars: true,
                       showUserNames: true,
                       onAvatarTap: (avatar) {
