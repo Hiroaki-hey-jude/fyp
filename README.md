@@ -1,6 +1,8 @@
 # 農家のためのe-commerceアプリ　Direct (Final Year Project)
 
 <img width="200" alt="Screenshot 2023-01-21 at 14 17 08" src="https://github.com/Hiroaki-hey-jude/pomodolo/assets/76618285/8802cab9-fda7-4a23-a0ea-b2c5400ff597">
+<img width="200" alt="Screenshot 2023-01-21 at 14 17 08" src="https://github.com/Hiroaki-hey-jude/pomodolo/assets/76618285/568b658f-d09a-4176-b83d-11a878353edb">
+<img width="200" alt="Screenshot 2023-01-21 at 14 17 08" src="https://github.com/Hiroaki-hey-jude/pomodolo/assets/76618285/53536970-5f40-4c2a-88f2-0d95c7e7c0fd">
 
 ## Overview
 農業界における課題を直接日本の農家とのインタビューから明らかにしました。まず、農家が自分たちの製品を適正な価格で販売し、適切な収入を得る場所が不足していることが最初の問題です。多くの農家は貧困であり、作物を売っても中間業者が常に手数料を差し引くため、十分な収益を得ることができません。また、大規模な農業は広大な土地が必要であり、個々の農家にとっては困難です。そのため、農家は低価格で作物を売るしか選択肢がありません。
