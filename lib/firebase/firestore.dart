@@ -20,6 +20,7 @@ class FireStore {
       email: email,
       profilePic: '',
       address: '',
+      coins: '',
     );
     //await userCollection.doc(uid).set(user.toFirestore());
     return await userCollection.doc(uid).set({
@@ -28,6 +29,7 @@ class FireStore {
       'email': user.email,
       'profilePic': user.profilePic,
       'address': user.address,
+      'coins': user.coins,
     });
   }
 
@@ -167,8 +169,6 @@ class FireStore {
   }
 
   Future<UserModel> getUserModelForBuy(String sellerid) async {
-    // final querySnapshot =
-    //     await FirebaseFirestore.instance.collection('users').get();
     final model = await FirebaseFirestore.instance
         .collection('users')
         .doc(sellerid)
@@ -182,6 +182,13 @@ class FireStore {
         .collection('crops')
         .doc(cropId)
         .update({'hasUnread': false});
+  }
+
+  Future<void> incrementCoin(String coin, String uid) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .update({'coins': coin});
   }
 
 }

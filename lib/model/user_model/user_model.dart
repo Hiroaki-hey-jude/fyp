@@ -12,6 +12,7 @@ class UserModel with _$UserModel {
     @Default('') String email,
     @Default(null) String? profilePic,
     @Default('') String address,
+    @Default('') String coins,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

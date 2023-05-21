@@ -85,7 +85,7 @@ class ProfileScreen extends ConsumerWidget {
                   width: MediaQuery.of(context).size.width / 1.5,
                   child: OutlinedButton(
                     onPressed: () {
-                      nextScreen(context, WalletScreen());
+                      nextScreen(context, const WalletScreen());
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

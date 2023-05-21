@@ -6,7 +6,6 @@ import 'package:fyp/screen/home_screen.dart';
 import 'package:fyp/screen/login_screen.dart';
 import 'package:fyp/shared/constant.dart';
 import 'package:fyp/sharedpreference/sharedpreference.dart';
-import 'package:purchases_flutter/object_wrappers.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 final _configuration =
