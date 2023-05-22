@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fyp/model/crop_model.dart/crop_model.dart';
@@ -19,6 +20,7 @@ class BuyState with _$BuyState {
   const factory BuyState({
     @Default(false) bool isLoading,
     @Default('') String cropId,
+    @Default('') String visitorUid,
     @Default(null) CropModel? cropModel,
     @Default(null) UserModel? userModel,
     @Default(false) bool isPictureTwoVisible,
@@ -39,9 +41,12 @@ class BuyStateNotifier extends StateNotifier<BuyState> {
 
   Future<void> getPotentialPurchaseCropData(String cropId) async {
     state = state.copyWith(isLoading: true);
+    print('loading');
+    print(cropId);
     final cropModel = await FireStore().getPotentialCropData(cropId);
     getUserModelBuyScreen(cropModel.sellerId);
-    state = state.copyWith(cropModel: cropModel);
+    print('3');
+    state = state.copyWith(cropModel: cropModel, cropId: cropId);
     if (state.cropModel!.picsOfCrops!.length >= 2) {
       state = state.copyWith(isPictureTwoVisible: true);
       if (state.cropModel!.picsOfCrops!.length >= 3) {
@@ -53,12 +58,13 @@ class BuyStateNotifier extends StateNotifier<BuyState> {
   }
 
   Future<void> getUserModelBuyScreen(String uid) async {
-    state = state.copyWith(isLoading: true);
     final userModel = await FireStore().getUserModelForBuy(uid);
     state = state.copyWith(
       userModel: userModel,
-      isLoading: false,
+      visitorUid: FirebaseAuth.instance.currentUser!.uid,
     );
+    print('${state.userModel!.uid}これはこのクロップを販売している人のuid');
+    print('${FirebaseAuth.instance.currentUser!.uid}これはこのiphoneを使っている人のuid');
   }
 
   void changeBigPicture(int number) {

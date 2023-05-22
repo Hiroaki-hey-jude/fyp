@@ -86,12 +86,13 @@ class CropScreen extends ConsumerWidget {
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
+                      print('ここか？');
+                      print(state.selectedCategoryCrops[index].cropId);
                       nextScreen(
                         context,
                         BuyScreen(
                             cropId: state.selectedCategoryCrops[index].cropId),
                       );
-                      print(state.selectedCategoryCrops[index].cropId);
                     },
                     child: CropCard(
                       profilePic:

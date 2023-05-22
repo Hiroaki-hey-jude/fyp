@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$BuyState {
   bool get isLoading => throw _privateConstructorUsedError;
   String get cropId => throw _privateConstructorUsedError;
+  String get visitorUid => throw _privateConstructorUsedError;
   CropModel? get cropModel => throw _privateConstructorUsedError;
   UserModel? get userModel => throw _privateConstructorUsedError;
   bool get isPictureTwoVisible => throw _privateConstructorUsedError;
@@ -37,6 +38,7 @@ abstract class $BuyStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       String cropId,
+      String visitorUid,
       CropModel? cropModel,
       UserModel? userModel,
       bool isPictureTwoVisible,
@@ -62,6 +64,7 @@ class _$BuyStateCopyWithImpl<$Res, $Val extends BuyState>
   $Res call({
     Object? isLoading = null,
     Object? cropId = null,
+    Object? visitorUid = null,
     Object? cropModel = freezed,
     Object? userModel = freezed,
     Object? isPictureTwoVisible = null,
@@ -76,6 +79,10 @@ class _$BuyStateCopyWithImpl<$Res, $Val extends BuyState>
       cropId: null == cropId
           ? _value.cropId
           : cropId // ignore: cast_nullable_to_non_nullable
+              as String,
+      visitorUid: null == visitorUid
+          ? _value.visitorUid
+          : visitorUid // ignore: cast_nullable_to_non_nullable
               as String,
       cropModel: freezed == cropModel
           ? _value.cropModel
@@ -135,6 +142,7 @@ abstract class _$$_BuyStateCopyWith<$Res> implements $BuyStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       String cropId,
+      String visitorUid,
       CropModel? cropModel,
       UserModel? userModel,
       bool isPictureTwoVisible,
@@ -160,6 +168,7 @@ class __$$_BuyStateCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? cropId = null,
+    Object? visitorUid = null,
     Object? cropModel = freezed,
     Object? userModel = freezed,
     Object? isPictureTwoVisible = null,
@@ -174,6 +183,10 @@ class __$$_BuyStateCopyWithImpl<$Res>
       cropId: null == cropId
           ? _value.cropId
           : cropId // ignore: cast_nullable_to_non_nullable
+              as String,
+      visitorUid: null == visitorUid
+          ? _value.visitorUid
+          : visitorUid // ignore: cast_nullable_to_non_nullable
               as String,
       cropModel: freezed == cropModel
           ? _value.cropModel
@@ -205,6 +218,7 @@ class _$_BuyState implements _BuyState {
   const _$_BuyState(
       {this.isLoading = false,
       this.cropId = '',
+      this.visitorUid = '',
       this.cropModel = null,
       this.userModel = null,
       this.isPictureTwoVisible = false,
@@ -217,6 +231,9 @@ class _$_BuyState implements _BuyState {
   @override
   @JsonKey()
   final String cropId;
+  @override
+  @JsonKey()
+  final String visitorUid;
   @override
   @JsonKey()
   final CropModel? cropModel;
@@ -235,7 +252,7 @@ class _$_BuyState implements _BuyState {
 
   @override
   String toString() {
-    return 'BuyState(isLoading: $isLoading, cropId: $cropId, cropModel: $cropModel, userModel: $userModel, isPictureTwoVisible: $isPictureTwoVisible, isPictureThreeVisible: $isPictureThreeVisible, bigPicture: $bigPicture)';
+    return 'BuyState(isLoading: $isLoading, cropId: $cropId, visitorUid: $visitorUid, cropModel: $cropModel, userModel: $userModel, isPictureTwoVisible: $isPictureTwoVisible, isPictureThreeVisible: $isPictureThreeVisible, bigPicture: $bigPicture)';
   }
 
   @override
@@ -246,6 +263,8 @@ class _$_BuyState implements _BuyState {
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.cropId, cropId) || other.cropId == cropId) &&
+            (identical(other.visitorUid, visitorUid) ||
+                other.visitorUid == visitorUid) &&
             (identical(other.cropModel, cropModel) ||
                 other.cropModel == cropModel) &&
             (identical(other.userModel, userModel) ||
@@ -259,8 +278,16 @@ class _$_BuyState implements _BuyState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, cropId, cropModel,
-      userModel, isPictureTwoVisible, isPictureThreeVisible, bigPicture);
+  int get hashCode => Object.hash(
+      runtimeType,
+      isLoading,
+      cropId,
+      visitorUid,
+      cropModel,
+      userModel,
+      isPictureTwoVisible,
+      isPictureThreeVisible,
+      bigPicture);
 
   @JsonKey(ignore: true)
   @override
@@ -273,6 +300,7 @@ abstract class _BuyState implements BuyState {
   const factory _BuyState(
       {final bool isLoading,
       final String cropId,
+      final String visitorUid,
       final CropModel? cropModel,
       final UserModel? userModel,
       final bool isPictureTwoVisible,
@@ -283,6 +311,8 @@ abstract class _BuyState implements BuyState {
   bool get isLoading;
   @override
   String get cropId;
+  @override
+  String get visitorUid;
   @override
   CropModel? get cropModel;
   @override

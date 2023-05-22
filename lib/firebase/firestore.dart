@@ -141,9 +141,12 @@ class FireStore {
   }
 
   Future<CropModel> getPotentialCropData(String cropId) async {
+    // print('hello');
+    // print(cropId);
     final model =
         await FirebaseFirestore.instance.collection('crops').doc(cropId).get();
     final cropModel = CropModel.fromSnapshot(model);
+    print('jelp1');
     return cropModel;
   }
 
@@ -190,5 +193,4 @@ class FireStore {
         .doc(uid)
         .update({'coins': coin});
   }
-
 }
