@@ -43,18 +43,24 @@ class SettingStateNotifier extends StateNotifier<SettingState> {
 
   Future<void> getUser() async {
     state = state.copyWith(isLoading: true);
-    final user = await FireStore()
-        .getCurrentUserModel(FirebaseAuth.instance.currentUser!.uid);
+    final user = await FireStore(uid: FirebaseAuth.instance.currentUser!.uid)
+        .getCurrentUserModel2();
+    if (!mounted) {
+      return;
+    }
     state = state.copyWith(
       userModel: user,
     );
     getOriginalProfileUrl();
+    state = state.copyWith(isLoading: false);
   }
 
   getOriginalProfileUrl() {
     String originalImgURL = state.userModel!.profilePic != ''
-        ? state.userModel!.profilePic as String
+        ? state.userModel!.profilePic
         : Constant.anonymousProfilePic;
+    print(originalImgURL);
+    print('original UILです');
     state = state.copyWith(originalImgURL: originalImgURL, isLoading: false);
   }
 

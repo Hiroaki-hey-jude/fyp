@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:fyp/model/address_model/address_model.dart';
 
 part 'user_model.freezed.dart';
 part 'user_model.g.dart';
@@ -10,8 +11,8 @@ class UserModel with _$UserModel {
     @Default('') String uid,
     @Default('') String name,
     @Default('') String email,
-    @Default(null) String? profilePic,
-    @Default('') String address,
+    @Default('') String profilePic,
+    @Default(null) AddressModel? address,
     @Default('') String coins,
   }) = _UserModel;
 

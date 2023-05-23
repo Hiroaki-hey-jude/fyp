@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fyp/screen/address_screen.dart';
+import 'package:fyp/screen/widgets/widget.dart';
 import 'package:fyp/state/purchase_state.dart';
 
 class PurchaseProcedureScreen extends ConsumerWidget {
@@ -11,6 +13,9 @@ class PurchaseProcedureScreen extends ConsumerWidget {
   final String cropId;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final mediaQueryData = MediaQuery.of(context);
+    final screenHeight = mediaQueryData.size.height;
+    final blockSizeVertical = screenHeight / 100;
     final state = ref.watch(purchaseStateProvider(cropId));
     final notifier = ref.watch(purchaseStateProvider(cropId).notifier);
     return Scaffold(
@@ -63,7 +68,7 @@ class PurchaseProcedureScreen extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 20),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -103,12 +108,46 @@ class PurchaseProcedureScreen extends ConsumerWidget {
                     ],
                   ),
                   const Divider(height: 70),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('配送先'),
-                      Text(state.userModel!.address),
-                    ],
+                  InkWell(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Colors.white,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(25),
+                            topRight: Radius.circular(25),
+                          ),
+                        ),
+                        builder: (BuildContext context) {
+                          return SizedBox(
+                              // 90%の高さで表示させる
+                              height: blockSizeVertical * 95,
+                              child: AddressScreen(cropId: cropId));
+                        },
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('配送先'),
+                        Row(
+                          children: [
+                            state.userModel!.address!.city == ''
+                                ? const Text('住所を設定してくだい')
+                                : Column(
+                                    children: [
+                                      Text(state.userModel!.name),
+                                      Text(state.userModel!.address!.zipCode),
+                                    ],
+                                  ),
+                            const Icon(Icons.navigate_next),
+                          ],
+                        ),
+                        // Text(state.userModel!.address),
+                      ],
+                    ),
                   ),
                 ]),
               ),

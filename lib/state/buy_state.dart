@@ -58,7 +58,9 @@ class BuyStateNotifier extends StateNotifier<BuyState> {
   }
 
   Future<void> getUserModelBuyScreen(String uid) async {
+    print('sellerId $uid');
     final userModel = await FireStore().getUserModelForBuy(uid);
+    print("userModel: $userModel");
     state = state.copyWith(
       userModel: userModel,
       visitorUid: FirebaseAuth.instance.currentUser!.uid,

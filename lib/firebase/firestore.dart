@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fyp/model/address_model/address_model.dart';
 import 'package:fyp/model/crop_model.dart/crop_model.dart';
 
 import '../model/user_model/user_model.dart';
@@ -13,24 +16,59 @@ class FireStore {
   final CollectionReference cropCollection =
       FirebaseFirestore.instance.collection('crops');
 
-  Future savingUserData(String name, String email) async {
+  Future<void> savingUserData(String name, String email) async {
+    print(uid);
+    var address = AddressModel(
+      city: '',
+      prefecture: '',
+      zipCode: '',
+      number: '',
+    );
     var user = UserModel(
       uid: uid!,
       name: name,
       email: email,
       profilePic: '',
-      address: '',
+      address: address,
       coins: '',
     );
-    //await userCollection.doc(uid).set(user.toFirestore());
-    return await userCollection.doc(uid).set({
+
+    var userData = {
       'uid': user.uid,
       'name': user.name,
       'email': user.email,
       'profilePic': user.profilePic,
-      'address': user.address,
+      'address': user.address!.toJson(), // AddressModelをマップに変換
       'coins': user.coins,
-    });
+    };
+
+    var jsonData = jsonEncode(userData); // マップをJSON文字列に変換
+
+    await userCollection.doc(uid).set(jsonDecode(jsonData)); // JSON文字列をFirestoreに保存
+    print(user.address);
+    print('address');
+    // try {
+    //   var address = const AddressModel(
+    //     city: '',
+    //     prefecture: '',
+    //     zipCode: '',
+    //     number: '',
+    //   );
+    //   var user = UserModel(
+    //     uid: uid!,
+    //     name: name,
+    //     email: email,
+    //     profilePic: '',
+    //     address: address,
+    //     coins: '',
+    //   );
+    //   // await userCollection.doc(uid).set(user.toFirestore());
+    //   print(user.address);
+    //   print('addrss');
+    //   await userCollection.doc(uid).set({user});
+    // } catch (e) {
+    //   print(e);
+    // }
   }
 
   Future savingCropData(
@@ -152,9 +190,32 @@ class FireStore {
 
   // 現在ログインしているユーザのFirestore情報取得
   Future<UserModel> getCurrentUserModel(String uid) async {
+    print(uid);
     final model =
         await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    print('dddddd');
+    print(model.data());
     final userModel = UserModel.fromSnapshot(model);
+    return userModel;
+  }
+
+  Future<UserModel> getCurrentUserModel2() async {
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('uid', isEqualTo: uid)
+        .get();
+
+    UserModel userModel;
+    if (querySnapshot.docs.isNotEmpty) {
+      final documentSnapshot = querySnapshot.docs.first;
+      userModel = UserModel.fromSnapshot(documentSnapshot);
+      // userModelの後続の処理を行う
+    } else {
+      // エラーハンドリングなどの処理
+      throw Exception("ユーザーデータが見つかりませんでした");
+    }
+    print('dddddd');
+    print(userModel);
     return userModel;
   }
 
@@ -172,10 +233,12 @@ class FireStore {
   }
 
   Future<UserModel> getUserModelForBuy(String sellerid) async {
+    print('model 1  $sellerid');
     final model = await FirebaseFirestore.instance
         .collection('users')
         .doc(sellerid)
         .get();
+    print('model  2  $model');
     final userModel = UserModel.fromSnapshot(model);
     return userModel;
   }

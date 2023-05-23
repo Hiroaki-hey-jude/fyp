@@ -10,8 +10,10 @@ _$_UserModel _$$_UserModelFromJson(Map<String, dynamic> json) => _$_UserModel(
       uid: json['uid'] as String? ?? '',
       name: json['name'] as String? ?? '',
       email: json['email'] as String? ?? '',
-      profilePic: json['profilePic'] as String? ?? null,
-      address: json['address'] as String? ?? '',
+      profilePic: json['profilePic'] as String? ?? '',
+      address: json['address'] == null
+          ? null
+          : AddressModel.fromJson(json['address'] as Map<String, dynamic>),
       coins: json['coins'] as String? ?? '',
     );
 

@@ -41,6 +41,9 @@ class ProfileStateNotifier extends StateNotifier<ProfileState> {
     state = state.copyWith(isLoading: true);
     final user = await FireStore()
         .getCurrentUserModel(FirebaseAuth.instance.currentUser!.uid);
+    if (!mounted) {
+      return;
+    }
     state = state.copyWith(
       userName: user.name,
       userModel: user,

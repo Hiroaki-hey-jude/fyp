@@ -23,8 +23,8 @@ mixin _$UserModel {
   String get uid => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  String? get profilePic => throw _privateConstructorUsedError;
-  String get address => throw _privateConstructorUsedError;
+  String get profilePic => throw _privateConstructorUsedError;
+  AddressModel? get address => throw _privateConstructorUsedError;
   String get coins => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,9 +42,11 @@ abstract class $UserModelCopyWith<$Res> {
       {String uid,
       String name,
       String email,
-      String? profilePic,
-      String address,
+      String profilePic,
+      AddressModel? address,
       String coins});
+
+  $AddressModelCopyWith<$Res>? get address;
 }
 
 /// @nodoc
@@ -63,8 +65,8 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? uid = null,
     Object? name = null,
     Object? email = null,
-    Object? profilePic = freezed,
-    Object? address = null,
+    Object? profilePic = null,
+    Object? address = freezed,
     Object? coins = null,
   }) {
     return _then(_value.copyWith(
@@ -80,19 +82,31 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      profilePic: freezed == profilePic
+      profilePic: null == profilePic
           ? _value.profilePic
           : profilePic // ignore: cast_nullable_to_non_nullable
-              as String?,
-      address: null == address
+              as String,
+      address: freezed == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
-              as String,
+              as AddressModel?,
       coins: null == coins
           ? _value.coins
           : coins // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AddressModelCopyWith<$Res>? get address {
+    if (_value.address == null) {
+      return null;
+    }
+
+    return $AddressModelCopyWith<$Res>(_value.address!, (value) {
+      return _then(_value.copyWith(address: value) as $Val);
+    });
   }
 }
 
@@ -107,9 +121,12 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       {String uid,
       String name,
       String email,
-      String? profilePic,
-      String address,
+      String profilePic,
+      AddressModel? address,
       String coins});
+
+  @override
+  $AddressModelCopyWith<$Res>? get address;
 }
 
 /// @nodoc
@@ -126,8 +143,8 @@ class __$$_UserModelCopyWithImpl<$Res>
     Object? uid = null,
     Object? name = null,
     Object? email = null,
-    Object? profilePic = freezed,
-    Object? address = null,
+    Object? profilePic = null,
+    Object? address = freezed,
     Object? coins = null,
   }) {
     return _then(_$_UserModel(
@@ -143,14 +160,14 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      profilePic: freezed == profilePic
+      profilePic: null == profilePic
           ? _value.profilePic
           : profilePic // ignore: cast_nullable_to_non_nullable
-              as String?,
-      address: null == address
+              as String,
+      address: freezed == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
-              as String,
+              as AddressModel?,
       coins: null == coins
           ? _value.coins
           : coins // ignore: cast_nullable_to_non_nullable
@@ -166,8 +183,8 @@ class _$_UserModel implements _UserModel {
       {this.uid = '',
       this.name = '',
       this.email = '',
-      this.profilePic = null,
-      this.address = '',
+      this.profilePic = '',
+      this.address = null,
       this.coins = ''});
 
   factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
@@ -184,10 +201,10 @@ class _$_UserModel implements _UserModel {
   final String email;
   @override
   @JsonKey()
-  final String? profilePic;
+  final String profilePic;
   @override
   @JsonKey()
-  final String address;
+  final AddressModel? address;
   @override
   @JsonKey()
   final String coins;
@@ -235,8 +252,8 @@ abstract class _UserModel implements UserModel {
       {final String uid,
       final String name,
       final String email,
-      final String? profilePic,
-      final String address,
+      final String profilePic,
+      final AddressModel? address,
       final String coins}) = _$_UserModel;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
@@ -249,9 +266,9 @@ abstract class _UserModel implements UserModel {
   @override
   String get email;
   @override
-  String? get profilePic;
+  String get profilePic;
   @override
-  String get address;
+  AddressModel? get address;
   @override
   String get coins;
   @override
