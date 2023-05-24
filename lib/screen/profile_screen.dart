@@ -130,12 +130,18 @@ class ProfileScreen extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        nextScreen(
-                          context,
-                          EditCropScreen(
-                              cropId: state.sellingCrops[index].cropId),
-                        );
-                        print(state.sellingCrops[index].cropId);
+                        if (state.sellingCrops[index].hasUnread == true) {
+                          nextScreen(
+                              context,
+                              BuyScreen(
+                                  cropId: state.sellingCrops[index].cropId));
+                        } else {
+                          nextScreen(
+                            context,
+                            EditCropScreen(
+                                cropId: state.sellingCrops[index].cropId),
+                          );
+                        }
                       },
                       child: ProfileCropCard(
                         profilePic: state.sellingCrops[index].picsOfCrops![0],

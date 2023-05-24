@@ -19,7 +19,11 @@ class ProfileCropCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('crops').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('crops')
+            .where('sellerId',
+                isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             // データが存在する場合の処理
@@ -44,6 +48,9 @@ class ProfileCropCard extends StatelessWidget {
                           color: Colors.green,
                           borderRadius: BorderRadius.circular(20),
                         ),
+                        child: snapshot.data!.docs[index]['hasUnread']
+                            ? const Text('未読コメントあり')
+                            : Container(),
                       ),
                     ],
                   ),

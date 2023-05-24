@@ -45,8 +45,16 @@ class CommentScreen extends ConsumerWidget {
 
           // 画面に表示するための空配列を作成
           final messages = <types.Message>[];
-          
-          notifier.setReadUser(cropId);
+
+          print(state.sellerId);
+          print(sellerName);
+          if (state.currentUser!.uid == sellerName) {
+            print('同じでっすすうすすすすうすすすす');
+            notifier.setReadUser(cropId);
+          } else {
+            print('違いますうすすすすうすすす');
+          }
+
 
           if (snapshot.hasData) {
             // firestoreからチャッメッセージリスト型で取得
