@@ -9,6 +9,7 @@ import 'package:fyp/screen/profile_screen.dart';
 import 'package:fyp/screen/sell_screen.dart';
 import 'package:fyp/screen/widgets/categories.dart';
 import 'package:fyp/screen/widgets/profile_crop_card.dart';
+import 'package:fyp/screen/widgets/profile_crop_card_on_sellerscreen.dart';
 import 'package:fyp/screen/widgets/widget.dart';
 import 'package:fyp/state/home_state.dart';
 import 'package:fyp/state/sellerprofile_state.dart';
@@ -163,7 +164,7 @@ class SellerProfileScreen extends ConsumerWidget {
                             );
                             print(state.sellingCrops[index].cropId);
                           },
-                          child: ProfileCropCard(
+                          child: ProfileCropCardOnSellerScreen(
                             profilePic:
                                 state.sellingCrops[index].picsOfCrops![0],
                             nameOfCrop: state.sellingCrops[index].name,

@@ -16,6 +16,7 @@ class CropModel with _$CropModel {
     @Default('') String price,
     @Default('') String sellerId,
     @Default(false) bool hasUnread,
+    @Default(false) bool isbought,
   }) = _CropModel;
 
   factory CropModel.fromJson(Map<String, dynamic> json) =>

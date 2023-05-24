@@ -141,6 +141,7 @@ class ProfileScreen extends ConsumerWidget {
                         profilePic: state.sellingCrops[index].picsOfCrops![0],
                         nameOfCrop: state.sellingCrops[index].name,
                         price: state.sellingCrops[index].price,
+                        index: index,
                       ),
                     );
                   },

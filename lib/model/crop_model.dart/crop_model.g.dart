@@ -19,6 +19,7 @@ _$_CropModel _$$_CropModelFromJson(Map<String, dynamic> json) => _$_CropModel(
       price: json['price'] as String? ?? '',
       sellerId: json['sellerId'] as String? ?? '',
       hasUnread: json['hasUnread'] as bool? ?? false,
+      isbought: json['isbought'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_CropModelToJson(_$_CropModel instance) =>
@@ -32,4 +33,5 @@ Map<String, dynamic> _$$_CropModelToJson(_$_CropModel instance) =>
       'price': instance.price,
       'sellerId': instance.sellerId,
       'hasUnread': instance.hasUnread,
+      'isbought': instance.isbought,
     };

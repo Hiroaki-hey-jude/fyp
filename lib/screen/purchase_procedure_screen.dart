@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fyp/screen/address_screen.dart';
+import 'package:fyp/screen/delivery_screen.dart';
 import 'package:fyp/screen/widgets/widget.dart';
 import 'package:fyp/state/purchase_state.dart';
 
@@ -122,9 +123,10 @@ class PurchaseProcedureScreen extends ConsumerWidget {
                         ),
                         builder: (BuildContext context) {
                           return SizedBox(
-                              // 90%の高さで表示させる
-                              height: blockSizeVertical * 95,
-                              child: AddressScreen(cropId: cropId));
+                            // 90%の高さで表示させる
+                            height: blockSizeVertical * 95,
+                            child: AddressScreen(cropId: cropId),
+                          );
                         },
                       );
                     },
@@ -138,7 +140,8 @@ class PurchaseProcedureScreen extends ConsumerWidget {
                                 ? const Text('住所を設定してくだい')
                                 : Column(
                                     children: [
-                                      Text(state.userModel!.name),
+                                      Text(
+                                          state.userModel!.address!.prefecture),
                                       Text(state.userModel!.address!.zipCode),
                                     ],
                                   ),
@@ -147,6 +150,38 @@ class PurchaseProcedureScreen extends ConsumerWidget {
                         ),
                         // Text(state.userModel!.address),
                       ],
+                    ),
+                  ),
+                  const Divider(height: 70),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      child: const Text(
+                        "購入する",
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      onPressed: () {
+                        int currentMoney;
+                        if (state.userModel!.coins == '') {
+                          currentMoney = 0;
+                        } else {
+                          currentMoney = int.parse(state.userModel!.coins);
+                        }
+                        int price = int.parse(state.cropModel!.price);
+                        if (price > currentMoney) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('現在の残高ではこの商品は購入できません')));
+                        } else {
+                          notifier.purchaseCrop();
+                          nextScreen(context, const DeliveryScreen());
+                        }
+                      },
                     ),
                   ),
                 ]),

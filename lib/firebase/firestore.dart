@@ -44,7 +44,9 @@ class FireStore {
 
     var jsonData = jsonEncode(userData); // マップをJSON文字列に変換
 
-    await userCollection.doc(uid).set(jsonDecode(jsonData)); // JSON文字列をFirestoreに保存
+    await userCollection
+        .doc(uid)
+        .set(jsonDecode(jsonData)); // JSON文字列をFirestoreに保存
     print(user.address);
     print('address');
     // try {
@@ -72,13 +74,14 @@ class FireStore {
   }
 
   Future savingCropData(
-      List<String> picsOfCrops,
-      String category,
-      String title,
-      String desciption,
-      String senderAddress,
-      String price,
-      String sellerId) async {
+    List<String> picsOfCrops,
+    String category,
+    String title,
+    String desciption,
+    String senderAddress,
+    String price,
+    String sellerId,
+  ) async {
     var crop = CropModel(
       picsOfCrops: picsOfCrops,
       category: category,
@@ -87,6 +90,8 @@ class FireStore {
       address: senderAddress,
       price: price,
       sellerId: sellerId,
+      hasUnread: false,
+      isbought: false,
     );
     print('終りました');
     DocumentReference roomDocumentReference = await cropCollection.add({
@@ -98,6 +103,8 @@ class FireStore {
       'price': crop.price,
       'cropId': '',
       'sellerId': crop.sellerId,
+      'hasUnread': crop.hasUnread,
+      'isbought': crop.isbought,
     });
 
     return roomDocumentReference.update({
@@ -156,8 +163,10 @@ class FireStore {
 
     // cropsコレクションの中で、categoryが'potato'であるドキュメントのみを取得する
     final cropsCollection = firestore.collection('crops');
-    final categoryDocument =
-        await cropsCollection.where('category', isEqualTo: category).get();
+    final categoryDocument = await cropsCollection
+        .where('category', isEqualTo: category)
+        .where('isbought', isEqualTo: false)
+        .get();
     List<CropModel> selectedCategoryCropData = [];
     categoryDocument.docs.forEach((element) {
       selectedCategoryCropData.add(CropModel.fromSnapshot(element));
@@ -255,5 +264,52 @@ class FireStore {
         .collection('users')
         .doc(uid)
         .update({'coins': coin});
+  }
+
+  Future<void> storeAddressData(
+    String zipCode,
+    String prefecture,
+    String city,
+    String number,
+    String uid,
+  ) async {
+    try {
+      var userDoc = userCollection.doc(uid); // ユーザーのドキュメントへの参照を取得
+      var userDocSnapshot = await userDoc.get(); // ユーザーのドキュメントのデータを取得
+
+      if (userDocSnapshot.exists) {
+        var userData = userDocSnapshot.data() as Map<String, dynamic>;
+
+        var address = {
+          'zipCode': zipCode,
+          'prefecture': prefecture,
+          'city': city,
+          'number': number,
+        };
+
+        userData['address'] = address; // アドレス情報を更新
+
+        await userDoc.set(userData); // 更新されたユーザーデータを保存
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> purchaseCrop(
+    String currentCoin,
+    String priceOfCrop,
+    String uid,
+    String cropId,
+  ) async {
+    int currentAmountOfCoin = int.parse(currentCoin);
+    int priceCrop = int.parse(priceOfCrop);
+    int newAmountOfCoin = currentAmountOfCoin - priceCrop;
+    userCollection.doc(uid).update({
+      'coins': newAmountOfCoin.toString(),
+    });
+    cropCollection.doc(cropId).update({
+      'isbought': true,
+    });
   }
 }

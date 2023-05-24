@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fyp/screen/home_screen.dart';
 import 'package:fyp/screen/register_screen.dart';
+import 'package:fyp/state/address_state.dart';
 
 import '../shared/constant.dart';
 import '../state/login_state.dart';
@@ -20,6 +21,7 @@ class AddressScreen extends StatelessWidget {
       TextEditingController();
   final TextEditingController cityEditingController = TextEditingController();
   final TextEditingController numberEditingController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +103,7 @@ class AddressScreen extends StatelessWidget {
                               const Divider(height: 30),
                               const Text('市町村番地建物名'),
                               TextFormField(
-                                controller: prefecturedEditingController,
+                                controller: cityEditingController,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   hintText: "例)横浜市緑区青山1-1-1東銀座1001号",
@@ -151,12 +153,18 @@ class AddressScreen extends StatelessWidget {
                                     ),
                                   ),
                                   onPressed: () {
-                                    // notifier.login(
-                                    //   context,
-                                    //   formKey,
-                                    //   emailEditingController.text,
-                                    //   passwordEditingController.text,
-                                    // );
+                                    notifier
+                                        .storeAddressData(
+                                          zipCodeEditingController.text,
+                                          prefecturedEditingController.text,
+                                          cityEditingController.text,
+                                          numberEditingController.text,
+                                        )
+                                        .then(
+                                          (value) => {
+                                            Navigator.of(context).pop(),
+                                          },
+                                        );
                                   },
                                 ),
                               ),
