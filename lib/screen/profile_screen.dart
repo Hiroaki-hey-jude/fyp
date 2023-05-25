@@ -116,7 +116,9 @@ class ProfileScreen extends ConsumerWidget {
                       child: Text('投稿'),
                     ),
                   ],
-                  onChanged: (String? value) {},
+                  onChanged: (String? value) {
+                    print(value);
+                  },
                 ),
                 GridView.builder(
                   physics: const NeverScrollableScrollPhysics(),

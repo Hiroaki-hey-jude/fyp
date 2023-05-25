@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fyp/model/address_model/address_model.dart';
 import 'package:fyp/model/crop_model.dart/crop_model.dart';
+import 'package:fyp/model/post_model/post_model.dart';
 
 import '../model/user_model/user_model.dart';
 
@@ -15,6 +16,8 @@ class FireStore {
       FirebaseFirestore.instance.collection('users');
   final CollectionReference cropCollection =
       FirebaseFirestore.instance.collection('crops');
+  final CollectionReference postCollection =
+      FirebaseFirestore.instance.collection('posts');
 
   Future<void> savingUserData(String name, String email) async {
     print(uid);
@@ -49,28 +52,19 @@ class FireStore {
         .set(jsonDecode(jsonData)); // JSON文字列をFirestoreに保存
     print(user.address);
     print('address');
-    // try {
-    //   var address = const AddressModel(
-    //     city: '',
-    //     prefecture: '',
-    //     zipCode: '',
-    //     number: '',
-    //   );
-    //   var user = UserModel(
-    //     uid: uid!,
-    //     name: name,
-    //     email: email,
-    //     profilePic: '',
-    //     address: address,
-    //     coins: '',
-    //   );
-    //   // await userCollection.doc(uid).set(user.toFirestore());
-    //   print(user.address);
-    //   print('addrss');
-    //   await userCollection.doc(uid).set({user});
-    // } catch (e) {
-    //   print(e);
-    // }
+  }
+
+  Future savingPostData(PostModel post) async {
+    DocumentReference postDocumentReference = await postCollection.add({
+      'posterId': post.posterId,
+      'picsOfCrops': post.picsOfCrops,
+      'sentenceOfPost': post.sentenceOfPost,
+      'postId': '',
+      'createdAt': post.createdAt,
+    });
+    return postDocumentReference.update({
+      'postId': postDocumentReference.id,
+    });
   }
 
   Future savingCropData(
