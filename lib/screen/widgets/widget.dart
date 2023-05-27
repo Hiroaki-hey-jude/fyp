@@ -66,3 +66,33 @@ Widget profilePicturesWidget(String id) {
         }),
   );
 }
+
+Widget profilePicturesAndUserNameWidget(String id) {
+  return Container(
+    color: Colors.white,
+    height: 50,
+    width: double.infinity,
+    child: StreamBuilder(
+        stream:
+            FirebaseFirestore.instance.collection('users').doc(id).snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          String originalImgURL =
+              snapshot.data!.get('profilePic') as String != ''
+                  ? snapshot.data!.get('profilePic') as String
+                  : Constant.anonymousProfilePic;
+          return Row(
+            children: [
+              CircleAvatar(
+                radius: 30,
+                backgroundImage: NetworkImage(originalImgURL),
+              ),
+              const SizedBox(width: 3),
+              Text(snapshot.data!.get('name'))
+            ],
+          );
+        }),
+  );
+}

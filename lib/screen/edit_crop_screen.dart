@@ -92,7 +92,7 @@ class EditCropScreen extends StatelessWidget {
               child: state.isLoading
                   ? const Center(
                       child: CircularProgressIndicator(
-                      color: Colors.white,
+                      color: Colors.black,
                     ))
                   : SingleChildScrollView(
                       child: Form(

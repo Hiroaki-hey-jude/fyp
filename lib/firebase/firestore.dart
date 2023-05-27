@@ -306,4 +306,30 @@ class FireStore {
       'isbought': true,
     });
   }
+
+  Future<List<PostModel>> getAgriculturalPostedList(String posterId) async {
+    final firestore = FirebaseFirestore.instance;
+
+    final postsCollection = firestore.collection('posts');
+    final document =
+        await postsCollection.where('posterId', isEqualTo: posterId).get();
+    List<PostModel> postedCropData = [];
+    document.docs.forEach((element) {
+      postedCropData.add(PostModel.fromSnapshot(element));
+    });
+    return postedCropData;
+  }
+
+  Future<List<PostModel>> getAllAgriculturalPostedList() async {
+    final firestore = FirebaseFirestore.instance;
+
+    final postsCollection = firestore.collection('posts');
+    final document =
+        await postsCollection.orderBy('createdAt', descending: true).get();
+    List<PostModel> postedCropData = [];
+    document.docs.forEach((element) {
+      postedCropData.add(PostModel.fromSnapshot(element));
+    });
+    return postedCropData;
+  }
 }

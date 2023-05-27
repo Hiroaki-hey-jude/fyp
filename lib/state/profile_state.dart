@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fyp/firebase/firestore.dart';
+import 'package:fyp/model/post_model/post_model.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../firebase/auth.dart';
@@ -25,9 +26,12 @@ class ProfileState with _$ProfileState {
     @Default(false) bool isLoading,
     @Default(null) File? imageFile,
     @Default('') String userName,
+    @Default('販売') String selectedValue,
     @Default(null) UserModel? userModel,
+    @Default(null) PostModel? postModel,
     @Default('') String originalImgURL,
     @Default([]) List<CropModel> sellingCrops,
+    @Default([]) List<PostModel> postingList,
   }) = _ProfileState;
 }
 
@@ -35,6 +39,15 @@ class ProfileStateNotifier extends StateNotifier<ProfileState> {
   ProfileStateNotifier() : super(const ProfileState()) {
     getUser();
     getPostedCropList(FirebaseAuth.instance.currentUser!.uid);
+  }
+
+  void changeValue(String value) {
+    if (value == '販売') {
+      getPostedCropList(FirebaseAuth.instance.currentUser!.uid);
+    } else {
+      getAgriculturalPostList();
+    }
+    state = state.copyWith(selectedValue: value);
   }
 
   Future<void> getUser() async {
@@ -82,6 +95,16 @@ class ProfileStateNotifier extends StateNotifier<ProfileState> {
     final cropModel = await FireStore().getPostedCropList(sellerID);
     state = state.copyWith(
       sellingCrops: cropModel,
+      isLoading: false,
+    );
+  }
+
+  Future<void> getAgriculturalPostList() async {
+    state = state.copyWith(isLoading: true);
+    final postModel = await FireStore()
+        .getAgriculturalPostedList(FirebaseAuth.instance.currentUser!.uid);
+    state = state.copyWith(
+      postingList: postModel,
       isLoading: false,
     );
   }

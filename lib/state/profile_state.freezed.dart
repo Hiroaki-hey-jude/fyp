@@ -19,9 +19,12 @@ mixin _$ProfileState {
   bool get isLoading => throw _privateConstructorUsedError;
   File? get imageFile => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
+  String get selectedValue => throw _privateConstructorUsedError;
   UserModel? get userModel => throw _privateConstructorUsedError;
+  PostModel? get postModel => throw _privateConstructorUsedError;
   String get originalImgURL => throw _privateConstructorUsedError;
   List<CropModel> get sellingCrops => throw _privateConstructorUsedError;
+  List<PostModel> get postingList => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileStateCopyWith<ProfileState> get copyWith =>
@@ -38,11 +41,15 @@ abstract class $ProfileStateCopyWith<$Res> {
       {bool isLoading,
       File? imageFile,
       String userName,
+      String selectedValue,
       UserModel? userModel,
+      PostModel? postModel,
       String originalImgURL,
-      List<CropModel> sellingCrops});
+      List<CropModel> sellingCrops,
+      List<PostModel> postingList});
 
   $UserModelCopyWith<$Res>? get userModel;
+  $PostModelCopyWith<$Res>? get postModel;
 }
 
 /// @nodoc
@@ -61,9 +68,12 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? isLoading = null,
     Object? imageFile = freezed,
     Object? userName = null,
+    Object? selectedValue = null,
     Object? userModel = freezed,
+    Object? postModel = freezed,
     Object? originalImgURL = null,
     Object? sellingCrops = null,
+    Object? postingList = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -78,10 +88,18 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
               as String,
+      selectedValue: null == selectedValue
+          ? _value.selectedValue
+          : selectedValue // ignore: cast_nullable_to_non_nullable
+              as String,
       userModel: freezed == userModel
           ? _value.userModel
           : userModel // ignore: cast_nullable_to_non_nullable
               as UserModel?,
+      postModel: freezed == postModel
+          ? _value.postModel
+          : postModel // ignore: cast_nullable_to_non_nullable
+              as PostModel?,
       originalImgURL: null == originalImgURL
           ? _value.originalImgURL
           : originalImgURL // ignore: cast_nullable_to_non_nullable
@@ -90,6 +108,10 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.sellingCrops
           : sellingCrops // ignore: cast_nullable_to_non_nullable
               as List<CropModel>,
+      postingList: null == postingList
+          ? _value.postingList
+          : postingList // ignore: cast_nullable_to_non_nullable
+              as List<PostModel>,
     ) as $Val);
   }
 
@@ -102,6 +124,18 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
 
     return $UserModelCopyWith<$Res>(_value.userModel!, (value) {
       return _then(_value.copyWith(userModel: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PostModelCopyWith<$Res>? get postModel {
+    if (_value.postModel == null) {
+      return null;
+    }
+
+    return $PostModelCopyWith<$Res>(_value.postModel!, (value) {
+      return _then(_value.copyWith(postModel: value) as $Val);
     });
   }
 }
@@ -118,12 +152,17 @@ abstract class _$$_ProfileStateCopyWith<$Res>
       {bool isLoading,
       File? imageFile,
       String userName,
+      String selectedValue,
       UserModel? userModel,
+      PostModel? postModel,
       String originalImgURL,
-      List<CropModel> sellingCrops});
+      List<CropModel> sellingCrops,
+      List<PostModel> postingList});
 
   @override
   $UserModelCopyWith<$Res>? get userModel;
+  @override
+  $PostModelCopyWith<$Res>? get postModel;
 }
 
 /// @nodoc
@@ -140,9 +179,12 @@ class __$$_ProfileStateCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? imageFile = freezed,
     Object? userName = null,
+    Object? selectedValue = null,
     Object? userModel = freezed,
+    Object? postModel = freezed,
     Object? originalImgURL = null,
     Object? sellingCrops = null,
+    Object? postingList = null,
   }) {
     return _then(_$_ProfileState(
       isLoading: null == isLoading
@@ -157,10 +199,18 @@ class __$$_ProfileStateCopyWithImpl<$Res>
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
               as String,
+      selectedValue: null == selectedValue
+          ? _value.selectedValue
+          : selectedValue // ignore: cast_nullable_to_non_nullable
+              as String,
       userModel: freezed == userModel
           ? _value.userModel
           : userModel // ignore: cast_nullable_to_non_nullable
               as UserModel?,
+      postModel: freezed == postModel
+          ? _value.postModel
+          : postModel // ignore: cast_nullable_to_non_nullable
+              as PostModel?,
       originalImgURL: null == originalImgURL
           ? _value.originalImgURL
           : originalImgURL // ignore: cast_nullable_to_non_nullable
@@ -169,6 +219,10 @@ class __$$_ProfileStateCopyWithImpl<$Res>
           ? _value._sellingCrops
           : sellingCrops // ignore: cast_nullable_to_non_nullable
               as List<CropModel>,
+      postingList: null == postingList
+          ? _value._postingList
+          : postingList // ignore: cast_nullable_to_non_nullable
+              as List<PostModel>,
     ));
   }
 }
@@ -180,10 +234,14 @@ class _$_ProfileState implements _ProfileState {
       {this.isLoading = false,
       this.imageFile = null,
       this.userName = '',
+      this.selectedValue = '販売',
       this.userModel = null,
+      this.postModel = null,
       this.originalImgURL = '',
-      final List<CropModel> sellingCrops = const []})
-      : _sellingCrops = sellingCrops;
+      final List<CropModel> sellingCrops = const [],
+      final List<PostModel> postingList = const []})
+      : _sellingCrops = sellingCrops,
+        _postingList = postingList;
 
   @override
   @JsonKey()
@@ -196,7 +254,13 @@ class _$_ProfileState implements _ProfileState {
   final String userName;
   @override
   @JsonKey()
+  final String selectedValue;
+  @override
+  @JsonKey()
   final UserModel? userModel;
+  @override
+  @JsonKey()
+  final PostModel? postModel;
   @override
   @JsonKey()
   final String originalImgURL;
@@ -209,9 +273,18 @@ class _$_ProfileState implements _ProfileState {
     return EqualUnmodifiableListView(_sellingCrops);
   }
 
+  final List<PostModel> _postingList;
+  @override
+  @JsonKey()
+  List<PostModel> get postingList {
+    if (_postingList is EqualUnmodifiableListView) return _postingList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_postingList);
+  }
+
   @override
   String toString() {
-    return 'ProfileState(isLoading: $isLoading, imageFile: $imageFile, userName: $userName, userModel: $userModel, originalImgURL: $originalImgURL, sellingCrops: $sellingCrops)';
+    return 'ProfileState(isLoading: $isLoading, imageFile: $imageFile, userName: $userName, selectedValue: $selectedValue, userModel: $userModel, postModel: $postModel, originalImgURL: $originalImgURL, sellingCrops: $sellingCrops, postingList: $postingList)';
   }
 
   @override
@@ -225,12 +298,18 @@ class _$_ProfileState implements _ProfileState {
                 other.imageFile == imageFile) &&
             (identical(other.userName, userName) ||
                 other.userName == userName) &&
+            (identical(other.selectedValue, selectedValue) ||
+                other.selectedValue == selectedValue) &&
             (identical(other.userModel, userModel) ||
                 other.userModel == userModel) &&
+            (identical(other.postModel, postModel) ||
+                other.postModel == postModel) &&
             (identical(other.originalImgURL, originalImgURL) ||
                 other.originalImgURL == originalImgURL) &&
             const DeepCollectionEquality()
-                .equals(other._sellingCrops, _sellingCrops));
+                .equals(other._sellingCrops, _sellingCrops) &&
+            const DeepCollectionEquality()
+                .equals(other._postingList, _postingList));
   }
 
   @override
@@ -239,9 +318,12 @@ class _$_ProfileState implements _ProfileState {
       isLoading,
       imageFile,
       userName,
+      selectedValue,
       userModel,
+      postModel,
       originalImgURL,
-      const DeepCollectionEquality().hash(_sellingCrops));
+      const DeepCollectionEquality().hash(_sellingCrops),
+      const DeepCollectionEquality().hash(_postingList));
 
   @JsonKey(ignore: true)
   @override
@@ -255,9 +337,12 @@ abstract class _ProfileState implements ProfileState {
       {final bool isLoading,
       final File? imageFile,
       final String userName,
+      final String selectedValue,
       final UserModel? userModel,
+      final PostModel? postModel,
       final String originalImgURL,
-      final List<CropModel> sellingCrops}) = _$_ProfileState;
+      final List<CropModel> sellingCrops,
+      final List<PostModel> postingList}) = _$_ProfileState;
 
   @override
   bool get isLoading;
@@ -266,11 +351,17 @@ abstract class _ProfileState implements ProfileState {
   @override
   String get userName;
   @override
+  String get selectedValue;
+  @override
   UserModel? get userModel;
+  @override
+  PostModel? get postModel;
   @override
   String get originalImgURL;
   @override
   List<CropModel> get sellingCrops;
+  @override
+  List<PostModel> get postingList;
   @override
   @JsonKey(ignore: true)
   _$$_ProfileStateCopyWith<_$_ProfileState> get copyWith =>

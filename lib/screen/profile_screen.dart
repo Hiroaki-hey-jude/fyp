@@ -7,6 +7,7 @@ import 'package:fyp/screen/edit_crop_screen.dart';
 import 'package:fyp/screen/setting_screen.dart';
 import 'package:fyp/screen/wallet_screen.dart';
 import 'package:fyp/screen/widgets/crop_cart.dart';
+import 'package:fyp/screen/widgets/post_card.dart';
 import 'package:fyp/screen/widgets/profile_crop_card.dart';
 import 'package:fyp/screen/widgets/widget.dart';
 
@@ -23,7 +24,7 @@ class ProfileScreen extends ConsumerWidget {
     return state.isLoading
         ? const Center(
             child: CircularProgressIndicator(
-              color: Colors.white,
+              color: Colors.black,
             ),
           )
         : SingleChildScrollView(
@@ -105,7 +106,7 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ),
                 DropdownButton(
-                  value: '販売',
+                  value: state.selectedValue,
                   items: const [
                     DropdownMenuItem(
                       value: '販売',
@@ -117,43 +118,84 @@ class ProfileScreen extends ConsumerWidget {
                     ),
                   ],
                   onChanged: (String? value) {
-                    print(value);
+                    notifier.changeValue(value!);
                   },
                 ),
-                GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: state.sellingCrops.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, //ボックスを横に並べる数
-                    childAspectRatio: 0.80,
-                  ),
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        if (state.sellingCrops[index].hasUnread == true) {
-                          nextScreen(
-                              context,
-                              BuyScreen(
-                                  cropId: state.sellingCrops[index].cropId));
-                        } else {
-                          nextScreen(
-                            context,
-                            EditCropScreen(
-                                cropId: state.sellingCrops[index].cropId),
+                state.selectedValue == '販売'
+                    ? GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: state.sellingCrops.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, //ボックスを横に並べる数
+                          childAspectRatio: 0.80,
+                        ),
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              if (state.sellingCrops[index].hasUnread == true) {
+                                nextScreen(
+                                    context,
+                                    BuyScreen(
+                                        cropId:
+                                            state.sellingCrops[index].cropId));
+                              } else {
+                                nextScreen(
+                                  context,
+                                  EditCropScreen(
+                                      cropId: state.sellingCrops[index].cropId),
+                                );
+                              }
+                            },
+                            child: ProfileCropCard(
+                              profilePic:
+                                  state.sellingCrops[index].picsOfCrops![0],
+                              nameOfCrop: state.sellingCrops[index].name,
+                              price: state.sellingCrops[index].price,
+                              index: index,
+                            ),
                           );
-                        }
-                      },
-                      child: ProfileCropCard(
-                        profilePic: state.sellingCrops[index].picsOfCrops![0],
-                        nameOfCrop: state.sellingCrops[index].name,
-                        price: state.sellingCrops[index].price,
-                        index: index,
+                        },
+                      )
+                    : GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: state.postingList.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, //ボックスを横に並べる数
+                          childAspectRatio: 0.90,
+                        ),
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              // if (state.sellingCrops[index].hasUnread == true) {
+                              //   nextScreen(
+                              //       context,
+                              //       BuyScreen(
+                              //           cropId:
+                              //               state.sellingCrops[index].cropId));
+                              // } else {
+                              //   nextScreen(
+                              //     context,
+                              //     EditCropScreen(
+                              //         cropId: state.sellingCrops[index].cropId),
+                              //   );
+                              // }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: PostCard(
+                                profilePic:
+                                    state.postingList[index].picsOfCrops[0],
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                )
                 // Text(state.sellingCrops)
               ],
             ),
