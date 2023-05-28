@@ -20,7 +20,10 @@ mixin _$SellerprofileState {
   UserModel? get userModel => throw _privateConstructorUsedError;
   String get originalImgURL => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
+  String get sellerId => throw _privateConstructorUsedError;
   List<CropModel> get sellingCrops => throw _privateConstructorUsedError;
+  List<PostModel> get postingList => throw _privateConstructorUsedError;
+  String get selectedValue => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SellerprofileStateCopyWith<SellerprofileState> get copyWith =>
@@ -38,7 +41,10 @@ abstract class $SellerprofileStateCopyWith<$Res> {
       UserModel? userModel,
       String originalImgURL,
       String userName,
-      List<CropModel> sellingCrops});
+      String sellerId,
+      List<CropModel> sellingCrops,
+      List<PostModel> postingList,
+      String selectedValue});
 
   $UserModelCopyWith<$Res>? get userModel;
 }
@@ -60,7 +66,10 @@ class _$SellerprofileStateCopyWithImpl<$Res, $Val extends SellerprofileState>
     Object? userModel = freezed,
     Object? originalImgURL = null,
     Object? userName = null,
+    Object? sellerId = null,
     Object? sellingCrops = null,
+    Object? postingList = null,
+    Object? selectedValue = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -79,10 +88,22 @@ class _$SellerprofileStateCopyWithImpl<$Res, $Val extends SellerprofileState>
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
               as String,
+      sellerId: null == sellerId
+          ? _value.sellerId
+          : sellerId // ignore: cast_nullable_to_non_nullable
+              as String,
       sellingCrops: null == sellingCrops
           ? _value.sellingCrops
           : sellingCrops // ignore: cast_nullable_to_non_nullable
               as List<CropModel>,
+      postingList: null == postingList
+          ? _value.postingList
+          : postingList // ignore: cast_nullable_to_non_nullable
+              as List<PostModel>,
+      selectedValue: null == selectedValue
+          ? _value.selectedValue
+          : selectedValue // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 
@@ -112,7 +133,10 @@ abstract class _$$_SellerprofileStateCopyWith<$Res>
       UserModel? userModel,
       String originalImgURL,
       String userName,
-      List<CropModel> sellingCrops});
+      String sellerId,
+      List<CropModel> sellingCrops,
+      List<PostModel> postingList,
+      String selectedValue});
 
   @override
   $UserModelCopyWith<$Res>? get userModel;
@@ -133,7 +157,10 @@ class __$$_SellerprofileStateCopyWithImpl<$Res>
     Object? userModel = freezed,
     Object? originalImgURL = null,
     Object? userName = null,
+    Object? sellerId = null,
     Object? sellingCrops = null,
+    Object? postingList = null,
+    Object? selectedValue = null,
   }) {
     return _then(_$_SellerprofileState(
       isLoading: null == isLoading
@@ -152,10 +179,22 @@ class __$$_SellerprofileStateCopyWithImpl<$Res>
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
               as String,
+      sellerId: null == sellerId
+          ? _value.sellerId
+          : sellerId // ignore: cast_nullable_to_non_nullable
+              as String,
       sellingCrops: null == sellingCrops
           ? _value._sellingCrops
           : sellingCrops // ignore: cast_nullable_to_non_nullable
               as List<CropModel>,
+      postingList: null == postingList
+          ? _value._postingList
+          : postingList // ignore: cast_nullable_to_non_nullable
+              as List<PostModel>,
+      selectedValue: null == selectedValue
+          ? _value.selectedValue
+          : selectedValue // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -168,8 +207,12 @@ class _$_SellerprofileState implements _SellerprofileState {
       this.userModel = null,
       this.originalImgURL = '',
       this.userName = '',
-      final List<CropModel> sellingCrops = const []})
-      : _sellingCrops = sellingCrops;
+      this.sellerId = '',
+      final List<CropModel> sellingCrops = const [],
+      final List<PostModel> postingList = const [],
+      this.selectedValue = '販売'})
+      : _sellingCrops = sellingCrops,
+        _postingList = postingList;
 
   @override
   @JsonKey()
@@ -183,6 +226,9 @@ class _$_SellerprofileState implements _SellerprofileState {
   @override
   @JsonKey()
   final String userName;
+  @override
+  @JsonKey()
+  final String sellerId;
   final List<CropModel> _sellingCrops;
   @override
   @JsonKey()
@@ -192,9 +238,22 @@ class _$_SellerprofileState implements _SellerprofileState {
     return EqualUnmodifiableListView(_sellingCrops);
   }
 
+  final List<PostModel> _postingList;
+  @override
+  @JsonKey()
+  List<PostModel> get postingList {
+    if (_postingList is EqualUnmodifiableListView) return _postingList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_postingList);
+  }
+
+  @override
+  @JsonKey()
+  final String selectedValue;
+
   @override
   String toString() {
-    return 'SellerprofileState(isLoading: $isLoading, userModel: $userModel, originalImgURL: $originalImgURL, userName: $userName, sellingCrops: $sellingCrops)';
+    return 'SellerprofileState(isLoading: $isLoading, userModel: $userModel, originalImgURL: $originalImgURL, userName: $userName, sellerId: $sellerId, sellingCrops: $sellingCrops, postingList: $postingList, selectedValue: $selectedValue)';
   }
 
   @override
@@ -210,8 +269,14 @@ class _$_SellerprofileState implements _SellerprofileState {
                 other.originalImgURL == originalImgURL) &&
             (identical(other.userName, userName) ||
                 other.userName == userName) &&
+            (identical(other.sellerId, sellerId) ||
+                other.sellerId == sellerId) &&
             const DeepCollectionEquality()
-                .equals(other._sellingCrops, _sellingCrops));
+                .equals(other._sellingCrops, _sellingCrops) &&
+            const DeepCollectionEquality()
+                .equals(other._postingList, _postingList) &&
+            (identical(other.selectedValue, selectedValue) ||
+                other.selectedValue == selectedValue));
   }
 
   @override
@@ -221,7 +286,10 @@ class _$_SellerprofileState implements _SellerprofileState {
       userModel,
       originalImgURL,
       userName,
-      const DeepCollectionEquality().hash(_sellingCrops));
+      sellerId,
+      const DeepCollectionEquality().hash(_sellingCrops),
+      const DeepCollectionEquality().hash(_postingList),
+      selectedValue);
 
   @JsonKey(ignore: true)
   @override
@@ -237,7 +305,10 @@ abstract class _SellerprofileState implements SellerprofileState {
       final UserModel? userModel,
       final String originalImgURL,
       final String userName,
-      final List<CropModel> sellingCrops}) = _$_SellerprofileState;
+      final String sellerId,
+      final List<CropModel> sellingCrops,
+      final List<PostModel> postingList,
+      final String selectedValue}) = _$_SellerprofileState;
 
   @override
   bool get isLoading;
@@ -248,7 +319,13 @@ abstract class _SellerprofileState implements SellerprofileState {
   @override
   String get userName;
   @override
+  String get sellerId;
+  @override
   List<CropModel> get sellingCrops;
+  @override
+  List<PostModel> get postingList;
+  @override
+  String get selectedValue;
   @override
   @JsonKey(ignore: true)
   _$$_SellerprofileStateCopyWith<_$_SellerprofileState> get copyWith =>

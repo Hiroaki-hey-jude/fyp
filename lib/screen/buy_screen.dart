@@ -269,7 +269,12 @@ class BuyScreen extends ConsumerWidget {
                             const EdgeInsets.only(left: 15, top: 5, right: 50),
                         child: InkWell(
                           onTap: () {
-                            nextScreen(context, SellerProfileScreen());
+                            print(state.userModel!.uid);
+                            nextScreen(
+                                context,
+                                SellerProfileScreen(
+                                  sellerUid: state.userModel!.uid,
+                                ));
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

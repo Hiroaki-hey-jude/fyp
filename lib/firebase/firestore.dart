@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fyp/model/address_model/address_model.dart';
 import 'package:fyp/model/crop_model.dart/crop_model.dart';
+import 'package:fyp/model/pass_model/pass_model.dart';
 import 'package:fyp/model/post_model/post_model.dart';
 
 import '../model/user_model/user_model.dart';
@@ -18,6 +19,8 @@ class FireStore {
       FirebaseFirestore.instance.collection('crops');
   final CollectionReference postCollection =
       FirebaseFirestore.instance.collection('posts');
+  final CollectionReference passCollection =
+      FirebaseFirestore.instance.collection('passes');
 
   Future<void> savingUserData(String name, String email) async {
     print(uid);
@@ -88,18 +91,8 @@ class FireStore {
       isbought: false,
     );
     print('終りました');
-    DocumentReference roomDocumentReference = await cropCollection.add({
-      'picsOfCrops': crop.picsOfCrops,
-      'category': crop.category,
-      'name': crop.name,
-      'description': crop.description,
-      'address': crop.address,
-      'price': crop.price,
-      'cropId': '',
-      'sellerId': crop.sellerId,
-      'hasUnread': crop.hasUnread,
-      'isbought': crop.isbought,
-    });
+    DocumentReference roomDocumentReference =
+        await cropCollection.add({crop.toJson()});
 
     return roomDocumentReference.update({
       'cropId': roomDocumentReference.id,
@@ -226,8 +219,10 @@ class FireStore {
     final firestore = FirebaseFirestore.instance;
 
     final cropsCollection = firestore.collection('crops');
-    final categoryDocument =
-        await cropsCollection.where('sellerId', isEqualTo: sellerId).get();
+    final categoryDocument = await cropsCollection
+        .where('sellerId', isEqualTo: sellerId)
+        .where('isbought', isEqualTo: false)
+        .get();
     List<CropModel> postedCropData = [];
     categoryDocument.docs.forEach((element) {
       postedCropData.add(CropModel.fromSnapshot(element));
@@ -331,5 +326,17 @@ class FireStore {
       postedCropData.add(PostModel.fromSnapshot(element));
     });
     return postedCropData;
+  }
+
+  Future<void> buyPass(String consumerUid, String farmerUid) async {
+    print('$consumerUid consumer Uid');
+    print('$farmerUid farmer uid');
+
+    var pass = PassModel(
+      consumerUid: consumerUid,
+      farmerUid: farmerUid,
+      expirationDate: DateTime.now().add(const Duration(days: 30)),
+    );
+    await passCollection.doc(consumerUid).set(pass.toJson());
   }
 }

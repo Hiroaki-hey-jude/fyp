@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -21,7 +22,15 @@ class PostCardFeed extends StatelessWidget {
             const SizedBox(height: 3),
             InkWell(
               onTap: () {
-                nextScreen(context, SellerProfileScreen());
+                if (postModel.posterId ==
+                    FirebaseAuth.instance.currentUser!.uid) {
+                  return;
+                }
+                nextScreen(
+                    context,
+                    SellerProfileScreen(
+                      sellerUid: postModel.posterId,
+                    ));
               },
               child: profilePicturesAndUserNameWidget(postModel.posterId),
             ),
