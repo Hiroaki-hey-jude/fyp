@@ -1,13 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fyp/firebase/firestore.dart';
 import 'package:fyp/model/crop_model.dart/crop_model.dart';
-
-import '../firebase/auth.dart';
-import '../model/user_model/user_model.dart';
-import '../sharedpreference/sharedpreference.dart';
+import 'package:fyp/model/pass_model/pass_model.dart';
+import 'package:fyp/state/purchase_state.dart';
 
 part 'crop_state.freezed.dart';
 
@@ -23,12 +20,14 @@ class CropState with _$CropState {
     @Default(0) int selectedIndexForOutlineButton,
     @Default('potato') String selectedCategory,
     @Default([]) List<CropModel> selectedCategoryCrops,
+    @Default([]) List<PassModel> purchasedPasses,
   }) = _CropState;
 }
 
 class CropStateNotifier extends StateNotifier<CropState> {
   CropStateNotifier() : super(const CropState()) {
     getInitCropData();
+    getDiscount(FirebaseAuth.instance.currentUser!.uid);
   }
 
   Future<void> example() async {
@@ -72,5 +71,15 @@ class CropStateNotifier extends StateNotifier<CropState> {
   Future<void> getInitCropData() async {
     final potatoCropData = await FireStore().getInitCropDocument();
     state = state.copyWith(selectedCategoryCrops: potatoCropData);
+  }
+
+  Future<void> getDiscount(String uid) async {
+    state = state.copyWith(isLoading: true);
+    final listOfPasses = await FireStore().getDiscount(uid);
+    state = state.copyWith(
+      isLoading: false,
+      purchasedPasses: listOfPasses,
+    );
+    print(state.purchasedPasses.length);
   }
 }

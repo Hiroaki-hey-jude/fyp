@@ -102,7 +102,7 @@ class SellerProfileScreen extends ConsumerWidget {
                                         backgroundColor:
                                             Colors.black.withOpacity(0.5),
                                         title: const Text(
-                                          'この農家のPASSを購入したら１ヶ月この農家の農作物を３０%オフで購入できます。',
+                                          'この農家のPASSを購入したら１ヶ月この農家の農作物を３０%オフで購入できます。\n1500Coins消費します',
                                           textAlign: TextAlign.left,
                                           style: TextStyle(color: Colors.white),
                                         ),
@@ -116,7 +116,7 @@ class SellerProfileScreen extends ConsumerWidget {
                                                 backgroundColor:
                                                     Theme.of(context)
                                                         .primaryColor),
-                                            child: const Text('購入する'),
+                                            child: const Text('1500'),
                                           ),
                                           Padding(
                                             padding:
@@ -195,12 +195,12 @@ class SellerProfileScreen extends ConsumerWidget {
                             itemBuilder: (context, index) {
                               return InkWell(
                                   onTap: () {
-                                    nextScreen(
-                                      context,
-                                      BuyScreen(
-                                          cropId:
-                                              state.sellingCrops[index].cropId),
-                                    );
+                                    // nextScreen(
+                                    //   context,
+                                    //   BuyScreen(
+                                    //       cropId:
+                                    //           state.sellingCrops[index].cropId),
+                                    // );
                                   },
                                   child: ProfileCropCardOnSellerScreen(
                                     profilePic: state

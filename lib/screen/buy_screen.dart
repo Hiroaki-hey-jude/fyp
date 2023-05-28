@@ -12,8 +12,10 @@ class BuyScreen extends ConsumerWidget {
   const BuyScreen({
     super.key,
     required this.cropId,
+    required this.isDiscounted,
   });
   final String cropId;
+  final bool isDiscounted;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,6 +24,10 @@ class BuyScreen extends ConsumerWidget {
     final blockSizeVertical = screenHeight / 100;
     final state = ref.watch(buyStateProvider(cropId));
     final notifier = ref.watch(buyStateProvider(cropId).notifier);
+    double discountedPrice = 0;
+    // if (isDiscounted == true && state.cropModel == null) {
+    //   discountedPrice = int.parse(state.cropModel!.price) * 0.85;
+    // }
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -101,14 +107,23 @@ class BuyScreen extends ConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10, horizontal: 15),
-                        child: Text(
-                          '¥${state.cropModel!.price}',
-                          style: const TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.red,
-                          ),
-                        ),
+                        child: isDiscounted
+                            ? Text(
+                                '${(int.parse(state.cropModel!.price) * 0.85).toInt()} Coins',
+                                style: const TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                ),
+                              )
+                            : Text(
+                                '¥${state.cropModel!.price} Coins',
+                                style: const TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                ),
+                              ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -318,7 +333,10 @@ class BuyScreen extends ConsumerWidget {
                       return SizedBox(
                           // 90%の高さで表示させる
                           height: blockSizeVertical * 95,
-                          child: PurchaseProcedureScreen(cropId: cropId));
+                          child: PurchaseProcedureScreen(
+                            cropId: cropId,
+                            isDiscounted: isDiscounted,
+                          ));
                     },
                   );
                 },

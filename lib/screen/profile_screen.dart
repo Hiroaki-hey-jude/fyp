@@ -137,10 +137,12 @@ class ProfileScreen extends ConsumerWidget {
                             onTap: () {
                               if (state.sellingCrops[index].hasUnread == true) {
                                 nextScreen(
-                                    context,
-                                    BuyScreen(
-                                        cropId:
-                                            state.sellingCrops[index].cropId));
+                                  context,
+                                  BuyScreen(
+                                    cropId: state.sellingCrops[index].cropId,
+                                    isDiscounted: false,
+                                  ),
+                                );
                               } else {
                                 nextScreen(
                                   context,

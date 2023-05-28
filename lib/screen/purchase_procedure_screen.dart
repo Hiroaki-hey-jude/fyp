@@ -9,9 +9,11 @@ class PurchaseProcedureScreen extends ConsumerWidget {
   const PurchaseProcedureScreen({
     super.key,
     required this.cropId,
+    required this.isDiscounted,
   });
 
   final String cropId;
+  final bool isDiscounted;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final mediaQueryData = MediaQuery.of(context);
@@ -75,12 +77,19 @@ class PurchaseProcedureScreen extends ConsumerWidget {
                         children: [
                           Text(state.cropModel!.name),
                           const SizedBox(height: 5),
-                          Text(
-                            '${state.cropModel!.price} Coins',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          isDiscounted
+                              ? Text(
+                                  '${(int.parse(state.cropModel!.price) * 0.85).toInt()} Coins',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              : Text(
+                                  '${state.cropModel!.price} Coins',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                         ],
                       ),
                     ],
@@ -167,12 +176,18 @@ class PurchaseProcedureScreen extends ConsumerWidget {
                       ),
                       onPressed: () {
                         int currentMoney;
+                        int price;
+                        if (isDiscounted) {
+                          price = (int.parse(state.cropModel!.price) * 0.85)
+                              .toInt();
+                        } else {
+                          price = int.parse(state.cropModel!.price);
+                        }
                         if (state.userModel!.coins == '') {
                           currentMoney = 0;
                         } else {
                           currentMoney = int.parse(state.userModel!.coins);
                         }
-                        int price = int.parse(state.cropModel!.price);
                         if (price > currentMoney) {
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(

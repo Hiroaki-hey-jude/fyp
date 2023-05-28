@@ -84,22 +84,14 @@ class CropScreen extends ConsumerWidget {
                   childAspectRatio: 0.80,
                 ),
                 itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      print('ここか？');
-                      print(state.selectedCategoryCrops[index].cropId);
-                      nextScreen(
-                        context,
-                        BuyScreen(
-                            cropId: state.selectedCategoryCrops[index].cropId),
-                      );
-                    },
-                    child: CropCard(
-                      profilePic:
-                          state.selectedCategoryCrops[index].picsOfCrops![0],
-                      nameOfCrop: state.selectedCategoryCrops[index].name,
-                      price: state.selectedCategoryCrops[index].price,
-                    ),
+                  return CropCard(
+                    profilePic:
+                        state.selectedCategoryCrops[index].picsOfCrops![0],
+                    nameOfCrop: state.selectedCategoryCrops[index].name,
+                    price: state.selectedCategoryCrops[index].price,
+                    passes: state.purchasedPasses,
+                    farmerUid: state.selectedCategoryCrops[index].sellerId,
+                    cropId: state.selectedCategoryCrops[index].cropId,
                   );
                 },
               )

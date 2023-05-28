@@ -91,8 +91,17 @@ class FireStore {
       isbought: false,
     );
     print('終りました');
-    DocumentReference roomDocumentReference =
-        await cropCollection.add({crop.toJson()});
+    DocumentReference roomDocumentReference = await cropCollection.add({
+      'picsOfCrops': crop.picsOfCrops,
+      'category': crop.category,
+      'name': crop.name,
+      'description': crop.description,
+      'address': crop.address,
+      'price': crop.price,
+      'sellerId': crop.sellerId,
+      'hasUnread': crop.hasUnread,
+      'isbought': crop.isbought,
+    });
 
     return roomDocumentReference.update({
       'cropId': roomDocumentReference.id,
@@ -302,6 +311,26 @@ class FireStore {
     });
   }
 
+  Future<void> buyPass(String consumerUid, String farmerUid) async {
+    print('$consumerUid consumer Uid');
+    print('$farmerUid farmer uid');
+    final DocumentSnapshot snapshot =
+        await userCollection.doc(consumerUid).get();
+    final int newAmountOfCoin = int.parse(snapshot.get('coins')) - 1500;
+
+    print(newAmountOfCoin);
+
+    var pass = PassModel(
+      consumerUid: consumerUid,
+      farmerUid: farmerUid,
+      expirationDate: DateTime.now().add(const Duration(days: 30)),
+    );
+    await passCollection.doc(consumerUid).set(pass.toJson());
+    userCollection.doc(consumerUid).update({
+      'coins': newAmountOfCoin.toString(),
+    });
+  }
+
   Future<List<PostModel>> getAgriculturalPostedList(String posterId) async {
     final firestore = FirebaseFirestore.instance;
 
@@ -328,15 +357,15 @@ class FireStore {
     return postedCropData;
   }
 
-  Future<void> buyPass(String consumerUid, String farmerUid) async {
-    print('$consumerUid consumer Uid');
-    print('$farmerUid farmer uid');
-
-    var pass = PassModel(
-      consumerUid: consumerUid,
-      farmerUid: farmerUid,
-      expirationDate: DateTime.now().add(const Duration(days: 30)),
-    );
-    await passCollection.doc(consumerUid).set(pass.toJson());
+  Future<List<PassModel>> getDiscount(String uid) async {
+    final firestore = FirebaseFirestore.instance;
+    final passCollection = firestore.collection('passes');
+    final document =
+        await passCollection.where('consumerUid', isEqualTo: uid).get();
+    List<PassModel> listOfPasses = [];
+    document.docs.forEach((element) {
+      listOfPasses.add(PassModel.fromSnapshot(element));
+    });
+    return listOfPasses;
   }
 }
