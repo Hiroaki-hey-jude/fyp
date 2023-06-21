@@ -5,13 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:fyp/model/pass_model/pass_model.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../firebase/auth.dart';
 import '../firebase/firestore.dart';
 import '../model/user_model/user_model.dart';
 import '../shared/constant.dart';
-import '../sharedpreference/sharedpreference.dart';
 
 part 'setting_state.freezed.dart';
 
@@ -27,6 +25,8 @@ class SettingState with _$SettingState {
     @Default(null) UserModel? userModel,
     @Default('') String originalImgURL,
     @Default(null) File? imageFile,
+    @Default([]) List<PassModel> listOfSubscribedFarmers,
+    @Default([]) List<PassModel> listOfSubscribers,
   }) = _SettingState;
 }
 
@@ -35,11 +35,6 @@ class SettingStateNotifier extends StateNotifier<SettingState> {
     getUser();
   }
   String? changedUserName;
-  Future<void> example() async {
-    state = state.copyWith(isLoading: true);
-    // なんかの処理する
-    state = state.copyWith(isLoading: false);
-  }
 
   Future<void> getUser() async {
     state = state.copyWith(isLoading: true);
@@ -52,7 +47,33 @@ class SettingStateNotifier extends StateNotifier<SettingState> {
       userModel: user,
     );
     getOriginalProfileUrl();
+    getSubscribedFarmers();
+    getSubscribers();
     state = state.copyWith(isLoading: false);
+  }
+
+  Future<void> getSubscribedFarmers() async {
+    DateTime currentDate = DateTime.now();
+    List<PassModel> passes =
+        await FireStore().getSubscribedFarmer(state.userModel!.uid);
+    for (int i = 0; i < passes.length; i++) {
+      if (currentDate.isAfter(passes[i].expirationDate!)) {
+        passes.removeAt(i);
+      }
+    }
+    state = state.copyWith(listOfSubscribedFarmers: passes);
+  }
+
+  Future<void> getSubscribers() async {
+    // DateTime currentDate = DateTime.now();
+    List<PassModel> passes =
+        await FireStore().getSubscribers(state.userModel!.uid);
+    // for (int i = 0; i < passes.length; i++) {
+    //   if (currentDate.isAfter(passes[i].expirationDate!)) {
+    //     passes.removeAt(i);
+    //   }
+    // }
+    state = state.copyWith(listOfSubscribers: passes);
   }
 
   getOriginalProfileUrl() {

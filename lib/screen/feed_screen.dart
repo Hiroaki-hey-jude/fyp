@@ -63,6 +63,7 @@ class FeedScreen extends ConsumerWidget {
                       padding: const EdgeInsets.all(3.0),
                       child: PostCardFeed(
                         postModel: postModel,
+                        isDiscounted: false,
                       ),
                     ),
                   );

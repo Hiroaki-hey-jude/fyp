@@ -108,4 +108,24 @@ class SellerprofileStateNotifier extends StateNotifier<SellerprofileState> {
     }
     state = state.copyWith(isLoading: false);
   }
+
+  Future<void> buyPass10000(BuildContext context) async {
+    state = state.copyWith(isLoading: true);
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    try {
+      await FireStore().buyPass10000(
+        FirebaseAuth.instance.currentUser!.uid,
+        state.userModel!.uid,
+      );
+    } catch (e) {
+      print(e);
+    } finally {
+      scaffoldMessenger.showSnackBar(
+        const SnackBar(
+          content: Text('PASSを購入しました'),
+        ),
+      );
+    }
+    state = state.copyWith(isLoading: false);
+  }
 }

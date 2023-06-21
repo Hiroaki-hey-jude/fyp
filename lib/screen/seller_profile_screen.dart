@@ -8,8 +8,13 @@ import 'package:fyp/screen/widgets/widget.dart';
 import 'package:fyp/state/sellerprofile_state.dart';
 
 class SellerProfileScreen extends ConsumerWidget {
-  SellerProfileScreen({super.key, required this.sellerUid});
+  SellerProfileScreen({
+    super.key,
+    required this.sellerUid,
+    required this.isDiscounted,
+  });
   final String sellerUid;
+  final bool isDiscounted;
 
   final TextEditingController searchEditingController = TextEditingController();
   @override
@@ -102,11 +107,22 @@ class SellerProfileScreen extends ConsumerWidget {
                                         backgroundColor:
                                             Colors.black.withOpacity(0.5),
                                         title: const Text(
-                                          'この農家のPASSを購入したら１ヶ月この農家の農作物を３０%オフで購入できます。\n1500Coins消費します',
+                                          '10000コインで１年、1500コインで１ヶ月分のパスを購入できます。\nパス購入後１５％の割引が与えられます。',
                                           textAlign: TextAlign.left,
                                           style: TextStyle(color: Colors.white),
                                         ),
                                         actions: [
+                                          ElevatedButton(
+                                            onPressed: () async {
+                                              Navigator.of(context).pop();
+                                              notifier.buyPass10000(context);
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    Theme.of(context)
+                                                        .primaryColor),
+                                            child: const Text('10000'),
+                                          ),
                                           ElevatedButton(
                                             onPressed: () async {
                                               Navigator.of(context).pop();
@@ -195,19 +211,36 @@ class SellerProfileScreen extends ConsumerWidget {
                             itemBuilder: (context, index) {
                               return InkWell(
                                   onTap: () {
-                                    // nextScreen(
-                                    //   context,
-                                    //   BuyScreen(
-                                    //       cropId:
-                                    //           state.sellingCrops[index].cropId),
-                                    // );
+                                    print(isDiscounted);
+                                    nextScreen(
+                                      context,
+                                      BuyScreen(
+                                        cropId:
+                                            state.sellingCrops[index].cropId,
+                                        isDiscounted: isDiscounted,
+                                      ),
+                                    );
                                   },
-                                  child: ProfileCropCardOnSellerScreen(
-                                    profilePic: state
-                                        .sellingCrops[index].picsOfCrops![0],
-                                    nameOfCrop: state.sellingCrops[index].name,
-                                    price: state.sellingCrops[index].price,
-                                  ));
+                                  child: isDiscounted
+                                      ? ProfileCropCardOnSellerScreen(
+                                          profilePic: state.sellingCrops[index]
+                                              .picsOfCrops![0],
+                                          nameOfCrop:
+                                              state.sellingCrops[index].name,
+                                          price: (int.parse(state
+                                                      .sellingCrops[index]
+                                                      .price) *
+                                                  0.85)
+                                              .toInt()
+                                              .toString(),
+                                        )
+                                      : ProfileCropCardOnSellerScreen(
+                                          profilePic: state.sellingCrops[index]
+                                              .picsOfCrops![0],
+                                          nameOfCrop:
+                                              state.sellingCrops[index].name,
+                                          price: (state
+                                              .sellingCrops[index].price)));
                             },
                           )
                         : MasonryGridView.count(
@@ -237,6 +270,7 @@ class SellerProfileScreen extends ConsumerWidget {
                                   padding: const EdgeInsets.all(3.0),
                                   child: PostCardFeed(
                                     postModel: state.postingList[index],
+                                    isDiscounted: isDiscounted,
                                   ),
                                 ),
                               );

@@ -25,6 +25,7 @@ class HomeScreen extends ConsumerWidget {
     final notifier = ref.watch(homeStateProvider.notifier);
     return Scaffold(
       appBar: AppBar(
+        leading: Icon(Icons.abc),
         title: const Text(
           'Direct',
           style: TextStyle(

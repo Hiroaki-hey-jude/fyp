@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fyp/screen/buy_screen.dart';
+import 'package:fyp/screen/notification_screen.dart';
 import 'package:fyp/screen/widgets/crop_cart.dart';
 import 'package:fyp/screen/widgets/widget.dart';
 
@@ -13,6 +15,9 @@ class CropScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final mediaQueryData = MediaQuery.of(context);
+    final screenHeight = mediaQueryData.size.height;
+    final blockSizeVertical = screenHeight / 100;
     final state = ref.watch(cropStateProvider);
     final notifier = ref.watch(cropStateProvider.notifier);
     final TextEditingController searchEditingController =
@@ -35,26 +40,26 @@ class CropScreen extends ConsumerWidget {
                   ),
                   color: Colors.grey.shade200,
                 ),
-                child: Consumer(builder: (context, ref, child) {
-                  // final notifier = ref.watch(searchStateProvider.notifier);
-                  return TextField(
-                    onSubmitted: (value) {
-                      // 検索
-                      // notifier.getSearchUser(searchEditingController.text);
-                    },
-                    controller: searchEditingController,
-                    decoration: const InputDecoration(
-                      hintText: '検索',
-                      hintStyle: TextStyle(color: Colors.grey, height: 1.7),
-                      border: InputBorder.none,
-                      isDense: true,
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Colors.black,
-                      ),
-                    ),
-                  );
-                }),
+                // child: Consumer(builder: (context, ref, child) {
+                //   // final notifier = ref.watch(searchStateProvider.notifier);
+                //   // return TextField(
+                //   //   onSubmitted: (value) {
+                //   //     // 検索
+                //   //     // notifier.getSearchUser(searchEditingController.text);
+                //   //   },
+                //   //   controller: searchEditingController,
+                //   //   decoration: const InputDecoration(
+                //   //     hintText: '検索',
+                //   //     hintStyle: TextStyle(color: Colors.grey, height: 1.7),
+                //   //     border: InputBorder.none,
+                //   //     isDense: true,
+                //   //     prefixIcon: Icon(
+                //   //       Icons.search,
+                //   //       color: Colors.black,
+                //   //     ),
+                //   //   ),
+                //   // );
+                // }),
               ),
               // const Categories(),
               SingleChildScrollView(
@@ -99,6 +104,85 @@ class CropScreen extends ConsumerWidget {
           ),
         ),
       ),
+      floatingActionButton: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('order')
+            .where('farmerUid',
+                isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+            .where('status', whereIn: ['発送済み', '発送待ち']).snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final orders = snapshot.data!.docs;
+            final hasPendingOrShippedOrder = orders.isNotEmpty;
+
+            return FloatingActionButton(
+              backgroundColor:
+                  hasPendingOrShippedOrder ? Colors.red : Colors.green,
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.white,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    ),
+                  ),
+                  builder: (BuildContext context) {
+                    return SizedBox(
+                      height: blockSizeVertical * 95,
+                      child: NotificationScreen(),
+                    );
+                  },
+                );
+              },
+              child: hasPendingOrShippedOrder
+                  ? const Icon(Icons.notification_important)
+                  : Container(),
+            );
+          } else {
+            return Container();
+          }
+        },
+      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Colors.green,
+      //   onPressed: () {
+      //     showModalBottomSheet(
+      //       context: context,
+      //       isScrollControlled: true,
+      //       backgroundColor: Colors.white,
+      //       shape: const RoundedRectangleBorder(
+      //         borderRadius: BorderRadius.only(
+      //           topLeft: Radius.circular(25),
+      //           topRight: Radius.circular(25),
+      //         ),
+      //       ),
+      //       builder: (BuildContext context) {
+      //         return SizedBox(
+      //             // 90%の高さで表示させる
+      //             height: blockSizeVertical * 95,
+      //             child: NotificationScreen());
+      //       },
+      //     );
+      //   },
+      //   child: StreamBuilder(
+      //     stream: FirebaseFirestore.instance
+      //         .collection('order')
+      //         .where('farmerUid',
+      //             isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+      //         .where('status', whereIn: ['発送済み', '発送待ち']).snapshots(),
+      //     builder: (context, snapshot) {
+      //       if (snapshot.hasData) {
+      //         return Icon(Icons.abc);
+      //       } else {
+      //         print(snapshot.data!.docs);
+      //         return Container();
+      //       }
+      //     },
+      //   ),
+      // ),
     );
   }
 }

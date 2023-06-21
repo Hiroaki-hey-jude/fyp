@@ -2,10 +2,14 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:fyp/model/address_model/address_model.dart';
 import 'package:fyp/model/crop_model.dart/crop_model.dart';
+import 'package:fyp/model/order_model/order_model.dart';
 import 'package:fyp/model/pass_model/pass_model.dart';
 import 'package:fyp/model/post_model/post_model.dart';
+import 'package:fyp/screen/delivery_screen.dart';
+import 'package:fyp/screen/widgets/widget.dart';
 
 import '../model/user_model/user_model.dart';
 
@@ -21,6 +25,8 @@ class FireStore {
       FirebaseFirestore.instance.collection('posts');
   final CollectionReference passCollection =
       FirebaseFirestore.instance.collection('passes');
+  final CollectionReference orderCollection =
+      FirebaseFirestore.instance.collection('order');
 
   Future<void> savingUserData(String name, String email) async {
     print(uid);
@@ -204,6 +210,15 @@ class FireStore {
     return userModel;
   }
 
+  Future<UserModel> getFarmerUserModel(String farmerUid) async {
+    final model = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(farmerUid)
+        .get();
+    final userModel = UserModel.fromSnapshot(model);
+    return userModel;
+  }
+
   Future<UserModel> getCurrentUserModel2() async {
     final querySnapshot = await FirebaseFirestore.instance
         .collection('users')
@@ -299,24 +314,67 @@ class FireStore {
     String priceOfCrop,
     String uid,
     String cropId,
+    String sellerId,
+    UserModel userModel,
+    CropModel cropModel,
+    BuildContext context,
   ) async {
-    int currentAmountOfCoin = int.parse(currentCoin);
-    int priceCrop = int.parse(priceOfCrop);
-    int newAmountOfCoin = currentAmountOfCoin - priceCrop;
-    userCollection.doc(uid).update({
-      'coins': newAmountOfCoin.toString(),
-    });
-    cropCollection.doc(cropId).update({
-      'isbought': true,
-    });
+    // DocumentReference orderDocumentReference;
+    String orderId = '';
+    try {
+      var addressJson = userModel.address!.toJson();
+      final DocumentSnapshot farmerSnapshot =
+          await userCollection.doc(sellerId).get();
+      var orderJson = {
+        'address': addressJson,
+        'consumerUid': userModel.uid,
+        'orderAt': DateTime.now(),
+        'status': '発送待ち',
+        'cropId': cropModel.cropId,
+        'orderId': '',
+        'farmerUid': sellerId,
+      };
+
+      DocumentReference orderDocumentReference =
+          await orderCollection.add(orderJson);
+      orderId = orderDocumentReference.id;
+      orderDocumentReference.update({
+        'orderId': orderId,
+      });
+      int currentAmountOfCoin = int.parse(userModel.coins);
+      int priceCrop = int.parse(priceOfCrop);
+      int newAmountOfConsumerCoin = currentAmountOfCoin - priceCrop;
+      final int newAmountOfFarmerCoin =
+          int.parse(farmerSnapshot.get('coins')) + priceCrop;
+      userCollection.doc(uid).update({
+        'coins': newAmountOfConsumerCoin.toString(),
+      });
+      userCollection.doc(sellerId).update({
+        'coins': newAmountOfFarmerCoin.toString(),
+      });
+      cropCollection.doc(cropId).update({
+        'isbought': true,
+      });
+    } catch (e) {
+      print(e);
+    } finally {
+      nextScreen(
+        context,
+        DeliveryScreen(
+          orderId: orderId,
+        ),
+      );
+    }
   }
 
   Future<void> buyPass(String consumerUid, String farmerUid) async {
-    print('$consumerUid consumer Uid');
-    print('$farmerUid farmer uid');
     final DocumentSnapshot snapshot =
         await userCollection.doc(consumerUid).get();
+    final DocumentSnapshot farmerSnapshot =
+        await userCollection.doc(farmerUid).get();
     final int newAmountOfCoin = int.parse(snapshot.get('coins')) - 1500;
+    final int newAmountOfFarmerCoin =
+        int.parse(farmerSnapshot.get('coins')) + 1500;
 
     print(newAmountOfCoin);
 
@@ -328,6 +386,36 @@ class FireStore {
     await passCollection.doc(consumerUid).set(pass.toJson());
     userCollection.doc(consumerUid).update({
       'coins': newAmountOfCoin.toString(),
+    });
+    userCollection.doc(farmerUid).update({
+      'coins': newAmountOfFarmerCoin.toString(),
+    });
+  }
+
+  Future<void> buyPass10000(String consumerUid, String farmerUid) async {
+    print('$consumerUid consumer Uid');
+    print('$farmerUid farmer uid');
+    final DocumentSnapshot snapshot =
+        await userCollection.doc(consumerUid).get();
+    final DocumentSnapshot farmerSnapshot =
+        await userCollection.doc(farmerUid).get();
+    final int newAmountOfConsumerCoin =
+        int.parse(snapshot.get('coins')) - 10000;
+    final int newAmountOfFarmerCoin = int.parse(snapshot.get('coins')) + 10000;
+
+    print(newAmountOfConsumerCoin);
+
+    var pass = PassModel(
+      consumerUid: consumerUid,
+      farmerUid: farmerUid,
+      expirationDate: DateTime.now().add(const Duration(days: 365)),
+    );
+    await passCollection.doc(consumerUid).set(pass.toJson());
+    userCollection.doc(consumerUid).update({
+      'coins': newAmountOfConsumerCoin.toString(),
+    });
+    userCollection.doc(farmerUid).update({
+      'coins': newAmountOfFarmerCoin.toString(),
     });
   }
 
@@ -367,5 +455,92 @@ class FireStore {
       listOfPasses.add(PassModel.fromSnapshot(element));
     });
     return listOfPasses;
+  }
+
+  Future<List<PassModel>> getSubscribedFarmer(String uid) async {
+    final firestore = FirebaseFirestore.instance;
+
+    final passesCollection = firestore.collection('passes');
+    final document =
+        await passesCollection.where('consumerUid', isEqualTo: uid).get();
+    List<PassModel> passesData = [];
+    document.docs.forEach((element) {
+      passesData.add(PassModel.fromSnapshot(element));
+    });
+    return passesData;
+  }
+
+  Future<List<PassModel>> getSubscribers(String uid) async {
+    final firestore = FirebaseFirestore.instance;
+
+    final passesCollection = firestore.collection('passes');
+    final document =
+        await passesCollection.where('farmerUid', isEqualTo: uid).get();
+    List<PassModel> subscribers = [];
+    document.docs.forEach((element) {
+      subscribers.add(PassModel.fromSnapshot(element));
+    });
+    if (subscribers.isEmpty) {
+      print('empty');
+    } else {
+      print('not empty');
+    }
+    print(subscribers);
+    return subscribers;
+  }
+
+  Future<List<OrderModel>> getOrderedCropsSoFar(String uid) async {
+    final firestore = FirebaseFirestore.instance;
+    final ordersCollection = firestore.collection('order');
+    final document =
+        await ordersCollection.where('consumerUid', isEqualTo: uid).get();
+    List<OrderModel> orders = [];
+    document.docs.forEach((element) {
+      orders.add(OrderModel.fromSnapshot(element));
+    });
+    return orders;
+  }
+
+  Future<List<OrderModel>> getDealingCrops(String uid) async {
+    final firestore = FirebaseFirestore.instance;
+    final ordersCollection = firestore.collection('order');
+    final document = await ordersCollection
+        .where('consumerUid', isEqualTo: uid)
+        .where('status', whereIn: ['発送済み', '発送待ち']).get();
+    List<OrderModel> dealings = [];
+    document.docs.forEach((element) {
+      dealings.add(OrderModel.fromSnapshot(element));
+    });
+    return dealings;
+  }
+
+  Future<List<OrderModel>> getNotifications(String farmerUid) async {
+    print(farmerUid);
+    final firestore = FirebaseFirestore.instance;
+    final ordersCollection = firestore.collection('order');
+    final document = await ordersCollection
+        .where('farmerUid', isEqualTo: farmerUid)
+        .where('status', whereIn: ['発送済み', '発送待ち']).get();
+    List<OrderModel> orders = [];
+    document.docs.forEach((element) {
+      orders.add(OrderModel.fromSnapshot(element));
+    });
+    print('$orders これ何');
+    return orders;
+  }
+
+  Future<OrderModel> getOrderedModel(String orderId) async {
+    final model =
+        await FirebaseFirestore.instance.collection('order').doc(orderId).get();
+    final order = OrderModel.fromSnapshot(model);
+    return order;
+  }
+
+  Future<void> shipping(String orderId) async {
+    orderCollection.doc(orderId).update({'status': '発送済み'});
+  }
+
+  Future<void> arrived(String orderId) async {
+    orderCollection.doc(orderId).update({'status': '到着済み'});
   }
 }

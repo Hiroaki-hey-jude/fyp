@@ -106,7 +106,7 @@ class PurchaseProcedureScreen extends ConsumerWidget {
                                 color: Colors.grey,
                               ),
                             )
-                          : Text(state.userModel!.coins),
+                          : Text('${state.userModel!.coins} Coins'),
                     ],
                   ),
                   const Divider(height: 70),
@@ -114,7 +114,11 @@ class PurchaseProcedureScreen extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('支払い金額'),
-                      Text('${state.cropModel!.price} Coins'),
+                      isDiscounted
+                          ? Text(
+                              '${(int.parse(state.cropModel!.price) * 0.85).toInt()} Coins')
+                          : Text('${state.cropModel!.price} Coins'),
+                      // Text('${state.cropModel!.price} Coins'),
                     ],
                   ),
                   const Divider(height: 70),
@@ -193,8 +197,8 @@ class PurchaseProcedureScreen extends ConsumerWidget {
                               const SnackBar(
                                   content: Text('現在の残高ではこの商品は購入できません')));
                         } else {
-                          notifier.purchaseCrop();
-                          nextScreen(context, const DeliveryScreen());
+                          notifier.purchaseCrop(context);
+                          // nextScreen(context, DeliveryScreen(orderId: orderId));
                         }
                       },
                     ),

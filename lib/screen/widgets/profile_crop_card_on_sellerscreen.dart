@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
+// one year pass
+// log of order, delivery, buy coins
+// how many subsribers
+
 class ProfileCropCardOnSellerScreen extends StatelessWidget {
   const ProfileCropCardOnSellerScreen({
     super.key,
@@ -36,7 +40,6 @@ class ProfileCropCardOnSellerScreen extends StatelessWidget {
             ],
           ),
           Container(
-            // color: Colors.amber,
             height: 80,
             margin: const EdgeInsets.only(top: 10),
             decoration: BoxDecoration(

@@ -8,7 +8,7 @@ import 'package:fyp/state/purchase_state.dart';
 
 part 'crop_state.freezed.dart';
 
-final cropStateProvider = StateNotifierProvider<CropStateNotifier, CropState>(
+final cropStateProvider = StateNotifierProvider.autoDispose<CropStateNotifier, CropState>(
   (ref) => CropStateNotifier(),
 );
 

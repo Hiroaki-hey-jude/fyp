@@ -8,8 +8,13 @@ import 'package:fyp/screen/widgets/widget.dart';
 
 class PostCardFeed extends StatelessWidget {
   final PostModel postModel;
+  final bool isDiscounted;
 
-  PostCardFeed({Key? key, required this.postModel}) : super(key: key);
+  PostCardFeed({
+    Key? key,
+    required this.postModel,
+    required this.isDiscounted,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +31,13 @@ class PostCardFeed extends StatelessWidget {
                     FirebaseAuth.instance.currentUser!.uid) {
                   return;
                 }
+                print('dddddddd');
+                print(isDiscounted);
                 nextScreen(
                     context,
                     SellerProfileScreen(
                       sellerUid: postModel.posterId,
+                      isDiscounted: isDiscounted,
                     ));
               },
               child: profilePicturesAndUserNameWidget(postModel.posterId),

@@ -20,6 +20,9 @@ mixin _$SettingState {
   UserModel? get userModel => throw _privateConstructorUsedError;
   String get originalImgURL => throw _privateConstructorUsedError;
   File? get imageFile => throw _privateConstructorUsedError;
+  List<PassModel> get listOfSubscribedFarmers =>
+      throw _privateConstructorUsedError;
+  List<PassModel> get listOfSubscribers => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SettingStateCopyWith<SettingState> get copyWith =>
@@ -36,7 +39,9 @@ abstract class $SettingStateCopyWith<$Res> {
       {bool isLoading,
       UserModel? userModel,
       String originalImgURL,
-      File? imageFile});
+      File? imageFile,
+      List<PassModel> listOfSubscribedFarmers,
+      List<PassModel> listOfSubscribers});
 
   $UserModelCopyWith<$Res>? get userModel;
 }
@@ -58,6 +63,8 @@ class _$SettingStateCopyWithImpl<$Res, $Val extends SettingState>
     Object? userModel = freezed,
     Object? originalImgURL = null,
     Object? imageFile = freezed,
+    Object? listOfSubscribedFarmers = null,
+    Object? listOfSubscribers = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -76,6 +83,14 @@ class _$SettingStateCopyWithImpl<$Res, $Val extends SettingState>
           ? _value.imageFile
           : imageFile // ignore: cast_nullable_to_non_nullable
               as File?,
+      listOfSubscribedFarmers: null == listOfSubscribedFarmers
+          ? _value.listOfSubscribedFarmers
+          : listOfSubscribedFarmers // ignore: cast_nullable_to_non_nullable
+              as List<PassModel>,
+      listOfSubscribers: null == listOfSubscribers
+          ? _value.listOfSubscribers
+          : listOfSubscribers // ignore: cast_nullable_to_non_nullable
+              as List<PassModel>,
     ) as $Val);
   }
 
@@ -104,7 +119,9 @@ abstract class _$$_SettingStateCopyWith<$Res>
       {bool isLoading,
       UserModel? userModel,
       String originalImgURL,
-      File? imageFile});
+      File? imageFile,
+      List<PassModel> listOfSubscribedFarmers,
+      List<PassModel> listOfSubscribers});
 
   @override
   $UserModelCopyWith<$Res>? get userModel;
@@ -125,6 +142,8 @@ class __$$_SettingStateCopyWithImpl<$Res>
     Object? userModel = freezed,
     Object? originalImgURL = null,
     Object? imageFile = freezed,
+    Object? listOfSubscribedFarmers = null,
+    Object? listOfSubscribers = null,
   }) {
     return _then(_$_SettingState(
       isLoading: null == isLoading
@@ -143,6 +162,14 @@ class __$$_SettingStateCopyWithImpl<$Res>
           ? _value.imageFile
           : imageFile // ignore: cast_nullable_to_non_nullable
               as File?,
+      listOfSubscribedFarmers: null == listOfSubscribedFarmers
+          ? _value._listOfSubscribedFarmers
+          : listOfSubscribedFarmers // ignore: cast_nullable_to_non_nullable
+              as List<PassModel>,
+      listOfSubscribers: null == listOfSubscribers
+          ? _value._listOfSubscribers
+          : listOfSubscribers // ignore: cast_nullable_to_non_nullable
+              as List<PassModel>,
     ));
   }
 }
@@ -154,7 +181,11 @@ class _$_SettingState implements _SettingState {
       {this.isLoading = false,
       this.userModel = null,
       this.originalImgURL = '',
-      this.imageFile = null});
+      this.imageFile = null,
+      final List<PassModel> listOfSubscribedFarmers = const [],
+      final List<PassModel> listOfSubscribers = const []})
+      : _listOfSubscribedFarmers = listOfSubscribedFarmers,
+        _listOfSubscribers = listOfSubscribers;
 
   @override
   @JsonKey()
@@ -168,10 +199,29 @@ class _$_SettingState implements _SettingState {
   @override
   @JsonKey()
   final File? imageFile;
+  final List<PassModel> _listOfSubscribedFarmers;
+  @override
+  @JsonKey()
+  List<PassModel> get listOfSubscribedFarmers {
+    if (_listOfSubscribedFarmers is EqualUnmodifiableListView)
+      return _listOfSubscribedFarmers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_listOfSubscribedFarmers);
+  }
+
+  final List<PassModel> _listOfSubscribers;
+  @override
+  @JsonKey()
+  List<PassModel> get listOfSubscribers {
+    if (_listOfSubscribers is EqualUnmodifiableListView)
+      return _listOfSubscribers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_listOfSubscribers);
+  }
 
   @override
   String toString() {
-    return 'SettingState(isLoading: $isLoading, userModel: $userModel, originalImgURL: $originalImgURL, imageFile: $imageFile)';
+    return 'SettingState(isLoading: $isLoading, userModel: $userModel, originalImgURL: $originalImgURL, imageFile: $imageFile, listOfSubscribedFarmers: $listOfSubscribedFarmers, listOfSubscribers: $listOfSubscribers)';
   }
 
   @override
@@ -186,12 +236,22 @@ class _$_SettingState implements _SettingState {
             (identical(other.originalImgURL, originalImgURL) ||
                 other.originalImgURL == originalImgURL) &&
             (identical(other.imageFile, imageFile) ||
-                other.imageFile == imageFile));
+                other.imageFile == imageFile) &&
+            const DeepCollectionEquality().equals(
+                other._listOfSubscribedFarmers, _listOfSubscribedFarmers) &&
+            const DeepCollectionEquality()
+                .equals(other._listOfSubscribers, _listOfSubscribers));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isLoading, userModel, originalImgURL, imageFile);
+  int get hashCode => Object.hash(
+      runtimeType,
+      isLoading,
+      userModel,
+      originalImgURL,
+      imageFile,
+      const DeepCollectionEquality().hash(_listOfSubscribedFarmers),
+      const DeepCollectionEquality().hash(_listOfSubscribers));
 
   @JsonKey(ignore: true)
   @override
@@ -205,7 +265,9 @@ abstract class _SettingState implements SettingState {
       {final bool isLoading,
       final UserModel? userModel,
       final String originalImgURL,
-      final File? imageFile}) = _$_SettingState;
+      final File? imageFile,
+      final List<PassModel> listOfSubscribedFarmers,
+      final List<PassModel> listOfSubscribers}) = _$_SettingState;
 
   @override
   bool get isLoading;
@@ -215,6 +277,10 @@ abstract class _SettingState implements SettingState {
   String get originalImgURL;
   @override
   File? get imageFile;
+  @override
+  List<PassModel> get listOfSubscribedFarmers;
+  @override
+  List<PassModel> get listOfSubscribers;
   @override
   @JsonKey(ignore: true)
   _$$_SettingStateCopyWith<_$_SettingState> get copyWith =>
