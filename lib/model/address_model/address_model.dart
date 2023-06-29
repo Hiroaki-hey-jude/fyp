@@ -4,6 +4,18 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'address_model.freezed.dart';
 part 'address_model.g.dart';
 
+//objectives
+//User-friendly
+
+//problems
+//dose it really solve problem
+
+//need to give them instrction first
+
+//have you successfully bought crops
+
+
+
 @freezed
 class AddressModel with _$AddressModel {
   const factory AddressModel({

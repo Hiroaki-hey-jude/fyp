@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class ProfileCropCard extends StatelessWidget {
   const ProfileCropCard({
@@ -18,6 +16,8 @@ class ProfileCropCard extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
+    print('$index これ何これ何あいあf $nameOfCrop');
+    print('${FirebaseAuth.instance.currentUser!.uid} sellerId');
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('crops')
@@ -25,6 +25,10 @@ class ProfileCropCard extends StatelessWidget {
                 isEqualTo: FirebaseAuth.instance.currentUser!.uid)
             .snapshots(),
         builder: (context, snapshot) {
+          print('>> ${snapshot.data!.docs[index]['hasUnread']} 未読 $index');
+          print('>> ${snapshot.data!.docs[index]['name']} $index');
+          print('>> ${snapshot.data!.docs[index]['price']} $index');
+
           if (snapshot.hasData) {
             // データが存在する場合の処理
             // snapshot.data の使用

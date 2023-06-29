@@ -23,18 +23,11 @@ mixin _$CropcommentModel {
   String? get id => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
-  String? get userImageUrl => throw _privateConstructorUsedError;
   String? get messageText => throw _privateConstructorUsedError;
-  String? get localImagePath => throw _privateConstructorUsedError;
-  String? get storageImagePath => throw _privateConstructorUsedError;
-  String? get messageImageName => throw _privateConstructorUsedError;
-  int? get messageImageSize => throw _privateConstructorUsedError;
   @TimestampDateTimeConverter()
   DateTime? get sendTime => throw _privateConstructorUsedError;
   @TimestampDateTimeConverter()
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @TimestampDateTimeConverter()
-  DateTime? get deletedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -52,15 +45,9 @@ abstract class $CropcommentModelCopyWith<$Res> {
       {String? id,
       String userId,
       String userName,
-      String? userImageUrl,
       String? messageText,
-      String? localImagePath,
-      String? storageImagePath,
-      String? messageImageName,
-      int? messageImageSize,
       @TimestampDateTimeConverter() DateTime? sendTime,
-      @TimestampDateTimeConverter() DateTime? createdAt,
-      @TimestampDateTimeConverter() DateTime? deletedAt});
+      @TimestampDateTimeConverter() DateTime? createdAt});
 }
 
 /// @nodoc
@@ -79,15 +66,9 @@ class _$CropcommentModelCopyWithImpl<$Res, $Val extends CropcommentModel>
     Object? id = freezed,
     Object? userId = null,
     Object? userName = null,
-    Object? userImageUrl = freezed,
     Object? messageText = freezed,
-    Object? localImagePath = freezed,
-    Object? storageImagePath = freezed,
-    Object? messageImageName = freezed,
-    Object? messageImageSize = freezed,
     Object? sendTime = freezed,
     Object? createdAt = freezed,
-    Object? deletedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -102,30 +83,10 @@ class _$CropcommentModelCopyWithImpl<$Res, $Val extends CropcommentModel>
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
               as String,
-      userImageUrl: freezed == userImageUrl
-          ? _value.userImageUrl
-          : userImageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
       messageText: freezed == messageText
           ? _value.messageText
           : messageText // ignore: cast_nullable_to_non_nullable
               as String?,
-      localImagePath: freezed == localImagePath
-          ? _value.localImagePath
-          : localImagePath // ignore: cast_nullable_to_non_nullable
-              as String?,
-      storageImagePath: freezed == storageImagePath
-          ? _value.storageImagePath
-          : storageImagePath // ignore: cast_nullable_to_non_nullable
-              as String?,
-      messageImageName: freezed == messageImageName
-          ? _value.messageImageName
-          : messageImageName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      messageImageSize: freezed == messageImageSize
-          ? _value.messageImageSize
-          : messageImageSize // ignore: cast_nullable_to_non_nullable
-              as int?,
       sendTime: freezed == sendTime
           ? _value.sendTime
           : sendTime // ignore: cast_nullable_to_non_nullable
@@ -133,10 +94,6 @@ class _$CropcommentModelCopyWithImpl<$Res, $Val extends CropcommentModel>
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      deletedAt: freezed == deletedAt
-          ? _value.deletedAt
-          : deletedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ) as $Val);
   }
@@ -154,15 +111,9 @@ abstract class _$$_CropcommentModelCopyWith<$Res>
       {String? id,
       String userId,
       String userName,
-      String? userImageUrl,
       String? messageText,
-      String? localImagePath,
-      String? storageImagePath,
-      String? messageImageName,
-      int? messageImageSize,
       @TimestampDateTimeConverter() DateTime? sendTime,
-      @TimestampDateTimeConverter() DateTime? createdAt,
-      @TimestampDateTimeConverter() DateTime? deletedAt});
+      @TimestampDateTimeConverter() DateTime? createdAt});
 }
 
 /// @nodoc
@@ -179,15 +130,9 @@ class __$$_CropcommentModelCopyWithImpl<$Res>
     Object? id = freezed,
     Object? userId = null,
     Object? userName = null,
-    Object? userImageUrl = freezed,
     Object? messageText = freezed,
-    Object? localImagePath = freezed,
-    Object? storageImagePath = freezed,
-    Object? messageImageName = freezed,
-    Object? messageImageSize = freezed,
     Object? sendTime = freezed,
     Object? createdAt = freezed,
-    Object? deletedAt = freezed,
   }) {
     return _then(_$_CropcommentModel(
       id: freezed == id
@@ -202,30 +147,10 @@ class __$$_CropcommentModelCopyWithImpl<$Res>
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
               as String,
-      userImageUrl: freezed == userImageUrl
-          ? _value.userImageUrl
-          : userImageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
       messageText: freezed == messageText
           ? _value.messageText
           : messageText // ignore: cast_nullable_to_non_nullable
               as String?,
-      localImagePath: freezed == localImagePath
-          ? _value.localImagePath
-          : localImagePath // ignore: cast_nullable_to_non_nullable
-              as String?,
-      storageImagePath: freezed == storageImagePath
-          ? _value.storageImagePath
-          : storageImagePath // ignore: cast_nullable_to_non_nullable
-              as String?,
-      messageImageName: freezed == messageImageName
-          ? _value.messageImageName
-          : messageImageName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      messageImageSize: freezed == messageImageSize
-          ? _value.messageImageSize
-          : messageImageSize // ignore: cast_nullable_to_non_nullable
-              as int?,
       sendTime: freezed == sendTime
           ? _value.sendTime
           : sendTime // ignore: cast_nullable_to_non_nullable
@@ -233,10 +158,6 @@ class __$$_CropcommentModelCopyWithImpl<$Res>
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      deletedAt: freezed == deletedAt
-          ? _value.deletedAt
-          : deletedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ));
   }
@@ -249,15 +170,9 @@ class _$_CropcommentModel implements _CropcommentModel {
       {this.id,
       required this.userId,
       required this.userName,
-      this.userImageUrl,
       this.messageText,
-      this.localImagePath,
-      this.storageImagePath,
-      this.messageImageName,
-      this.messageImageSize,
       @TimestampDateTimeConverter() this.sendTime,
-      @TimestampDateTimeConverter() this.createdAt,
-      @TimestampDateTimeConverter() this.deletedAt});
+      @TimestampDateTimeConverter() this.createdAt});
 
   factory _$_CropcommentModel.fromJson(Map<String, dynamic> json) =>
       _$$_CropcommentModelFromJson(json);
@@ -269,30 +184,17 @@ class _$_CropcommentModel implements _CropcommentModel {
   @override
   final String userName;
   @override
-  final String? userImageUrl;
-  @override
   final String? messageText;
-  @override
-  final String? localImagePath;
-  @override
-  final String? storageImagePath;
-  @override
-  final String? messageImageName;
-  @override
-  final int? messageImageSize;
   @override
   @TimestampDateTimeConverter()
   final DateTime? sendTime;
   @override
   @TimestampDateTimeConverter()
   final DateTime? createdAt;
-  @override
-  @TimestampDateTimeConverter()
-  final DateTime? deletedAt;
 
   @override
   String toString() {
-    return 'CropcommentModel(id: $id, userId: $userId, userName: $userName, userImageUrl: $userImageUrl, messageText: $messageText, localImagePath: $localImagePath, storageImagePath: $storageImagePath, messageImageName: $messageImageName, messageImageSize: $messageImageSize, sendTime: $sendTime, createdAt: $createdAt, deletedAt: $deletedAt)';
+    return 'CropcommentModel(id: $id, userId: $userId, userName: $userName, messageText: $messageText, sendTime: $sendTime, createdAt: $createdAt)';
   }
 
   @override
@@ -304,42 +206,18 @@ class _$_CropcommentModel implements _CropcommentModel {
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.userName, userName) ||
                 other.userName == userName) &&
-            (identical(other.userImageUrl, userImageUrl) ||
-                other.userImageUrl == userImageUrl) &&
             (identical(other.messageText, messageText) ||
                 other.messageText == messageText) &&
-            (identical(other.localImagePath, localImagePath) ||
-                other.localImagePath == localImagePath) &&
-            (identical(other.storageImagePath, storageImagePath) ||
-                other.storageImagePath == storageImagePath) &&
-            (identical(other.messageImageName, messageImageName) ||
-                other.messageImageName == messageImageName) &&
-            (identical(other.messageImageSize, messageImageSize) ||
-                other.messageImageSize == messageImageSize) &&
             (identical(other.sendTime, sendTime) ||
                 other.sendTime == sendTime) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.deletedAt, deletedAt) ||
-                other.deletedAt == deletedAt));
+                other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      userId,
-      userName,
-      userImageUrl,
-      messageText,
-      localImagePath,
-      storageImagePath,
-      messageImageName,
-      messageImageSize,
-      sendTime,
-      createdAt,
-      deletedAt);
+      runtimeType, id, userId, userName, messageText, sendTime, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -360,15 +238,9 @@ abstract class _CropcommentModel implements CropcommentModel {
           {final String? id,
           required final String userId,
           required final String userName,
-          final String? userImageUrl,
           final String? messageText,
-          final String? localImagePath,
-          final String? storageImagePath,
-          final String? messageImageName,
-          final int? messageImageSize,
           @TimestampDateTimeConverter() final DateTime? sendTime,
-          @TimestampDateTimeConverter() final DateTime? createdAt,
-          @TimestampDateTimeConverter() final DateTime? deletedAt}) =
+          @TimestampDateTimeConverter() final DateTime? createdAt}) =
       _$_CropcommentModel;
 
   factory _CropcommentModel.fromJson(Map<String, dynamic> json) =
@@ -381,26 +253,13 @@ abstract class _CropcommentModel implements CropcommentModel {
   @override
   String get userName;
   @override
-  String? get userImageUrl;
-  @override
   String? get messageText;
-  @override
-  String? get localImagePath;
-  @override
-  String? get storageImagePath;
-  @override
-  String? get messageImageName;
-  @override
-  int? get messageImageSize;
   @override
   @TimestampDateTimeConverter()
   DateTime? get sendTime;
   @override
   @TimestampDateTimeConverter()
   DateTime? get createdAt;
-  @override
-  @TimestampDateTimeConverter()
-  DateTime? get deletedAt;
   @override
   @JsonKey(ignore: true)
   _$$_CropcommentModelCopyWith<_$_CropcommentModel> get copyWith =>

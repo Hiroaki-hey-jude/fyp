@@ -37,6 +37,7 @@ class ProfileState with _$ProfileState {
 
 class ProfileStateNotifier extends StateNotifier<ProfileState> {
   ProfileStateNotifier() : super(const ProfileState()) {
+    print('プロフィール開いたよ!!!!!!!');
     getUser();
     getPostedCropList(FirebaseAuth.instance.currentUser!.uid);
   }

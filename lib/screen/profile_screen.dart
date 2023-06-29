@@ -59,10 +59,7 @@ class ProfileScreen extends ConsumerWidget {
                                 fillColor: Colors.green,
                                 onPressed: () async {
                                   // await notifier.openImagePicker();
-                                  nextScreen(
-                                      context,
-                                      SettingScreen(
-                                      ));
+                                  nextScreen(context, SettingScreen());
                                 },
                                 shape: const CircleBorder(),
                                 child: const Icon(

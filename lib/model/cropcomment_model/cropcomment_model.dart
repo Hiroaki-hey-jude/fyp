@@ -12,15 +12,9 @@ class CropcommentModel with _$CropcommentModel {
     String? id,
     required String userId,
     required String userName,
-    String? userImageUrl,
     String? messageText,
-    String? localImagePath,
-    String? storageImagePath,
-    String? messageImageName,
-    int? messageImageSize,
     @TimestampDateTimeConverter() DateTime? sendTime,
     @TimestampDateTimeConverter() DateTime? createdAt,
-    @TimestampDateTimeConverter() DateTime? deletedAt,
   }) = _CropcommentModel;
 
   factory CropcommentModel.fromJson(Map<String, dynamic> json) =>
