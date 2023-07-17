@@ -7,6 +7,7 @@ import 'package:fyp/model/address_model/address_model.dart';
 import 'package:fyp/model/crop_model.dart/crop_model.dart';
 import 'package:fyp/model/order_model/order_model.dart';
 import 'package:fyp/model/pass_model/pass_model.dart';
+import 'package:fyp/model/payment_model/payment_model.dart';
 import 'package:fyp/model/post_model/post_model.dart';
 import 'package:fyp/screen/delivery_screen.dart';
 import 'package:fyp/screen/widgets/widget.dart';
@@ -27,6 +28,8 @@ class FireStore {
       FirebaseFirestore.instance.collection('passes');
   final CollectionReference orderCollection =
       FirebaseFirestore.instance.collection('order');
+  final CollectionReference paymentCollection =
+      FirebaseFirestore.instance.collection('payment');
 
   Future<void> savingUserData(String name, String email) async {
     print(uid);
@@ -162,8 +165,6 @@ class FireStore {
 
   Future<List<CropModel>> getCropDocument(String category) async {
     final firestore = FirebaseFirestore.instance;
-
-    // cropsコレクションの中で、categoryが'potato'であるドキュメントのみを取得する
     final cropsCollection = firestore.collection('crops');
     final categoryDocument = await cropsCollection
         .where('category', isEqualTo: category)
@@ -180,8 +181,10 @@ class FireStore {
     final firestore = FirebaseFirestore.instance;
 
     final cropsCollection = firestore.collection('crops');
-    final categoryDocument =
-        await cropsCollection.where('category', isEqualTo: 'potato').get();
+    final categoryDocument = await cropsCollection
+        .where('category', isEqualTo: 'potato')
+        .where('isbought', isEqualTo: false)
+        .get();
     List<CropModel> potatoCropData = [];
     categoryDocument.docs.forEach((element) {
       potatoCropData.add(CropModel.fromSnapshot(element));
@@ -260,7 +263,6 @@ class FireStore {
         .collection('users')
         .doc(sellerid)
         .get();
-    print('model  2  $model');
     final userModel = UserModel.fromSnapshot(model);
     return userModel;
   }
@@ -277,6 +279,25 @@ class FireStore {
         .collection('users')
         .doc(uid)
         .update({'coins': coin});
+  }
+
+  Future storePaymenData(String uid, String price) async {
+    var payment = PaymentModel(
+      paidAt: DateTime.now(),
+      uid: uid,
+      price: price,
+      paymentId: '',
+    );
+    DocumentReference paymentDocumentReference = await paymentCollection.add({
+      'paidAt': payment.paidAt,
+      'uid': payment.uid,
+      'price': payment.price,
+      'paymentId': payment.paymentId,
+    });
+
+    return paymentDocumentReference.update({
+      'paymentId': paymentDocumentReference.id,
+    });
   }
 
   Future<void> storeAddressData(
@@ -355,6 +376,8 @@ class FireStore {
       cropCollection.doc(cropId).update({
         'isbought': true,
       });
+      print('$newAmountOfFarmerCoin 新しいファーマーのコイン');
+      print('$newAmountOfConsumerCoin コンシューマのコイン');
     } catch (e) {
       print(e);
     } finally {
@@ -430,6 +453,18 @@ class FireStore {
       postedCropData.add(PostModel.fromSnapshot(element));
     });
     return postedCropData;
+  }
+
+  Future<List<PaymentModel>> getTransactionHistry(String uid) async {
+    final firestore = FirebaseFirestore.instance;
+
+    final paymentCollection = firestore.collection('payment');
+    final document = await paymentCollection.where('uid', isEqualTo: uid).get();
+    List<PaymentModel> transactionData = [];
+    document.docs.forEach((element) {
+      transactionData.add(PaymentModel.fromSnapshot(element));
+    });
+    return transactionData;
   }
 
   Future<List<PostModel>> getAllAgriculturalPostedList() async {
@@ -515,7 +550,6 @@ class FireStore {
   }
 
   Future<List<OrderModel>> getNotifications(String farmerUid) async {
-    print(farmerUid);
     final firestore = FirebaseFirestore.instance;
     final ordersCollection = firestore.collection('order');
     final document = await ordersCollection
@@ -525,7 +559,6 @@ class FireStore {
     document.docs.forEach((element) {
       orders.add(OrderModel.fromSnapshot(element));
     });
-    print('$orders これ何');
     return orders;
   }
 

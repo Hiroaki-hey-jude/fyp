@@ -53,7 +53,7 @@ Widget textUserName(String uid) {
           FirebaseFirestore.instance.collection('users').doc(uid).snapshots(),
       builder: (context, snapshot) {
         return Text(
-          snapshot.data!.get('name'),
+          snapshot.data?.get('name') ?? '',
         );
       },
     ),

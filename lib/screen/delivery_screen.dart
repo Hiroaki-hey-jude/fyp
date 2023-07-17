@@ -24,7 +24,8 @@ class DeliveryScreen extends ConsumerWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: state.farmerUserModel!.uid == state.currentUid
+      body: state.farmerUserModel != null &&
+              state.farmerUserModel!.uid == state.currentUid
           ? SafeArea(
               child: state.isLoading
                   ? const Center(

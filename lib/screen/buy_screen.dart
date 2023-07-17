@@ -96,7 +96,7 @@ class BuyScreen extends ConsumerWidget {
                         padding: const EdgeInsets.symmetric(
                             vertical: 10, horizontal: 15),
                         child: Text(
-                          state.cropModel!.name,
+                          state.cropModel?.name ?? '',
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -108,7 +108,7 @@ class BuyScreen extends ConsumerWidget {
                             vertical: 10, horizontal: 15),
                         child: isDiscounted
                             ? Text(
-                                '${(int.parse(state.cropModel!.price) * 0.85).toInt()} Coins',
+                                '${(int.parse(state.cropModel?.price ?? '0') * 0.85).toInt()} Coins',
                                 style: const TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
@@ -116,7 +116,7 @@ class BuyScreen extends ConsumerWidget {
                                 ),
                               )
                             : Text(
-                                '¥${state.cropModel!.price} Coins',
+                                '¥${state.cropModel?.price ?? '0'} Coins',
                                 style: const TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
@@ -204,7 +204,7 @@ class BuyScreen extends ConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 5, horizontal: 15),
-                        child: Text(state.cropModel!.description),
+                        child: Text(state.cropModel?.description ?? ''),
                       ),
                       Container(
                         color: const Color.fromARGB(255, 216, 214, 214),
@@ -253,7 +253,7 @@ class BuyScreen extends ConsumerWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text(state.cropModel!.address),
+                            Text(state.cropModel?.address ?? ''),
                           ],
                         ),
                       ),
@@ -368,7 +368,7 @@ class smallPictures extends StatelessWidget {
         margin: const EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(state.cropModel!.picsOfCrops![number]),
+            image: NetworkImage(state.cropModel?.picsOfCrops?[number] ?? ''),
             fit: BoxFit.fill,
           ),
         ),

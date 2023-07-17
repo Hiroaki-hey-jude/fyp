@@ -5,6 +5,7 @@ import 'package:fyp/screen/delivery_screen.dart';
 import 'package:fyp/screen/orders_screen.dart';
 import 'package:fyp/screen/subsc_screen.dart';
 import 'package:fyp/screen/subscribers_screen.dart';
+import 'package:fyp/screen/transaction_screen.dart';
 import 'package:fyp/screen/widgets/widget.dart';
 import 'package:fyp/state/setting_state.dart';
 
@@ -191,7 +192,7 @@ class SettingScreen extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: const [
                             Text(
-                              'Subscribers',
+                              'パスを買ってくれたユーザ',
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                               ),
@@ -236,6 +237,24 @@ class SettingScreen extends ConsumerWidget {
                           children: const [
                             Text(
                               '取引中の商品',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Icon(Icons.navigate_next)
+                          ],
+                        ),
+                      ),
+                      const Divider(height: 50),
+                      GestureDetector(
+                        onTap: () {
+                          nextScreen(context, TransactionScreen());
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Text(
+                              '購入コイン履歴',
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                               ),

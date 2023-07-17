@@ -27,7 +27,7 @@ class PurchaseProcedureScreen extends ConsumerWidget {
         onTap: () {
           primaryFocus?.unfocus();
         },
-        child: state.isLoading
+        child: state.isLoading == true
             ? const Center(
                 child: CircularProgressIndicator(
                   color: Colors.black,
@@ -66,7 +66,8 @@ class PurchaseProcedureScreen extends ConsumerWidget {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image:
-                                NetworkImage(state.cropModel!.picsOfCrops![0]),
+                                NetworkImage(
+                                state.cropModel?.picsOfCrops?[0] ?? ''),
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -75,17 +76,17 @@ class PurchaseProcedureScreen extends ConsumerWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(state.cropModel!.name),
+                          Text(state.cropModel?.name ?? ''),
                           const SizedBox(height: 5),
                           isDiscounted
                               ? Text(
-                                  '${(int.parse(state.cropModel!.price) * 0.85).toInt()} Coins',
+                                  '${(int.parse(state.cropModel?.price ?? '0') * 0.85).toInt()} Coins',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 )
                               : Text(
-                                  '${state.cropModel!.price} Coins',
+                                  '${state.cropModel?.price ?? '0'} Coins',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -99,14 +100,14 @@ class PurchaseProcedureScreen extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Wallet 残高'),
-                      state.userModel!.coins == ''
+                      state.userModel?.coins == ''
                           ? const Text(
                               '残高がありません',
                               style: TextStyle(
                                 color: Colors.grey,
                               ),
                             )
-                          : Text('${state.userModel!.coins} Coins'),
+                          : Text('${state.userModel?.coins} Coins'),
                     ],
                   ),
                   const Divider(height: 70),
@@ -116,8 +117,8 @@ class PurchaseProcedureScreen extends ConsumerWidget {
                       const Text('支払い金額'),
                       isDiscounted
                           ? Text(
-                              '${(int.parse(state.cropModel!.price) * 0.85).toInt()} Coins')
-                          : Text('${state.cropModel!.price} Coins'),
+                              '${(int.parse(state.cropModel?.price ?? '0') * 0.85).toInt()} Coins')
+                          : Text('${state.cropModel?.price ?? '0'} Coins'),
                       // Text('${state.cropModel!.price} Coins'),
                     ],
                   ),
@@ -149,13 +150,16 @@ class PurchaseProcedureScreen extends ConsumerWidget {
                         const Text('配送先'),
                         Row(
                           children: [
-                            state.userModel!.address!.city == ''
+                            state.userModel?.address?.city == ''
                                 ? const Text('住所を設定してくだい')
                                 : Column(
                                     children: [
                                       Text(
-                                          state.userModel!.address!.prefecture),
-                                      Text(state.userModel!.address!.zipCode),
+                                          state.userModel?.address
+                                              ?.prefecture ??
+                                          ''),
+                                      Text(state.userModel?.address?.zipCode ??
+                                          ''),
                                     ],
                                   ),
                             const Icon(Icons.navigate_next),
@@ -182,15 +186,15 @@ class PurchaseProcedureScreen extends ConsumerWidget {
                         int currentMoney;
                         int price;
                         if (isDiscounted) {
-                          price = (int.parse(state.cropModel!.price) * 0.85)
+                          price = (int.parse(state.cropModel?.price ?? '0') * 0.85)
                               .toInt();
                         } else {
-                          price = int.parse(state.cropModel!.price);
+                          price = int.parse(state.cropModel?.price ?? '0');
                         }
                         if (state.userModel!.coins == '') {
                           currentMoney = 0;
                         } else {
-                          currentMoney = int.parse(state.userModel!.coins);
+                          currentMoney = int.parse(state.userModel?.coins ?? '0');
                         }
                         if (price > currentMoney) {
                           ScaffoldMessenger.of(context).showSnackBar(

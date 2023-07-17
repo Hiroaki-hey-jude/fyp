@@ -135,6 +135,8 @@ class ProfileScreen extends ConsumerWidget {
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
+                              print(
+                                  'なんで！！！${state.sellingCrops[index].hasUnread}');
                               if (state.sellingCrops[index].hasUnread == true) {
                                 nextScreen(
                                   context,
@@ -157,6 +159,7 @@ class ProfileScreen extends ConsumerWidget {
                               nameOfCrop: state.sellingCrops[index].name,
                               price: state.sellingCrops[index].price,
                               index: index,
+                              hasUnread: state.sellingCrops[index].hasUnread,
                             ),
                           );
                         },

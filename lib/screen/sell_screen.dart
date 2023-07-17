@@ -271,7 +271,7 @@ class SellScreen extends StatelessWidget {
                               ],
                               cursorColor: Colors.black,
                               decoration: sellTextInputDecoration.copyWith(
-                                hintText: '￥３００',
+                                hintText: '３００ Coins',
                               ),
                               validator: (val) {
                                 if (val!.isNotEmpty) {

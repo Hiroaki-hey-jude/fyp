@@ -35,7 +35,7 @@ class OrderStateNotifier extends StateNotifier<OrderState> {
     state = state.copyWith(isLoading: true);
     List<OrderModel> orders = [];
     orders = await FireStore().getOrderedCropsSoFar(uid);
-    print(orders);
+    print('$orders  ここの中身はなんだ！！！！！！');
     state = state.copyWith(isLoading: false, orders: orders);
   }
 

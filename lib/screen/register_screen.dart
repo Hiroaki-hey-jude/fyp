@@ -26,8 +26,8 @@ class RegisterScreen extends ConsumerWidget {
       (previous, state) {
         if (state.navigateCropScreen) {
           notifier.resetParameta();
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) =>  HomeScreen()));
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => HomeScreen()));
         }
       },
     );
@@ -109,7 +109,7 @@ class RegisterScreen extends ConsumerWidget {
                                     const SizedBox(height: 15),
                                     TextFormField(
                                       controller: passwordEditingController,
-                                      // obscureText: state.passwordInVisible,
+                                      obscureText: true,
                                       decoration: const InputDecoration(
                                         labelText: "パスワード",
                                         prefixIcon: Icon(Icons.lock,

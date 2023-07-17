@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$SellerprofileState {
   bool get isLoading => throw _privateConstructorUsedError;
   UserModel? get userModel => throw _privateConstructorUsedError;
+  UserModel? get visitorUserModel => throw _privateConstructorUsedError;
   String get originalImgURL => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
   String get sellerId => throw _privateConstructorUsedError;
@@ -39,6 +40,7 @@ abstract class $SellerprofileStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       UserModel? userModel,
+      UserModel? visitorUserModel,
       String originalImgURL,
       String userName,
       String sellerId,
@@ -47,6 +49,7 @@ abstract class $SellerprofileStateCopyWith<$Res> {
       String selectedValue});
 
   $UserModelCopyWith<$Res>? get userModel;
+  $UserModelCopyWith<$Res>? get visitorUserModel;
 }
 
 /// @nodoc
@@ -64,6 +67,7 @@ class _$SellerprofileStateCopyWithImpl<$Res, $Val extends SellerprofileState>
   $Res call({
     Object? isLoading = null,
     Object? userModel = freezed,
+    Object? visitorUserModel = freezed,
     Object? originalImgURL = null,
     Object? userName = null,
     Object? sellerId = null,
@@ -79,6 +83,10 @@ class _$SellerprofileStateCopyWithImpl<$Res, $Val extends SellerprofileState>
       userModel: freezed == userModel
           ? _value.userModel
           : userModel // ignore: cast_nullable_to_non_nullable
+              as UserModel?,
+      visitorUserModel: freezed == visitorUserModel
+          ? _value.visitorUserModel
+          : visitorUserModel // ignore: cast_nullable_to_non_nullable
               as UserModel?,
       originalImgURL: null == originalImgURL
           ? _value.originalImgURL
@@ -118,6 +126,18 @@ class _$SellerprofileStateCopyWithImpl<$Res, $Val extends SellerprofileState>
       return _then(_value.copyWith(userModel: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserModelCopyWith<$Res>? get visitorUserModel {
+    if (_value.visitorUserModel == null) {
+      return null;
+    }
+
+    return $UserModelCopyWith<$Res>(_value.visitorUserModel!, (value) {
+      return _then(_value.copyWith(visitorUserModel: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -131,6 +151,7 @@ abstract class _$$_SellerprofileStateCopyWith<$Res>
   $Res call(
       {bool isLoading,
       UserModel? userModel,
+      UserModel? visitorUserModel,
       String originalImgURL,
       String userName,
       String sellerId,
@@ -140,6 +161,8 @@ abstract class _$$_SellerprofileStateCopyWith<$Res>
 
   @override
   $UserModelCopyWith<$Res>? get userModel;
+  @override
+  $UserModelCopyWith<$Res>? get visitorUserModel;
 }
 
 /// @nodoc
@@ -155,6 +178,7 @@ class __$$_SellerprofileStateCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? userModel = freezed,
+    Object? visitorUserModel = freezed,
     Object? originalImgURL = null,
     Object? userName = null,
     Object? sellerId = null,
@@ -170,6 +194,10 @@ class __$$_SellerprofileStateCopyWithImpl<$Res>
       userModel: freezed == userModel
           ? _value.userModel
           : userModel // ignore: cast_nullable_to_non_nullable
+              as UserModel?,
+      visitorUserModel: freezed == visitorUserModel
+          ? _value.visitorUserModel
+          : visitorUserModel // ignore: cast_nullable_to_non_nullable
               as UserModel?,
       originalImgURL: null == originalImgURL
           ? _value.originalImgURL
@@ -205,6 +233,7 @@ class _$_SellerprofileState implements _SellerprofileState {
   const _$_SellerprofileState(
       {this.isLoading = false,
       this.userModel = null,
+      this.visitorUserModel = null,
       this.originalImgURL = '',
       this.userName = '',
       this.sellerId = '',
@@ -220,6 +249,9 @@ class _$_SellerprofileState implements _SellerprofileState {
   @override
   @JsonKey()
   final UserModel? userModel;
+  @override
+  @JsonKey()
+  final UserModel? visitorUserModel;
   @override
   @JsonKey()
   final String originalImgURL;
@@ -253,7 +285,7 @@ class _$_SellerprofileState implements _SellerprofileState {
 
   @override
   String toString() {
-    return 'SellerprofileState(isLoading: $isLoading, userModel: $userModel, originalImgURL: $originalImgURL, userName: $userName, sellerId: $sellerId, sellingCrops: $sellingCrops, postingList: $postingList, selectedValue: $selectedValue)';
+    return 'SellerprofileState(isLoading: $isLoading, userModel: $userModel, visitorUserModel: $visitorUserModel, originalImgURL: $originalImgURL, userName: $userName, sellerId: $sellerId, sellingCrops: $sellingCrops, postingList: $postingList, selectedValue: $selectedValue)';
   }
 
   @override
@@ -265,6 +297,8 @@ class _$_SellerprofileState implements _SellerprofileState {
                 other.isLoading == isLoading) &&
             (identical(other.userModel, userModel) ||
                 other.userModel == userModel) &&
+            (identical(other.visitorUserModel, visitorUserModel) ||
+                other.visitorUserModel == visitorUserModel) &&
             (identical(other.originalImgURL, originalImgURL) ||
                 other.originalImgURL == originalImgURL) &&
             (identical(other.userName, userName) ||
@@ -284,6 +318,7 @@ class _$_SellerprofileState implements _SellerprofileState {
       runtimeType,
       isLoading,
       userModel,
+      visitorUserModel,
       originalImgURL,
       userName,
       sellerId,
@@ -303,6 +338,7 @@ abstract class _SellerprofileState implements SellerprofileState {
   const factory _SellerprofileState(
       {final bool isLoading,
       final UserModel? userModel,
+      final UserModel? visitorUserModel,
       final String originalImgURL,
       final String userName,
       final String sellerId,
@@ -314,6 +350,8 @@ abstract class _SellerprofileState implements SellerprofileState {
   bool get isLoading;
   @override
   UserModel? get userModel;
+  @override
+  UserModel? get visitorUserModel;
   @override
   String get originalImgURL;
   @override

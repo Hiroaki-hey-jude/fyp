@@ -41,11 +41,9 @@ class BuyStateNotifier extends StateNotifier<BuyState> {
 
   Future<void> getPotentialPurchaseCropData(String cropId) async {
     state = state.copyWith(isLoading: true);
-    print('loading');
     print(cropId);
     final cropModel = await FireStore().getPotentialCropData(cropId);
     getUserModelBuyScreen(cropModel.sellerId);
-    print('3');
     state = state.copyWith(cropModel: cropModel, cropId: cropId);
     if (state.cropModel!.picsOfCrops!.length >= 2) {
       state = state.copyWith(isPictureTwoVisible: true);

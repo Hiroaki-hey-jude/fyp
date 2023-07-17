@@ -44,7 +44,6 @@ class LoginStateNotifier extends StateNotifier<LoginState> {
   ) async {
     if (formKey!.currentState!.validate()) {
       state = state.copyWith(isLoading: true);
-      // Authログイン
       final EmailLogInResults emailLogInResults =
           await Auth().logInUserWithEmailandPassword(
         email,
@@ -52,10 +51,9 @@ class LoginStateNotifier extends StateNotifier<LoginState> {
       );
       String message = '';
       if (emailLogInResults == EmailLogInResults.LogInCompleted) {
-        // ユーザ情報取得
         QuerySnapshot snapshot =
             await FireStore().gettingUserData(email);
-        // 端末にも保存
+        // Store user data in a device
         await SharedPreferencesData().saveUserLoggedInStatus(true);
         await SharedPreferencesData().saveUserEmailSF(email);
         await SharedPreferencesData().saveUserNameSF(snapshot.docs[0]['name']);

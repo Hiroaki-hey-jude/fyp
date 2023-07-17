@@ -86,8 +86,6 @@ class CommentStateNotifier extends StateNotifier<CommentState> {
   // チャット一覧をストリームで取得
   Stream<QuerySnapshot<Map<String, dynamic>>> fetchChatMessages(
       String cropId) async* {
-    // print(state.currentUser);
-    // print(state.currentUser!.name);
     yield* FirebaseFirestore.instance
         .collection('crops')
         .doc(cropId)

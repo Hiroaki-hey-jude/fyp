@@ -68,7 +68,7 @@ class ProfileCropCardOnSellerScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 5),
               alignment: Alignment.centerLeft,
               child: Text(
-                '￥$price',
+                '$price coins',
                 style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,

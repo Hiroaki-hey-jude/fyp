@@ -92,6 +92,7 @@ class LoginScreen extends ConsumerWidget {
                                   ),
                                   const SizedBox(height: 15),
                                   TextFormField(
+                                    obscureText: true,
                                     controller: passwordEditingController,
                                     decoration: const InputDecoration(
                                       labelText: "パスワード",

@@ -6,14 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../firebase/auth.dart';
 import '../firebase/firestore.dart';
 import '../model/crop_model.dart/crop_model.dart';
-import '../model/user_model/user_model.dart';
 import '../screen/home_screen.dart';
 import '../screen/widgets/widget.dart';
-import '../sharedpreference/sharedpreference.dart';
 
 part 'editcrop_state.freezed.dart';
 

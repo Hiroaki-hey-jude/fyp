@@ -76,6 +76,7 @@ class SellStateNotifier extends StateNotifier<SellState> {
   ) async {
     state = state.copyWith(isLoading: true);
     try {
+      urls = [];
       for (int i = 0; i < state.imagefiles!.length; i++) {
         final ref = FirebaseStorage.instance
             .ref()

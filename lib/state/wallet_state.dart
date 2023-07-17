@@ -11,7 +11,7 @@ import '../sharedpreference/sharedpreference.dart';
 part 'wallet_state.freezed.dart';
 
 final walletStateProvider =
-    StateNotifierProvider<WalletStateNotifier, WalletState>(
+    StateNotifierProvider.autoDispose<WalletStateNotifier, WalletState>(
   (ref) => WalletStateNotifier(),
 );
 
@@ -64,7 +64,7 @@ class WalletStateNotifier extends StateNotifier<WalletState> {
     state = state.copyWith(isLoading: false);
   }
 
-  Future<void> updateCurrentAmount(String amount) async{
+  Future<void> updateCurrentAmount(String amount) async {
     state = state.copyWith(isLoading: true);
     String uid = FirebaseAuth.instance.currentUser!.uid;
     int currentAmountOfCoin =
@@ -73,6 +73,7 @@ class WalletStateNotifier extends StateNotifier<WalletState> {
     state =
         state.copyWith(userModel: UserModel(coins: totalAmountCoin.toString()));
     await FireStore().incrementCoin(totalAmountCoin.toString(), uid);
+    await FireStore().storePaymenData(uid, amount);
     state = state.copyWith(isLoading: false);
   }
 }

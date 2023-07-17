@@ -7,8 +7,8 @@ import 'package:fyp/model/user_model/user_model.dart';
 
 part 'delivery_state.freezed.dart';
 
-final deliveryStateProvider =
-    StateNotifierProvider.family<DeliveryStateNotifier, DeliveryState, String>(
+final deliveryStateProvider = StateNotifierProvider.autoDispose
+    .family<DeliveryStateNotifier, DeliveryState, String>(
   (ref, orderId) => DeliveryStateNotifier(orderId),
 );
 

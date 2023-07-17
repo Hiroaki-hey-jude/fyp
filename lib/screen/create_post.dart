@@ -114,12 +114,12 @@ class CreatePostScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            state.numberOfPictures >= 2
-                                ? CameraBox(index: 2)
-                                : CameraBoxWithoutPic(index: 2),
-                            state.numberOfPictures >= 3
-                                ? CameraBox(index: 3)
-                                : CameraBoxWithoutPic(index: 3),
+                            // state.numberOfPictures >= 2
+                            //     ? CameraBox(index: 2)
+                            //     : CameraBoxWithoutPic(index: 2),
+                            // state.numberOfPictures >= 3
+                            //     ? CameraBox(index: 3)
+                            //     : CameraBoxWithoutPic(index: 3),
                           ],
                         ),
                         const SizedBox(height: 10),
