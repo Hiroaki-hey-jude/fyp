@@ -1,6 +1,5 @@
 # Crop E-commerce platform - Direct
 
-<img width="200" alt="Screenshot 2023-01-21 at 14 17 08" src="https://github.com/Hiroaki-hey-jude/pomodolo/assets/76618285/568b658f-d09a-4176-b83d-11a878353edb">
 
 ## Overview
 We have identified several challenges in the agricultural industry through direct interviews with Japanese farmers. Firstly, one major issue is the lack of proper avenues for farmers to sell their products at fair prices and earn sufficient income. Many farmers live in poverty as intermediaries consistently deduct fees from the sale of their crops, leaving them with inadequate profits. Additionally, large-scale agriculture requires vast land, making it difficult for individual farmers to compete. Consequently, farmers often have no choice but to sell their crops at low prices.
